@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.26124.0
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29613.14
 MinimumVisualStudioVersion = 15.0.26124.0
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Birdcage", "Birdcage", "{403C88FC-9D32-436E-A35A-EB7EAABBFC74}"
 EndProject
@@ -41,9 +41,6 @@ Global
 		Release|Any CPU = Release|Any CPU
 		Release|x64 = Release|x64
 		Release|x86 = Release|x86
-	EndGlobalSection
-	GlobalSection(SolutionProperties) = preSolution
-		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{3074E37F-7E98-4D50-8A51-BBC581754224}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
@@ -167,6 +164,9 @@ Global
 		{4D307E38-FF25-4BFD-81D8-83B4BCDEC7A2}.Release|x86.ActiveCfg = Debug|Any CPU
 		{4D307E38-FF25-4BFD-81D8-83B4BCDEC7A2}.Release|x86.Build.0 = Debug|Any CPU
 	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{3074E37F-7E98-4D50-8A51-BBC581754224} = {403C88FC-9D32-436E-A35A-EB7EAABBFC74}
 		{7E4B5F62-EC74-472D-A1D5-E42E82697F10} = {403C88FC-9D32-436E-A35A-EB7EAABBFC74}
@@ -178,5 +178,8 @@ Global
 		{DE523E6B-ED70-4DEA-B7FE-2AC3C8938119} = {6CEED9D6-FB05-4E81-A460-6AF41969BC79}
 		{20317548-7D12-4BD1-8AC1-EF07A7A38625} = {AE7C4160-3938-4479-BCE4-C1A75C93886A}
 		{4D307E38-FF25-4BFD-81D8-83B4BCDEC7A2} = {AE7C4160-3938-4479-BCE4-C1A75C93886A}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {F564DA7F-2FCB-4A36-8B5B-2430911F5A8A}
 	EndGlobalSection
 EndGlobal

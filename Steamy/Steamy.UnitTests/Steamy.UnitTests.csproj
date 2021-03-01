@@ -39,7 +39,8 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Assembly-CSharp, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Assembly-CSharp.1.11.0.3\lib\net35\Assembly-CSharp.dll</HintPath>
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>$(CS_GAME_DIRECTORY)\Cities_Data\Managed\Assembly-CSharp.dll</HintPath>
     </Reference>
     <Reference Include="AutoFixture, Version=4.15.0.0, Culture=neutral, PublicKeyToken=b24654c590009d4f, processorArchitecture=MSIL">
       <HintPath>..\..\packages\AutoFixture.4.15.0\lib\net452\AutoFixture.dll</HintPath>
@@ -51,7 +52,8 @@
       <HintPath>..\..\packages\Castle.Core.4.4.1\lib\net45\Castle.Core.dll</HintPath>
     </Reference>
     <Reference Include="ColossalManaged, Version=0.3.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\ColossalManaged.1.11.0.3\lib\net35\ColossalManaged.dll</HintPath>
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>$(CS_GAME_DIRECTORY)\Cities_Data\Managed\ColossalManaged.dll</HintPath>
     </Reference>
     <Reference Include="Fare, Version=2.1.0.0, Culture=neutral, PublicKeyToken=ea68d375bf33a7c8, processorArchitecture=MSIL">
       <HintPath>..\..\packages\Fare.2.1.2\lib\net35\Fare.dll</HintPath>
@@ -60,16 +62,11 @@
       <HintPath>..\..\packages\FluentAssertions.5.10.3\lib\net45\FluentAssertions.dll</HintPath>
     </Reference>
     <Reference Include="ICities, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\ICities.1.11.0.3\lib\net35\ICities.dll</HintPath>
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>$(CS_GAME_DIRECTORY)\Cities_Data\Managed\ICities.dll</HintPath>
     </Reference>
     <Reference Include="Moq, Version=4.16.0.0, Culture=neutral, PublicKeyToken=69f491c39445e920, processorArchitecture=MSIL">
       <HintPath>..\..\packages\Moq.4.16.1\lib\net45\Moq.dll</HintPath>
-    </Reference>
-    <Reference Include="SexyFishHorse.CitiesSkylines.Infrastructure, Version=1.0.6722.17, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\SexyFishHorse.CitiesSkylines.Infrastructure.1.0.6722.17\lib\net35\SexyFishHorse.CitiesSkylines.Infrastructure.dll</HintPath>
-    </Reference>
-    <Reference Include="SexyFishHorse.CitiesSkylines.Logger, Version=1.0.6721.43148, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\SexyFishHorse.CitiesSkylines.Logger.1.0.6721.43148\lib\net35\SexyFishHorse.CitiesSkylines.Logger.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
@@ -86,7 +83,8 @@
     <Reference Include="System.Xml" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="UnityEngine, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\UnityEngine.1.11.0.3\lib\net35\UnityEngine.dll</HintPath>
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>$(CS_GAME_DIRECTORY)\Cities_Data\Managed\UnityEngine.dll</HintPath>
     </Reference>
     <Reference Include="xunit.abstractions, Version=2.0.0.0, Culture=neutral, PublicKeyToken=8d05b1bb7a6fdb6c, processorArchitecture=MSIL">
       <HintPath>..\packages\xunit.abstractions.2.0.3\lib\net35\xunit.abstractions.dll</HintPath>
@@ -118,6 +116,14 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\Infrastructure\Infrastructure\Infrastructure.csproj">
+      <Project>{ad014c29-9fb7-42e5-a88a-40be0aeb6c0b}</Project>
+      <Name>Infrastructure</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Logger\Logger\Logger.csproj">
+      <Project>{20317548-7d12-4bd1-8ac1-ef07a7a38625}</Project>
+      <Name>Logger</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Steamy\Steamy.csproj">
       <Project>{91AB45A6-2552-40A1-8B97-498578AC83E7}</Project>
       <Name>Steamy</Name>

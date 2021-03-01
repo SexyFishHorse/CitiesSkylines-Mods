@@ -32,23 +32,14 @@
     <LangVersion>5</LangVersion>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Assembly-CSharp, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Assembly-CSharp.1.11.0.3\lib\net35\Assembly-CSharp.dll</HintPath>
-      <Private>False</Private>
+    <Reference Include="Assembly-CSharp">
+      <HintPath>$(CS_GAME_DIRECTORY)\Cities_Data\Managed\Assembly-CSharp.dll</HintPath>
     </Reference>
-    <Reference Include="ColossalManaged, Version=0.3.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\ColossalManaged.1.11.0.3\lib\net35\ColossalManaged.dll</HintPath>
-      <Private>False</Private>
+    <Reference Include="ColossalManaged">
+      <HintPath>$(CS_GAME_DIRECTORY)\Cities_Data\Managed\ColossalManaged.dll</HintPath>
     </Reference>
-    <Reference Include="ICities, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\ICities.1.11.0.3\lib\net35\ICities.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="SexyFishHorse.CitiesSkylines.Infrastructure, Version=1.0.6722.17, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\SexyFishHorse.CitiesSkylines.Infrastructure.1.0.6722.17\lib\net35\SexyFishHorse.CitiesSkylines.Infrastructure.dll</HintPath>
-    </Reference>
-    <Reference Include="SexyFishHorse.CitiesSkylines.Logger, Version=1.0.6721.43148, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\SexyFishHorse.CitiesSkylines.Logger.1.0.6721.43148\lib\net35\SexyFishHorse.CitiesSkylines.Logger.dll</HintPath>
+    <Reference Include="ICities">
+      <HintPath>$(CS_GAME_DIRECTORY)\Cities_Data\Managed\ICities.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -56,9 +47,8 @@
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
-    <Reference Include="UnityEngine, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\UnityEngine.1.11.0.3\lib\net35\UnityEngine.dll</HintPath>
-      <Private>False</Private>
+    <Reference Include="UnityEngine">
+      <HintPath>$(CS_GAME_DIRECTORY)\Cities_Data\Managed\UnityEngine.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -82,7 +72,14 @@
     <Compile Include="SteamyUserMod.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="packages.config" />
+    <ProjectReference Include="..\..\Infrastructure\Infrastructure\Infrastructure.csproj">
+      <Project>{ad014c29-9fb7-42e5-a88a-40be0aeb6c0b}</Project>
+      <Name>Infrastructure</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Logger\Logger\Logger.csproj">
+      <Project>{20317548-7d12-4bd1-8ac1-ef07a7a38625}</Project>
+      <Name>Logger</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

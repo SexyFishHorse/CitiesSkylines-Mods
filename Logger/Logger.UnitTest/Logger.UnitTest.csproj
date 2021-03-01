@@ -50,7 +50,8 @@
       <HintPath>..\..\packages\Castle.Core.4.4.1\lib\net45\Castle.Core.dll</HintPath>
     </Reference>
     <Reference Include="ColossalManaged, Version=0.3.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\ColossalManaged.1.10.0.3\lib\net35\ColossalManaged.dll</HintPath>
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>$(CS_GAME_DIRECTORY)\Cities_Data\Managed\ColossalManaged.dll</HintPath>
     </Reference>
     <Reference Include="Fare, Version=2.1.0.0, Culture=neutral, PublicKeyToken=ea68d375bf33a7c8, processorArchitecture=MSIL">
       <HintPath>..\..\packages\Fare.2.1.2\lib\net35\Fare.dll</HintPath>
