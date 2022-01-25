@@ -2,9 +2,9 @@
 {
     using System;
     using AutoFixture;
+    using FluentAssertions;
     using Moq;
     using Xunit;
-    using XunitShouldExtension;
 
     public class LogManagerTests
     {
@@ -13,7 +13,7 @@
         {
             var fixture = new Fixture();
 
-            LogManager.Instance.GetLogger(fixture.Create<string>()).ShouldBeNull();
+            LogManager.Instance.GetLogger(fixture.Create<string>()).Should().BeNull();
         }
 
         [Fact]
@@ -26,7 +26,7 @@
 
             LogManager.Instance.SetLogger(loggerName, logger.Object);
 
-            LogManager.Instance.GetLogger(loggerName).ShouldBe(logger.Object);
+            LogManager.Instance.GetLogger(loggerName).Should().Be(logger.Object);
         }
 
         [Theory]
@@ -36,7 +36,7 @@
         {
             var exception = Assert.Throws<ArgumentNullException>(() => LogManager.Instance.GetLogger(loggerName));
 
-            exception.ParamName.ShouldBe("loggerName");
+            exception.ParamName.Should().Be("loggerName");
         }
 
         [Fact]
@@ -49,8 +49,8 @@
             var result1 = LogManager.Instance.GetOrCreateLogger(loggerName);
             var result2 = LogManager.Instance.GetOrCreateLogger(loggerName);
 
-            result1.ShouldBe(result2);
-            result2.ShouldBe(result1);
+            result1.Should().Be(result2);
+            result2.Should().Be(result1);
         }
 
         [Fact]
@@ -60,7 +60,7 @@
 
             var result = LogManager.Instance.GetOrCreateLogger(fixture.Create<string>());
 
-            result.ShouldNotBeNull();
+            result.Should().NotBeNull();
         }
 
         [Theory]
@@ -71,7 +71,7 @@
             var exception =
                 Assert.Throws<ArgumentNullException>(() => LogManager.Instance.GetOrCreateLogger(loggerName));
 
-            exception.ParamName.ShouldBe("loggerName");
+            exception.ParamName.Should().Be("loggerName");
         }
 
         [Fact]
@@ -80,14 +80,14 @@
             var instance1 = LogManager.Instance;
             var instance2 = LogManager.Instance;
 
-            instance1.ShouldBe(instance2);
-            instance2.ShouldBe(instance1);
+            instance1.Should().Be(instance2);
+            instance2.Should().Be(instance1);
         }
 
         [Fact]
         public void Instance_InstanceNotSet_ShouldReturnInstance()
         {
-            LogManager.Instance.ShouldNotBeNull();
+            LogManager.Instance.Should().NotBeNull();
         }
 
         [Fact]
@@ -101,7 +101,7 @@
 
             LogManager.Instance.RemoveLogger(loggerName);
 
-            LogManager.Instance.GetLogger(loggerName).ShouldBeNull();
+            LogManager.Instance.GetLogger(loggerName).Should().BeNull();
         }
 
         [Theory]
@@ -111,7 +111,7 @@
         {
             var exception = Assert.Throws<ArgumentNullException>(() => LogManager.Instance.RemoveLogger(loggerName));
 
-            exception.ParamName.ShouldBe("loggerName");
+            exception.ParamName.Should().Be("loggerName");
         }
 
         [Fact]
@@ -126,7 +126,7 @@
 
             var result = LogManager.Instance.GetOrCreateLogger(loggerName);
 
-            result.ShouldBe(logger.Object);
+            result.Should().Be(logger.Object);
         }
 
         [Fact]
@@ -138,7 +138,7 @@
                 Assert.Throws<ArgumentNullException>(
                     () => LogManager.Instance.SetLogger(fixture.Create<string>(), null));
 
-            exception.ParamName.ShouldBe("logger");
+            exception.ParamName.Should().Be("logger");
         }
 
         [Theory]
@@ -151,7 +151,7 @@
             var exception = Assert.Throws<ArgumentNullException>(
                 () => LogManager.Instance.SetLogger(loggerName, fixture.Create<Mock<ILogger>>().Object));
 
-            exception.ParamName.ShouldBe("loggerName");
+            exception.ParamName.Should().Be("loggerName");
         }
     }
 }

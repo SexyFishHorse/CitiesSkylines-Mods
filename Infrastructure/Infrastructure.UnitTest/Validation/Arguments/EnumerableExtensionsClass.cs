@@ -46,7 +46,9 @@
                 List<string> list = null;
 
                 // ReSharper disable once ExpressionIsAlwaysNull
-                list.Invoking(x => x.ShouldNotBeNullOrEmpty(parameterName))
+                Action act = () => list.ShouldNotBeNullOrEmpty(parameterName);
+
+                act
                     .Should()
                     .Throw<ArgumentNullException>()
                     .And.ParamName.Should()

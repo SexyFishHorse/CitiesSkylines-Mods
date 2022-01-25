@@ -35,11 +35,13 @@
                 string value = null;
 
                 // ReSharper disable once ExpressionIsAlwaysNull
-                value.Invoking(x => x.ShouldNotBeNull(parameterName))
-                     .Should()
-                     .Throw<ArgumentNullException>()
-                     .And.ParamName.Should()
-                     .Be(parameterName);
+                Action act = () => value.ShouldNotBeNullOrEmpty(parameterName);
+
+                act
+                    .Should()
+                    .Throw<ArgumentNullException>()
+                    .And.ParamName.Should()
+                    .Be(parameterName);
             }
         }
     }

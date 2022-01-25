@@ -4,8 +4,8 @@
     using System.Linq;
     using AutoFixture;
     using ColossalFramework.Plugins;
+    using FluentAssertions;
     using Xunit;
-    using XunitShouldExtension;
     using Logger = SexyFishHorse.CitiesSkylines.Logger.Logger;
 
     public class LoggerTests
@@ -19,7 +19,7 @@
 
             instance.Dispose();
 
-            output.DisposeCount.ShouldBe(1);
+            output.DisposeCount.Should().Be(1);
         }
 
         [Fact]
@@ -33,7 +33,7 @@
 
             instance.Error(fixture.Create<string>());
 
-            output.LogMessageCount.ShouldBe(1);
+            output.LogMessageCount.Should().Be(1);
         }
 
         [Fact]
@@ -48,7 +48,7 @@
             var message = fixture.Create<string>();
             instance.Error(message);
 
-            output.LogMessages.Single().Value.ShouldContain(message);
+            output.LogMessages.Single().Value.Should().Contain(message);
         }
 
         [Fact]
@@ -62,7 +62,7 @@
 
             instance.Error(fixture.Create<string>());
 
-            output.LogMessages.Single().Key.ShouldBe(PluginManager.MessageType.Error);
+            output.LogMessages.Single().Key.Should().Be(PluginManager.MessageType.Error);
         }
 
         [Fact]
@@ -76,7 +76,7 @@
 
             instance.Info(fixture.Create<string>());
 
-            output.LogMessageCount.ShouldBe(1);
+            output.LogMessageCount.Should().Be(1);
         }
 
         [Fact]
@@ -91,7 +91,7 @@
             var message = fixture.Create<string>();
             instance.Info(message);
 
-            output.LogMessages.Single().Value.ShouldContain(message);
+            output.LogMessages.Single().Value.Should().Contain(message);
         }
 
         [Fact]
@@ -105,7 +105,7 @@
 
             instance.Info(fixture.Create<string>());
 
-            output.LogMessages.Single().Key.ShouldBe(PluginManager.MessageType.Message);
+            output.LogMessages.Single().Key.Should().Be(PluginManager.MessageType.Message);
         }
 
         [Fact]
@@ -119,7 +119,7 @@
 
             instance.LogException(fixture.Create<Exception>());
 
-            output.LogExceptionsCount.ShouldBe(1);
+            output.LogExceptionsCount.Should().Be(1);
         }
 
         [Fact]
@@ -133,7 +133,7 @@
 
             instance.Warn(fixture.Create<string>());
 
-            output.LogMessageCount.ShouldBe(1);
+            output.LogMessageCount.Should().Be(1);
         }
 
         [Fact]
@@ -148,7 +148,7 @@
             var message = fixture.Create<string>();
             instance.Warn(message);
 
-            output.LogMessages.Single().Value.ShouldContain(message);
+            output.LogMessages.Single().Value.Should().Contain(message);
         }
 
         [Fact]
@@ -162,7 +162,7 @@
 
             instance.Warn(fixture.Create<string>());
 
-            output.LogMessages.Single().Key.ShouldBe(PluginManager.MessageType.Warning);
+            output.LogMessages.Single().Key.Should().Be(PluginManager.MessageType.Warning);
         }
     }
 }
