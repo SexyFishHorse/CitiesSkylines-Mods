@@ -1,4 +1,4 @@
-﻿namespace SexyFishHorse.CitiesSkylines.Logger
+﻿namespace SexyFishHorse.CitiesSkylines.Infrastructure.Logging
 {
     using System;
     using ColossalFramework.Plugins;

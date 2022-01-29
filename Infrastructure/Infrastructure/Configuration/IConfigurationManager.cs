@@ -2,7 +2,7 @@
 {
     using System;
     using JetBrains.Annotations;
-    using Logger;
+    using SexyFishHorse.CitiesSkylines.Infrastructure.Logging;
 
     [UsedImplicitly(ImplicitUseTargetFlags.Members)]
     public interface IConfigurationManager

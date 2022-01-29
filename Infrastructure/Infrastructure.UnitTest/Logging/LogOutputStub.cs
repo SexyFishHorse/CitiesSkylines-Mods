@@ -3,7 +3,7 @@
     using System;
     using System.Collections.Generic;
     using ColossalFramework.Plugins;
-    using Models;
+    using SexyFishHorse.CitiesSkylines.Infrastructure.Logging.Outputs;
 
     public class LogOutputStub : LogOutputBase
     {

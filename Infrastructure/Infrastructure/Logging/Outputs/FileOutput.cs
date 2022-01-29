@@ -1,4 +1,4 @@
-namespace SexyFishHorse.CitiesSkylines.Logger.Models
+namespace SexyFishHorse.CitiesSkylines.Infrastructure.Logging.Outputs
 {
     using System;
     using System.IO;

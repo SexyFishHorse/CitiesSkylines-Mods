@@ -2,7 +2,7 @@ namespace SexyFishHorse.CitiesSkylines.Steamy
 {
     using System;
     using ICities;
-    using SexyFishHorse.CitiesSkylines.Logger;
+    using SexyFishHorse.CitiesSkylines.Infrastructure.Logging;
     using SexyFishHorse.CitiesSkylines.Steamy.Adapters;
 
     public class LoadingExtension : LoadingExtensionBase

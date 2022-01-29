@@ -7,7 +7,7 @@ namespace SexyFishHorse.CitiesSkylines.Birdcage
     using SexyFishHorse.CitiesSkylines.Birdcage.Services;
     using SexyFishHorse.CitiesSkylines.Infrastructure.DependencyInjection;
     using UnityEngine;
-    using ILogger = SexyFishHorse.CitiesSkylines.Logger.ILogger;
+    using ILogger = SexyFishHorse.CitiesSkylines.Infrastructure.Logging.ILogger;
     using Object = UnityEngine.Object;
 
     public class ChirperExtension : IChirperExtension

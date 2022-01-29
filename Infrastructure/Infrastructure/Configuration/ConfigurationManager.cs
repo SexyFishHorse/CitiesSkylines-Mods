@@ -4,7 +4,7 @@
     using System.Collections.Generic;
     using System.Linq;
     using JetBrains.Annotations;
-    using Logger;
+    using SexyFishHorse.CitiesSkylines.Infrastructure.Logging;
 
     public class ConfigurationManager : IConfigurationManager
     {

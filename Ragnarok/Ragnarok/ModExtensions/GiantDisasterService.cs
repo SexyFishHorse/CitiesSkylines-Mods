@@ -5,7 +5,7 @@
     using JetBrains.Annotations;
     using SexyFishHorse.CitiesSkylines.Infrastructure.Extensions;
     using SexyFishHorse.CitiesSkylines.Ragnarok.Logging;
-    using ILogger = SexyFishHorse.CitiesSkylines.Logger.ILogger;
+    using ILogger = SexyFishHorse.CitiesSkylines.Infrastructure.Logging.ILogger;
     using UnityObject = UnityEngine.Object;
 
     [UsedImplicitly]

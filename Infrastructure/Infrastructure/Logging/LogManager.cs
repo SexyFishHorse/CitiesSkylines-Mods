@@ -1,4 +1,4 @@
-﻿namespace SexyFishHorse.CitiesSkylines.Logger
+﻿namespace SexyFishHorse.CitiesSkylines.Infrastructure.Logging
 {
     using System;
     using System.Collections.Generic;
@@ -55,7 +55,7 @@
             return null;
         }
 
-        public ILogger GetOrCreateLogger(string loggerName)
+        public ILogger GetOrCreate(string loggerName)
         {
             ValidateLoggerName(loggerName);
 

@@ -1,7 +1,7 @@
 namespace SexyFishHorse.CitiesSkylines.Infrastructure.DependencyInjection
 {
     using System;
-    using SexyFishHorse.CitiesSkylines.Logger;
+    using SexyFishHorse.CitiesSkylines.Infrastructure.Logging;
 
     public interface IServiceProvider
     {

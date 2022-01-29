@@ -73,6 +73,13 @@
     <Compile Include="IO\IFileSystemWrapper.cs" />
     <Compile Include="IO\IXmlFileSystem.cs" />
     <Compile Include="IO\XmlFileSystem.cs" />
+    <Compile Include="Logging\ILogger.cs" />
+    <Compile Include="Logging\Logger.cs" />
+    <Compile Include="Logging\LogManager.cs" />
+    <Compile Include="Logging\Outputs\DebugOutput.cs" />
+    <Compile Include="Logging\Outputs\DebugPanelOutput.cs" />
+    <Compile Include="Logging\Outputs\FileOutput.cs" />
+    <Compile Include="Logging\Outputs\LogOutputBase.cs" />
     <Compile Include="UI\Configuration\IOptionsPanelManager.cs" />
     <Compile Include="Configuration\ModConfiguration.cs" />
     <Compile Include="Extensions\LoadModeExtensions.cs" />
@@ -102,12 +109,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Infrastructure.nuspec" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\..\Logger\Logger\Logger.csproj">
-      <Project>{20317548-7d12-4bd1-8ac1-ef07a7a38625}</Project>
-      <Name>Logger</Name>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

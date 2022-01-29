@@ -4,8 +4,8 @@
     using SexyFishHorse.CitiesSkylines.Birdcage.Wrappers;
     using SexyFishHorse.CitiesSkylines.Infrastructure;
     using SexyFishHorse.CitiesSkylines.Infrastructure.DependencyInjection;
+    using SexyFishHorse.CitiesSkylines.Infrastructure.Logging;
     using SexyFishHorse.CitiesSkylines.Infrastructure.UI.Configuration;
-    using SexyFishHorse.CitiesSkylines.Logger;
 
     public class UserMod : UserModBase
     {

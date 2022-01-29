@@ -6,7 +6,7 @@
     using ICities;
     using SexyFishHorse.CitiesSkylines.Birdcage.Wrappers;
     using UnityEngine;
-    using ILogger = SexyFishHorse.CitiesSkylines.Logger.ILogger;
+    using ILogger = SexyFishHorse.CitiesSkylines.Infrastructure.Logging.ILogger;
 
     public class FilterService
     {

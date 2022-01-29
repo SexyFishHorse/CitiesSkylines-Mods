@@ -1,7 +1,7 @@
 ﻿namespace SexyFishHorse.CitiesSkylines.Steamy.Adapters
 {
     using ColossalFramework.PlatformServices;
-    using Logger;
+    using SexyFishHorse.CitiesSkylines.Infrastructure.Logging;
 
     public class PlatformServiceAdapter : IPlatformServiceAdapter
     {

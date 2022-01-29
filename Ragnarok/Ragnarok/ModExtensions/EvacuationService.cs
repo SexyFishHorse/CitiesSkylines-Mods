@@ -7,8 +7,8 @@
     using Configuration;
     using ICities;
     using JetBrains.Annotations;
-    using Logger;
     using Logging;
+    using SexyFishHorse.CitiesSkylines.Infrastructure.Logging;
     using UnityObject = UnityEngine.Object;
 
     [UsedImplicitly]

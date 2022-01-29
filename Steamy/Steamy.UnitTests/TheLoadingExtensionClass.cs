@@ -7,7 +7,7 @@ namespace SexyFishHorse.CitiesSkylines.Steamy.UnitTests
     using FluentAssertions;
     using ICities;
     using Moq;
-    using SexyFishHorse.CitiesSkylines.Logger;
+    using SexyFishHorse.CitiesSkylines.Infrastructure.Logging;
     using Xunit;
 
     [Trait("Category", "UnitTest")]

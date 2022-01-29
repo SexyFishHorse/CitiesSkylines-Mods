@@ -159,10 +159,6 @@
       <Project>{ad014c29-9fb7-42e5-a88a-40be0aeb6c0b}</Project>
       <Name>Infrastructure</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\Logger\Logger\Logger.csproj">
-      <Project>{20317548-7d12-4bd1-8ac1-ef07a7a38625}</Project>
-      <Name>Logger</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Steamy\Steamy.csproj">
       <Project>{91AB45A6-2552-40A1-8B97-498578AC83E7}</Project>
       <Name>Steamy</Name>

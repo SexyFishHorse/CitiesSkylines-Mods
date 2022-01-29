@@ -4,6 +4,7 @@
     using AutoFixture;
     using FluentAssertions;
     using Moq;
+    using SexyFishHorse.CitiesSkylines.Infrastructure.Logging;
     using Xunit;
 
     public class LogManagerTests
@@ -46,8 +47,8 @@
 
             var loggerName = fixture.Create<string>();
 
-            var result1 = LogManager.Instance.GetOrCreateLogger(loggerName);
-            var result2 = LogManager.Instance.GetOrCreateLogger(loggerName);
+            var result1 = LogManager.Instance.GetOrCreate(loggerName);
+            var result2 = LogManager.Instance.GetOrCreate(loggerName);
 
             result1.Should().Be(result2);
             result2.Should().Be(result1);
@@ -58,7 +59,7 @@
         {
             var fixture = new Fixture();
 
-            var result = LogManager.Instance.GetOrCreateLogger(fixture.Create<string>());
+            var result = LogManager.Instance.GetOrCreate(fixture.Create<string>());
 
             result.Should().NotBeNull();
         }
@@ -69,7 +70,7 @@
         public void GetOrCreateLogger_LoggerNameIsNull_ShouldThrowArgumentNullException(string loggerName)
         {
             var exception =
-                Assert.Throws<ArgumentNullException>(() => LogManager.Instance.GetOrCreateLogger(loggerName));
+                Assert.Throws<ArgumentNullException>(() => LogManager.Instance.GetOrCreate(loggerName));
 
             exception.ParamName.Should().Be("loggerName");
         }
@@ -124,7 +125,7 @@
 
             LogManager.Instance.SetLogger(loggerName, logger.Object);
 
-            var result = LogManager.Instance.GetOrCreateLogger(loggerName);
+            var result = LogManager.Instance.GetOrCreate(loggerName);
 
             result.Should().Be(logger.Object);
         }

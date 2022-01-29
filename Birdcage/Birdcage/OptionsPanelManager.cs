@@ -5,10 +5,10 @@
     using ColossalFramework.UI;
     using ICities;
     using SexyFishHorse.CitiesSkylines.Birdcage.Services;
+    using SexyFishHorse.CitiesSkylines.Infrastructure.Logging;
     using SexyFishHorse.CitiesSkylines.Infrastructure.UI;
     using SexyFishHorse.CitiesSkylines.Infrastructure.UI.Configuration;
     using SexyFishHorse.CitiesSkylines.Infrastructure.UI.Extensions;
-    using SexyFishHorse.CitiesSkylines.Logger;
 
     public class OptionsPanelManager : IOptionsPanelManager
     {

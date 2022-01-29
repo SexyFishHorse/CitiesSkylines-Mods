@@ -4,7 +4,7 @@
     using System.Collections.Generic;
     using System.Threading;
     using ICities;
-    using SexyFishHorse.CitiesSkylines.Logger;
+    using SexyFishHorse.CitiesSkylines.Infrastructure.Logging;
     using SexyFishHorse.CitiesSkylines.Ragnarok.Configuration;
     using SexyFishHorse.CitiesSkylines.Ragnarok.Model;
 

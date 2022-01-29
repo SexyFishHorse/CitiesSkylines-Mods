@@ -156,6 +156,9 @@
     <Compile Include="Configuration\TheConfigStoreClass.cs" />
     <Compile Include="DependencyInjection\TheServiceProviderClass.cs" />
     <Compile Include="IO\GamePathsClass.cs" />
+    <Compile Include="Logging\LoggerTests.cs" />
+    <Compile Include="Logging\LogManagerTests.cs" />
+    <Compile Include="Logging\LogOutputStub.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="UI\Extensions\UiHelperBaseExtensions.cs" />
     <Compile Include="Validation\Arguments\EnumerableExtensionsClass.cs" />

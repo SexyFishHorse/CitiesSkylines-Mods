@@ -1,7 +1,7 @@
 ﻿namespace SexyFishHorse.CitiesSkylines.Steamy.Adapters
 {
     using ColossalFramework;
-    using SexyFishHorse.CitiesSkylines.Logger;
+    using SexyFishHorse.CitiesSkylines.Infrastructure.Logging;
 
     public class SimulationManagerAdapter : ISimulationManagerAdapter
     {

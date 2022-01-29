@@ -7,7 +7,7 @@
     using ICities;
     using JetBrains.Annotations;
     using SexyFishHorse.CitiesSkylines.Infrastructure.Extensions;
-    using SexyFishHorse.CitiesSkylines.Logger;
+    using SexyFishHorse.CitiesSkylines.Infrastructure.Logging;
     using SexyFishHorse.CitiesSkylines.Ragnarok.Configuration;
     using SexyFishHorse.CitiesSkylines.Ragnarok.Logging;
     using SexyFishHorse.CitiesSkylines.Ragnarok.Services;

@@ -4,7 +4,7 @@
     using System.Reflection;
     using ColossalFramework.UI;
     using UnityEngine;
-    using ILogger = SexyFishHorse.CitiesSkylines.Logger.ILogger;
+    using ILogger = SexyFishHorse.CitiesSkylines.Infrastructure.Logging.ILogger;
 
     public class ChirpPanelWrapper : IChirpPanelWrapper
     {

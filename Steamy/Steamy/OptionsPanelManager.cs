@@ -6,7 +6,7 @@
     using ColossalFramework.PlatformServices;
     using Infrastructure.UI;
     using Infrastructure.UI.Configuration;
-    using Logger;
+    using SexyFishHorse.CitiesSkylines.Infrastructure.Logging;
 
     public class OptionsPanelManager : IOptionsPanelManager
     {

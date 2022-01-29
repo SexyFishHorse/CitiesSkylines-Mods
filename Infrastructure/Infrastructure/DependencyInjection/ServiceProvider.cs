@@ -4,7 +4,7 @@ namespace SexyFishHorse.CitiesSkylines.Infrastructure.DependencyInjection
     using System.Collections.Generic;
     using System.Linq;
     using JetBrains.Annotations;
-    using SexyFishHorse.CitiesSkylines.Logger;
+    using SexyFishHorse.CitiesSkylines.Infrastructure.Logging;
 
     public class ServiceProvider : IServiceProvider
     {

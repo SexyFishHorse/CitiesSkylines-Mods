@@ -2,7 +2,7 @@
 {
     using System;
     using ColossalFramework.Plugins;
-    using Logger;
+    using SexyFishHorse.CitiesSkylines.Infrastructure.Logging;
 
     public class SteamyLogger : ILogger
     {
@@ -16,7 +16,7 @@
         {
             LoggingEnabled = ModConfig.Instance.GetSetting<bool>(SettingKeys.EnableLogging);
 
-            logger = LogManager.Instance.GetOrCreateLogger(UserMod.ModName);
+            logger = LogManager.Instance.GetOrCreate(UserMod.ModName);
         }
 
         public static ILogger Instance

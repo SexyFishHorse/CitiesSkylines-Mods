@@ -4,8 +4,8 @@
     using Configuration;
     using Infrastructure;
     using JetBrains.Annotations;
-    using Logger;
     using Logging;
+    using SexyFishHorse.CitiesSkylines.Infrastructure.Logging;
 
     [UsedImplicitly]
     public class RagnarokUserMod : UserModBase

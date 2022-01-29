@@ -1,10 +1,10 @@
-﻿namespace SexyFishHorse.CitiesSkylines.Logger
+﻿namespace SexyFishHorse.CitiesSkylines.Infrastructure.Logging
 {
     using System;
     using System.Collections.Generic;
     using System.IO;
     using ColossalFramework.Plugins;
-    using Models;
+    using SexyFishHorse.CitiesSkylines.Infrastructure.Logging.Outputs;
 
     public class Logger : ILogger
     {

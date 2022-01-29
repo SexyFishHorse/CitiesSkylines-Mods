@@ -6,7 +6,7 @@
     using ColossalFramework.Plugins;
     using FluentAssertions;
     using Xunit;
-    using Logger = SexyFishHorse.CitiesSkylines.Logger.Logger;
+    using Logger = SexyFishHorse.CitiesSkylines.Infrastructure.Logging.Logger;
 
     public class LoggerTests
     {

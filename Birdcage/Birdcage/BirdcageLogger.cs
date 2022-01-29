@@ -2,7 +2,7 @@
 {
     using System;
     using ColossalFramework.Plugins;
-    using SexyFishHorse.CitiesSkylines.Logger;
+    using SexyFishHorse.CitiesSkylines.Infrastructure.Logging;
 
     public class BirdcageLogger : ILogger
     {
@@ -14,7 +14,7 @@
         {
             LoggingEnabled = ModConfig.Instance.GetSetting<bool>(SettingKeys.EnableLogging);
 
-            logger = LogManager.Instance.GetOrCreateLogger(UserMod.ModName);
+            logger = LogManager.Instance.GetOrCreate(UserMod.ModName);
         }
 
         public bool LoggingEnabled { get; set; }
