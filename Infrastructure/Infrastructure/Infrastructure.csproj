@@ -63,6 +63,12 @@
     <Compile Include="Configuration\IConfigurationManager.cs">
       <DependentUpon>ConfigurationManager.cs</DependentUpon>
     </Compile>
+    <Compile Include="DependencyInjection\IServiceProvider.cs" />
+    <Compile Include="DependencyInjection\ServiceDefinition.cs" />
+    <Compile Include="DependencyInjection\ServiceLifetime.cs" />
+    <Compile Include="DependencyInjection\ServiceNotFoundException.cs" />
+    <Compile Include="DependencyInjection\ServiceProvider.cs" />
+    <Compile Include="DependencyInjection\ServiceProviderExtensions.cs" />
     <Compile Include="IO\FileSystemWrapper.cs" />
     <Compile Include="IO\IFileSystemWrapper.cs" />
     <Compile Include="IO\IXmlFileSystem.cs" />
