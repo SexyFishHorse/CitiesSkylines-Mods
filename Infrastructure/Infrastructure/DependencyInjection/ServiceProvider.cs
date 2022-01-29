@@ -3,6 +3,7 @@ namespace SexyFishHorse.CitiesSkylines.Infrastructure.DependencyInjection
     using System;
     using System.Collections.Generic;
     using System.Linq;
+    using JetBrains.Annotations;
     using SexyFishHorse.CitiesSkylines.Logger;
 
     public class ServiceProvider : IServiceProvider
@@ -35,9 +36,7 @@ namespace SexyFishHorse.CitiesSkylines.Infrastructure.DependencyInjection
             {
                 if (abstraction.IsInstanceOfType(implementation) == false)
                 {
-                    throw new ArgumentException(
-                        "The implementation " + implementation.GetType().FullName + " is not assignable to " +
-                        abstraction.FullName);
+                    throw new ArgumentException(string.Format("The implementation {0} is not assignable to {1}.", implementation.GetType().FullName, abstraction.FullName));
                 }
 
                 serviceCache.Add(abstraction, implementation);
@@ -46,10 +45,7 @@ namespace SexyFishHorse.CitiesSkylines.Infrastructure.DependencyInjection
             }
             catch (Exception ex)
             {
-                if (Logger != null)
-                {
-                    Logger.LogException(ex);
-                }
+                LogException(ex, "Error when trying to add implementation {0} of type {1}.", implementation, abstraction);
 
                 throw;
             }
@@ -64,8 +60,7 @@ namespace SexyFishHorse.CitiesSkylines.Infrastructure.DependencyInjection
                     if (abstraction.IsAssignableFrom(implementation) == false)
                     {
                         throw new ArgumentException(
-                            "The implementation " + implementation.FullName + " is not assignable to " +
-                            abstraction.FullName);
+                            string.Format("The implementation {0} is not assignable to {1}.", implementation.FullName, abstraction.FullName));
                     }
                 }
 
@@ -75,10 +70,7 @@ namespace SexyFishHorse.CitiesSkylines.Infrastructure.DependencyInjection
             }
             catch (Exception ex)
             {
-                if (Logger != null)
-                {
-                    Logger.LogException(ex);
-                }
+                LogException(ex, "Error occurred when adding an the implementation {0} as an abstraction of {1}.", implementation, abstraction);
 
                 throw;
             }
@@ -91,6 +83,8 @@ namespace SexyFishHorse.CitiesSkylines.Infrastructure.DependencyInjection
 
         public object GetService(Type type)
         {
+            LogInfo("Requested type {0}.", type);
+
             try
             {
                 // See if the instance is already cached
@@ -116,10 +110,7 @@ namespace SexyFishHorse.CitiesSkylines.Infrastructure.DependencyInjection
             }
             catch (Exception ex)
             {
-                if (Logger != null)
-                {
-                    Logger.LogException(ex);
-                }
+                LogException(ex, "Error occurred trying to instantiate an instance of {0}.", type);
 
                 throw;
             }
@@ -137,12 +128,32 @@ namespace SexyFishHorse.CitiesSkylines.Infrastructure.DependencyInjection
 
         private object BuildService(Type type)
         {
+            LogInfo("Building instance of {0}.", type);
             var constructors = type.GetConstructors();
             var constructor = constructors.First();
 
             var paramTypes = constructor.GetParameters().Select(x => x.ParameterType);
 
             return Activator.CreateInstance(type, paramTypes.Select(GetService).ToArray());
+        }
+
+        [StringFormatMethod("message")]
+        private void LogInfo(string message, params object[] args)
+        {
+            if (Logger != null)
+            {
+                Logger.Info(message, args);
+            }
+        }
+
+        [StringFormatMethod("message")]
+        private void LogException(Exception ex, string message, params object[] args)
+        {
+            if (Logger != null)
+            {
+                Logger.Error(message, args);
+                Logger.LogException(ex);
+            }
         }
     }
 }

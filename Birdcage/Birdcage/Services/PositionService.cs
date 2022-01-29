@@ -76,11 +76,15 @@
 
             if (Chirper.builtinChirperPosition.x < thirdOfUiWidth)
             {
-                anchor = Chirper.builtinChirperPosition.y < halfUiHeight ? ChirperAnchor.TopLeft : ChirperAnchor.BottomLeft;
+                anchor = Chirper.builtinChirperPosition.y < halfUiHeight
+                    ? ChirperAnchor.TopLeft
+                    : ChirperAnchor.BottomLeft;
             }
             else if (Chirper.builtinChirperPosition.x > thirdOfUiWidth * 2)
             {
-                anchor = Chirper.builtinChirperPosition.y < halfUiHeight ? ChirperAnchor.TopRight : ChirperAnchor.BottomRight;
+                anchor = Chirper.builtinChirperPosition.y < halfUiHeight
+                    ? ChirperAnchor.TopRight
+                    : ChirperAnchor.BottomRight;
             }
             else if (Chirper.builtinChirperPosition.y < halfUiHeight)
             {
