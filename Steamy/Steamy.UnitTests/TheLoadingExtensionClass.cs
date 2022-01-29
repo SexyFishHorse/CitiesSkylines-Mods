@@ -1,27 +1,28 @@
-﻿namespace SexyFishHorse.CitiesSkylines.Steamy.UnitTests
+namespace SexyFishHorse.CitiesSkylines.Steamy.UnitTests
 {
     using System;
-    using FluentAssertions;
-    using ICities;
-    using Moq;
     using AutoFixture;
     using AutoFixture.AutoMoq;
     using AutoFixture.Kernel;
+    using FluentAssertions;
+    using ICities;
+    using Moq;
     using SexyFishHorse.CitiesSkylines.Logger;
     using Xunit;
 
     [Trait("Category", "UnitTest")]
-    public class TheSteamyUserModClass
+    public class TheLoadingExtensionClass
     {
         private readonly IFixture fixture;
 
-        protected TheSteamyUserModClass()
+        public TheLoadingExtensionClass()
         {
             fixture = new Fixture().Customize(new AutoMoqCustomization());
-            fixture.Customize<SteamyUserMod>(c => c.FromFactory(new MethodInvoker(new GreedyConstructorQuery())));
+            fixture.Customize<LoadingExtension>(
+                c => c.FromFactory(new MethodInvoker(new GreedyConstructorQuery())));
         }
 
-        public class TheConstructor : TheSteamyUserModClass
+        public class TheConstructor : TheLoadingExtensionClass
         {
             [Fact]
             public void ShouldLogExceptionAndRethrow()
@@ -31,7 +32,7 @@
 
                 steamController.Setup(x => x.UpdateAchievementsStatus()).Throws<Exception>();
 
-                Action act = () => fixture.Create<SteamyUserMod>();
+                Action act = () => fixture.Create<LoadingExtension>();
 
                 act.Should().Throw<Exception>();
 
@@ -43,7 +44,7 @@
             {
                 var steamController = fixture.Freeze<Mock<ISteamController>>();
 
-                fixture.Create<SteamyUserMod>();
+                fixture.Create<LoadingExtension>();
 
                 steamController.Verify(x => x.UpdateAchievementsStatus(), Times.Once);
             }
@@ -53,24 +54,25 @@
             {
                 var steamController = fixture.Freeze<Mock<ISteamController>>();
 
-                fixture.Create<SteamyUserMod>();
+                fixture.Create<LoadingExtension>();
 
                 steamController.Verify(x => x.UpdatePopupPosition(), Times.Once);
             }
         }
 
-        public class TheOnCreatedMethod : TheSteamyUserModClass
+        public class TheOnCreatedMethod : TheLoadingExtensionClass
         {
             [Fact]
             public void ShouldUpdateAchievementStatus()
             {
                 var steamController = fixture.Freeze<Mock<ISteamController>>();
 
-                var instance = fixture.Freeze<SteamyUserMod>();
+                var instance = fixture.Freeze<LoadingExtension>();
 
                 instance.OnCreated(fixture.Create<ILoading>());
 
-                steamController.Verify(x => x.UpdateAchievementsStatus(), Times.Exactly(2)); // Constructor and OnCreated
+                steamController.Verify(x => x.UpdateAchievementsStatus(),
+                    Times.Exactly(2)); // Constructor and OnCreated
             }
 
             [Fact]
@@ -78,7 +80,7 @@
             {
                 var steamController = fixture.Freeze<Mock<ISteamController>>();
 
-                var instance = fixture.Freeze<SteamyUserMod>();
+                var instance = fixture.Freeze<LoadingExtension>();
 
                 instance.OnCreated(fixture.Create<ILoading>());
 
@@ -86,18 +88,19 @@
             }
         }
 
-        public class TheOnLevelLoadedMethod : TheSteamyUserModClass
+        public class TheOnLevelLoadedMethod : TheLoadingExtensionClass
         {
             [Fact]
             public void ShouldUpdateAchievementStatus()
             {
                 var steamController = fixture.Freeze<Mock<ISteamController>>();
 
-                var instance = fixture.Freeze<SteamyUserMod>();
+                var instance = fixture.Freeze<LoadingExtension>();
 
                 instance.OnLevelLoaded(fixture.Create<LoadMode>());
 
-                steamController.Verify(x => x.UpdateAchievementsStatus(), Times.Exactly(2)); // Constructor and OnCreated
+                steamController.Verify(x => x.UpdateAchievementsStatus(),
+                    Times.Exactly(2)); // Constructor and OnCreated
             }
 
             [Fact]
@@ -105,7 +108,7 @@
             {
                 var steamController = fixture.Freeze<Mock<ISteamController>>();
 
-                var instance = fixture.Freeze<SteamyUserMod>();
+                var instance = fixture.Freeze<LoadingExtension>();
 
                 instance.OnLevelLoaded(fixture.Create<LoadMode>());
 

@@ -10,7 +10,7 @@
         {
             get
             {
-                return instance ?? (instance = ConfigurationManagerFactory.GetOrCreateConfigurationManager(SteamyUserMod.ModName));
+                return instance ?? (instance = ConfigurationManagerFactory.GetOrCreateConfigurationManager(UserMod.ModName));
             }
         }
     }

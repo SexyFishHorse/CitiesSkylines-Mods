@@ -16,7 +16,7 @@
         {
             LoggingEnabled = ModConfig.Instance.GetSetting<bool>(SettingKeys.EnableLogging);
 
-            logger = LogManager.Instance.GetOrCreateLogger(SteamyUserMod.ModName);
+            logger = LogManager.Instance.GetOrCreateLogger(UserMod.ModName);
         }
 
         public static ILogger Instance
