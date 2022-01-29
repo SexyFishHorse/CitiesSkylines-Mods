@@ -1,60 +1,18 @@
 ﻿namespace SexyFishHorse.CitiesSkylines.Birdcage.Services
 {
+    using System.Collections.Generic;
+    using System.Linq;
     using ColossalFramework.UI;
     using ICities;
     using SexyFishHorse.CitiesSkylines.Birdcage.Wrappers;
-    using System.Collections.Generic;
-    using System.Linq;
     using UnityEngine;
     using ILogger = SexyFishHorse.CitiesSkylines.Logger.ILogger;
 
     public class FilterService
     {
-        private static readonly HashSet<string> AllowedMessages = new HashSet<string>
-        {
-            LocaleID.CHIRP_ABANDONED_BUILDINGS,
-            LocaleID.CHIRP_COMMERCIAL_DEMAND,
-            LocaleID.CHIRP_DEAD_PILING_UP,
-            LocaleID.CHIRP_DISASTER,
-            LocaleID.CHIRP_FIRE_HAZARD,
-            LocaleID.CHIRP_HIGH_CRIME,
-            LocaleID.CHIRP_INDUSTRIAL_DEMAND,
-            LocaleID.CHIRP_LAUNCH,
-            LocaleID.CHIRP_LAUNCH_PREPARATION,
-            LocaleID.CHIRP_LOW_HAPPINESS,
-            LocaleID.CHIRP_LOW_HEALTH,
-            LocaleID.CHIRP_MILESTONE_REACHED,
-            LocaleID.CHIRP_NEED_MORE_PARKS,
-            LocaleID.CHIRP_NOISEPOLLUTION,
-            LocaleID.CHIRP_NO_ELECTRICITY,
-            LocaleID.CHIRP_NO_HEALTHCARE,
-            LocaleID.CHIRP_NO_PRISONS,
-            LocaleID.CHIRP_NO_SCHOOLS,
-            LocaleID.CHIRP_NO_WATER,
-            LocaleID.CHIRP_POISONED,
-            LocaleID.CHIRP_POLLUTION,
-            LocaleID.CHIRP_RESIDENTIAL_DEMAND,
-            LocaleID.CHIRP_SEWAGE,
-            LocaleID.CHIRP_SURVIVORFOUND,
-            LocaleID.CHIRP_TRASH_PILING_UP,
-            LocaleID.CHIRP_UPGRADE_FESTIVALAREA,
-            LocaleID.EDITORCHIRPER_REQUIREMENTS,
-            LocaleID.EDITORCHIRPER_REQUIREMENTS_FERTILITY,
-            LocaleID.EDITORCHIRPER_REQUIREMENTS_FOREST,
-            LocaleID.EDITORCHIRPER_REQUIREMENTS_OIL,
-            LocaleID.EDITORCHIRPER_REQUIREMENTS_ORE,
-            LocaleID.EDITORCHIRPER_REQUIREMENTS_PLANE,
-            LocaleID.EDITORCHIRPER_REQUIREMENTS_RECOMMENDED,
-            LocaleID.EDITORCHIRPER_REQUIREMENTS_ROADIN,
-            LocaleID.EDITORCHIRPER_REQUIREMENTS_ROADOUT,
-            LocaleID.EDITORCHIRPER_REQUIREMENTS_SHIP,
-            LocaleID.EDITORCHIRPER_REQUIREMENTS_TRAIN,
-            LocaleID.EDITORCHIRPER_REQUIREMENTS_WATER,
-            LocaleID.FOOTBALLCHIRP_LOSE,
-            LocaleID.FOOTBALLCHIRP_WIN,
-        };
-
         private readonly IChirpPanelWrapper chirpPanel;
+
+        private readonly HashSet<string> filteredMessages = new HashSet<string>();
 
         private readonly ILogger logger;
 
@@ -67,6 +25,17 @@
             this.chirpPanel = chirpPanel;
             this.logger = logger;
             this.messageManager = messageManager;
+
+            GetChirpsForSetting(SettingKeys.FilterFirstTypeOfServiceBuilt, Chirps.FirstTypeOfServiceBuilt);
+            GetChirpsForSetting(SettingKeys.FilterServiceBuilt, Chirps.ServiceBuilt);
+            GetChirpsForSetting(SettingKeys.FilterCelebrations, Chirps.Celebrations);
+            GetChirpsForSetting(SettingKeys.FilterConcerts, Chirps.Concerts);
+            GetChirpsForSetting(SettingKeys.FilterChirpXLaunches, Chirps.ChirpX);
+            GetChirpsForSetting(SettingKeys.FilterCityProblems, Chirps.Problems);
+            GetChirpsForSetting(SettingKeys.FilterFootballMatches, Chirps.Football);
+            GetChirpsForSetting(SettingKeys.FilterPointlessChirps, Chirps.Random);
+            GetChirpsForSetting(SettingKeys.FilterVarsitySportsMatches, Chirps.VarsitySports);
+            GetChirpsForSetting(SettingKeys.FilterFishingBuildingUnlocked, Chirps.UnlockedFishingBuildings);
         }
 
         public ICollection<IChirperMessage> MessagesToRemove
@@ -79,7 +48,7 @@
 
         public void HandleNewMessage(IChirperMessage message)
         {
-            logger.Info("New message: " + message.text);
+            logger.Info("New message: {0}", message.text);
 
             var citizenMessage = message as CitizenMessage;
             if (citizenMessage == null)
@@ -87,17 +56,17 @@
                 return;
             }
 
-            logger.Info("Message id: " + citizenMessage.m_messageID);
+            logger.Info("Is citizen message: Id: {0} tag: {1}, key: {2}, sender id: {3}, sender name: {4}",
+                citizenMessage.m_messageID, citizenMessage.m_tag, citizenMessage.m_keyID, citizenMessage.senderID,
+                citizenMessage.senderName);
 
-            if (AllowedMessages.Contains(citizenMessage.m_messageID))
+            if (filteredMessages.Contains(citizenMessage.m_messageID))
             {
-                return;
+                logger.Info("Message marked for removal");
+
+                MessagesToRemove.Add(message);
+                chirpPanel.RemoveNotificationSound();
             }
-
-            logger.Info("Message marked for removal");
-
-            MessagesToRemove.Add(message);
-            chirpPanel.RemoveNotificationSound();
         }
 
         public void RemovePendingMessages(AudioClip notificationSound)
@@ -123,6 +92,17 @@
         public void SetCounter(UILabel counterLabel)
         {
             chirpPanel.SetCounter(counterLabel);
+        }
+
+        private void GetChirpsForSetting(string settingKeys, IEnumerable<string> messages)
+        {
+            if (ModConfig.Get(settingKeys))
+            {
+                foreach (var message in messages)
+                {
+                    filteredMessages.Add(message);
+                }
+            }
         }
     }
 }

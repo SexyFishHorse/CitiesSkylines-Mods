@@ -59,8 +59,11 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="BirdcageUserMod.cs" />
+    <Compile Include="LoadingExtension.cs" />
+    <Compile Include="UserMod.cs" />
+    <Compile Include="ChirperExtension.cs" />
     <Compile Include="ChirperUtils.cs" />
+    <Compile Include="Chirps.cs" />
     <Compile Include="Services\FilterService.cs" />
     <Compile Include="Services\InputService.cs" />
     <Compile Include="ModConfig.cs" />

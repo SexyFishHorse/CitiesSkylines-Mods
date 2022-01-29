@@ -1,11 +1,14 @@
 ﻿namespace SexyFishHorse.CitiesSkylines.Birdcage
 {
     using System;
+    using ColossalFramework.Globalization;
+    using ColossalFramework.UI;
     using ICities;
     using SexyFishHorse.CitiesSkylines.Birdcage.Services;
     using SexyFishHorse.CitiesSkylines.Infrastructure.UI;
     using SexyFishHorse.CitiesSkylines.Infrastructure.UI.Configuration;
-    using SexyFishHorse.CitiesSkylines.Logger;
+    using SexyFishHorse.CitiesSkylines.Infrastructure.UI.Extensions;
+    using ILogger = SexyFishHorse.CitiesSkylines.Logger.ILogger;
 
     public class OptionsPanelManager : IOptionsPanelManager
     {
@@ -13,41 +16,134 @@
 
         private readonly PositionService positionService;
 
+        private static UIButton resetPositionButton;
+        private static IChirper chirper;
+
         public OptionsPanelManager(ILogger logger, PositionService positionService)
         {
             this.logger = logger;
             this.positionService = positionService;
         }
 
-        public IChirper Chirper { get; set; }
+        public static IChirper Chirper
+        {
+            get
+            {
+                return chirper;
+            }
+            set
+            {
+                chirper = value;
+
+                if (resetPositionButton != null)
+                {
+                    if (chirper == null)
+                    {
+                        resetPositionButton.isEnabled = false;
+                        resetPositionButton.tooltip = "Only available while in game";
+                    }
+                    else
+                    {
+                        resetPositionButton.isEnabled = true;
+                        resetPositionButton.tooltip = null;
+                    }
+                }
+            }
+        }
 
         public void ConfigureOptionsPanel(IStronglyTypedUIHelper uiHelper)
         {
             try
             {
-                var appearanceGroup = uiHelper.AddGroup("Appearance");
-                var behaviourGroup = uiHelper.AddGroup("Behaviour");
-                var debugGroup = uiHelper.AddGroup("Debugging");
-
-                appearanceGroup.AddCheckBox("Hide chirper", ModConfig.Instance.GetSetting<bool>(SettingKeys.HideChirper), ToggleChirper);
-                appearanceGroup.AddCheckBox(
-                    "Make Chirper draggable (hold ctrl + left mouse button)",
-                    ModConfig.Instance.GetSetting<bool>(SettingKeys.Draggable),
-                    ToggleDraggable);
-                appearanceGroup.AddSpace(10);
-                appearanceGroup.AddButton("Reset Chirper position", ResetPosition);
-
-                behaviourGroup.AddCheckBox(
-                    "Filter non-important messages",
-                    ModConfig.Instance.GetSetting<bool>(SettingKeys.FilterMessages),
-                    ToggleFilter);
-
-                debugGroup.AddCheckBox("Enable logging", ModConfig.Instance.GetSetting<bool>(SettingKeys.EnableLogging), ToggleLogging);
+                AddAppearanceSettings(uiHelper);
+                AddBehaviourSettings(uiHelper);
+                AddDebugSettings(uiHelper);
             }
             catch (Exception ex)
             {
                 logger.LogException(ex);
             }
+        }
+
+        private static void AddCheckBox(IStronglyTypedUIHelper group, string label, string settingKey, string localeId)
+        {
+            group.AddCheckBox(
+                    label,
+                    ModConfig.Get(settingKey),
+                    isChecked => ModConfig.Save(settingKey, isChecked))
+                .WithTooltipLocaleId(localeId);
+        }
+
+        private void AddBehaviourSettings(IStronglyTypedUIHelper uiHelper)
+        {
+            var group = uiHelper.AddGroup("Filter chirps");
+            group.AddLabel("Mouse over each setting to see an example of each chirp");
+
+            group.AddSpace(25);
+
+            group.AddLabel("Triggered at random to make the city feel alive");
+            AddCheckBox(group,
+                "Pointless random chirps",
+                SettingKeys.FilterPointlessChirps, LocaleID.CHIRP_RANDOM_EXP8);
+            group.AddSpace();
+
+            group.AddLabel("Triggered when you build or unlock buildings");
+            AddCheckBox(group,
+                "First time a service building is built",
+                SettingKeys.FilterFirstTypeOfServiceBuilt, LocaleID.CHIRP_FIRST_AIRPORT);
+            AddCheckBox(group, "When subsequent service buildings are built",
+                SettingKeys.FilterServiceBuilt, LocaleID.CHIRP_NEW_PARK);
+            AddCheckBox(group, "Fishery buildings unlocked", SettingKeys.FilterFishingBuildingUnlocked,
+                LocaleID.CHIRP_FISHING_BOAT_HARBOR_04_UNLOCKED);
+            group.AddSpace();
+
+            group.AddLabel("Events that happen in your city");
+            AddCheckBox(group, "Varsity sports matches", SettingKeys.FilterVarsitySportsMatches,
+                LocaleID.VARSITYSPORTSCHIRP_WIN);
+            AddCheckBox(group, "Football matches", SettingKeys.FilterFootballMatches, LocaleID.FOOTBALLCHIRP_LOSE);
+            AddCheckBox(group, "Concerts", SettingKeys.FilterConcerts, LocaleID.CHIRP_BAND_MOTI);
+            AddCheckBox(group, "ChirpX launches", SettingKeys.FilterChirpXLaunches, LocaleID.CHIRP_LAUNCH);
+            group.AddSpace();
+
+            AddCheckBox(group, "Celebrations (high attractiveness, milestone reached etc.)",
+                SettingKeys.FilterCelebrations, LocaleID.CHIRP_ATTRACTIVE_CITY);
+            group.AddSpace();
+
+            group.AddLabel("If you feel the notification icons are more than enough");
+            AddCheckBox(group, "City problems (high crime, no power etc.)", SettingKeys.FilterCityProblems,
+                LocaleID.CHIRP_NO_WATER);
+
+            group.AddSpace();
+
+            group.AddLabel("Uncategorized chirps:");
+
+            foreach (var chirp in Chirps.Uncategorized)
+            {
+                group.AddTextField(chirp, Locale.Get(chirp), text => { }, text => { })
+                    .AsWideAsGroup(group);
+            }
+        }
+
+        private void AddAppearanceSettings(IStronglyTypedUIHelper uiHelper)
+        {
+            var group = uiHelper.AddGroup("Appearance");
+            group.AddCheckBox("Hide Chirper", ModConfig.Instance.GetSetting<bool>(SettingKeys.HideChirper),
+                ToggleChirper);
+            group.AddCheckBox(
+                "Make Chirper draggable (hold ctrl + left mouse button)",
+                ModConfig.Instance.GetSetting<bool>(SettingKeys.Draggable),
+                ToggleDraggable);
+
+                group.AddSpace();
+                resetPositionButton = group.AddButton("Reset Chirper position", ResetPosition).WithTooltip("Only available while in game");
+                resetPositionButton.isEnabled = false;
+        }
+
+        private void AddDebugSettings(IStronglyTypedUIHelper uiHelper)
+        {
+            var group = uiHelper.AddGroup("Debugging");
+            group.AddCheckBox("Enable logging", ModConfig.Instance.GetSetting<bool>(SettingKeys.EnableLogging),
+                ToggleLogging);
         }
 
         private void ResetPosition()
@@ -87,18 +183,6 @@
             }
 
             ModConfig.Instance.SaveSetting(SettingKeys.Draggable, isDraggable);
-        }
-
-        private void ToggleFilter(bool shouldFilter)
-        {
-            try
-            {
-                ModConfig.Instance.SaveSetting(SettingKeys.FilterMessages, shouldFilter);
-            }
-            catch (Exception ex)
-            {
-                logger.LogException(ex);
-            }
         }
 
         private void ToggleLogging(bool loggingEnabled)

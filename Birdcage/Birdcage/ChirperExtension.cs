@@ -1,4 +1,4 @@
-﻿namespace SexyFishHorse.CitiesSkylines.Birdcage
+namespace SexyFishHorse.CitiesSkylines.Birdcage
 {
     using System;
     using System.Linq;
@@ -6,15 +6,12 @@
     using ICities;
     using SexyFishHorse.CitiesSkylines.Birdcage.Services;
     using SexyFishHorse.CitiesSkylines.Birdcage.Wrappers;
-    using SexyFishHorse.CitiesSkylines.Infrastructure;
     using UnityEngine;
     using ILogger = SexyFishHorse.CitiesSkylines.Logger.ILogger;
-    using UnityObject = UnityEngine.Object;
+    using Object = UnityEngine.Object;
 
-    public class BirdcageUserMod : UserModBase, IChirperExtension
+    public class ChirperExtension : IChirperExtension
     {
-        public const string ModName = "Birdcage";
-
         private readonly FilterService filterService;
 
         private readonly InputService inputService;
@@ -31,31 +28,14 @@
 
         private bool initialized;
 
-        public BirdcageUserMod()
+        public ChirperExtension()
         {
             logger = BirdcageLogger.Instance;
 
             filterService = new FilterService(new ChirpPanelWrapper(), logger, new MessageManagerWrapper());
             inputService = new InputService();
-            positionService = new PositionService();
 
-            OptionsPanelManager = new OptionsPanelManager(logger, positionService);
-        }
-
-        public override string Description
-        {
-            get
-            {
-                return "More Chirper controls";
-            }
-        }
-
-        public override string Name
-        {
-            get
-            {
-                return ModName;
-            }
+            positionService = PositionService.Instance;
         }
 
         public AudioClip NotificationSound { get; set; }
@@ -65,10 +45,11 @@
             try
             {
                 chirperWrapper = chirper;
-                ((OptionsPanelManager)OptionsPanelManager).Chirper = chirper;
-                chirpButton = UnityObject.FindObjectsOfType<UIButton>().FirstOrDefault(x => x.name == "Zone");
+                OptionsPanelManager.Chirper = chirper;
 
-                var counterLabel = UnityObject.FindObjectsOfType<UILabel>().FirstOrDefault(x => x.name == "Counter");
+                chirpButton = Object.FindObjectsOfType<UIButton>().FirstOrDefault(x => x.name == "Zone");
+
+                var counterLabel = Object.FindObjectsOfType<UILabel>().FirstOrDefault(x => x.name == "Counter");
                 filterService.SetCounter(counterLabel);
             }
             catch (Exception ex)
@@ -87,7 +68,7 @@
         {
             try
             {
-                if (ModConfig.Instance.GetSetting<bool>(SettingKeys.FilterMessages))
+                if (ModConfig.FilterMessages)
                 {
                     filterService.HandleNewMessage(message);
                 }
@@ -116,17 +97,17 @@
                     return;
                 }
 
-                if (ModConfig.Instance.GetSetting<bool>(SettingKeys.HideChirper))
+                if (ModConfig.Get(SettingKeys.HideChirper))
                 {
                     return;
                 }
 
-                if (ModConfig.Instance.GetSetting<bool>(SettingKeys.FilterMessages))
+                if (ModConfig.FilterMessages)
                 {
                     filterService.RemovePendingMessages(NotificationSound);
                 }
 
-                if (ModConfig.Instance.GetSetting<bool>(SettingKeys.Draggable))
+                if (ModConfig.Get(SettingKeys.Draggable))
                 {
                     ProcessDragging();
                 }
@@ -153,11 +134,11 @@
 
             NotificationSound = ChirpPanel.instance.m_NotificationSound;
 
-            if (ModConfig.Instance.GetSetting<bool>(SettingKeys.Draggable))
+            if (ModConfig.Get(SettingKeys.Draggable))
             {
                 chirperWrapper.SetBuiltinChirperFree(true);
 
-                if (ModConfig.Instance.GetSetting<int>(SettingKeys.ChirperPositionX) > 0)
+                if (ModConfig.Get<int>(SettingKeys.ChirperPositionX) > 0)
                 {
                     var chirperX = ModConfig.Instance.GetSetting<int>(SettingKeys.ChirperPositionX);
                     var chirperY = ModConfig.Instance.GetSetting<int>(SettingKeys.ChirperPositionY);

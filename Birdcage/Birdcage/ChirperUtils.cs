@@ -1,5 +1,6 @@
 ﻿namespace SexyFishHorse.CitiesSkylines.Birdcage
 {
+    using System.Collections.Generic;
     using System.Reflection;
     using ColossalFramework.UI;
 
@@ -13,7 +14,7 @@
                 return;
             }
 
-            if (!ChirpPanel.instance.isShowing)
+            if (ChirpPanel.instance.isShowing == false)
             {
                 return;
             }
