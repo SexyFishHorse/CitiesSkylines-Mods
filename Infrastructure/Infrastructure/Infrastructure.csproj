@@ -76,6 +76,10 @@
     <Compile Include="IUserModWithOptions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Common\Tuple.cs" />
+    <Compile Include="UI\Extensions\TextFieldExtensions.cs" />
+    <Compile Include="UI\Extensions\UIComponentExtensions.cs" />
+    <Compile Include="UI\Extensions\UIDropDownExtensions.cs" />
+    <Compile Include="UI\Extensions\UILabelExtensions.cs" />
     <Compile Include="UI\Extensions\UISliderExtensions.cs" />
     <Compile Include="UI\IStronglyTypedUiHelper.cs">
       <DependentUpon>StronglyTypedUIHelper.cs</DependentUpon>

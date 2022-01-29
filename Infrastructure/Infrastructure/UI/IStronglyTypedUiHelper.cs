@@ -8,7 +8,9 @@
     public interface IStronglyTypedUIHelper
     {
         [NotNull]
-        UIHelperBase UiHelper { get; }
+        UIHelperBase UiHelperBase { get; }
+
+        UIComponent Component { get; }
 
         [NotNull]
         UIButton AddButton([NotNull] string label, [NotNull] OnButtonClicked buttonClickedEvent);
@@ -17,9 +19,8 @@
         UICheckBox AddCheckBox([NotNull] string label, bool isChecked, [NotNull] OnCheckChanged checkChangedEvent);
 
         [NotNull]
-        UIDropDown AddDropDown(
-            [NotNull] string label,
-            [NotNull] string[] values,
+        UIDropDown AddDropDown([NotNull] string label,
+            [NotNull] string[] options,
             int selectedIndex,
             [NotNull] OnDropdownSelectionChanged selectionChangedEvent);
 
@@ -39,8 +40,7 @@
         UIPanel AddSpace(int height);
 
         [NotNull]
-        UITextField AddTextField(
-            [NotNull] string label,
+        UITextField AddTextField([NotNull] string label,
             string value,
             OnTextChanged textChangedEvent,
             OnTextSubmitted textSubmittedEvent);

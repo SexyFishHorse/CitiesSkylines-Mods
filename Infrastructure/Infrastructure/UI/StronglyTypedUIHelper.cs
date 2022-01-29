@@ -1,5 +1,7 @@
 ﻿namespace SexyFishHorse.CitiesSkylines.Infrastructure.UI
 {
+    using System;
+    using System.Reflection;
     using ColossalFramework.UI;
     using ICities;
     using JetBrains.Annotations;
@@ -8,19 +10,28 @@
     [UsedImplicitly(ImplicitUseTargetFlags.WithMembers)]
     public class StronglyTypedUIHelper : IStronglyTypedUIHelper
     {
-        public StronglyTypedUIHelper([NotNull] UIHelperBase uiHelper)
+        public StronglyTypedUIHelper([NotNull] UIHelperBase uiHelperBase)
         {
-            UiHelper = uiHelper;
+            UiHelperBase = uiHelperBase;
+            var field = uiHelperBase.GetType().GetField("m_Root", BindingFlags.NonPublic | BindingFlags.Instance);
+            if (field == null)
+            {
+                throw new InvalidOperationException("The field \"m_Root\" was not found on the UIHelperBase.");
+            }
+
+            Component = (UIComponent)field.GetValue(uiHelperBase);
         }
 
-        public UIHelperBase UiHelper { get; private set; }
+        public UIHelperBase UiHelperBase { get; private set; }
+
+        public UIComponent Component { get; private set; }
 
         public UIButton AddButton(string label, OnButtonClicked buttonClickedEvent)
         {
             label.ShouldNotBeNullOrEmpty("label");
             buttonClickedEvent.ShouldNotBeNull("buttonClickedEvent");
 
-            return (UIButton)UiHelper.AddButton(label, buttonClickedEvent);
+            return (UIButton)UiHelperBase.AddButton(label, buttonClickedEvent);
         }
 
         public UICheckBox AddCheckBox(string label, bool isChecked, OnCheckChanged checkChangedEvent)
@@ -28,25 +39,24 @@
             label.ShouldNotBeNullOrEmpty("label");
             checkChangedEvent.ShouldNotBeNull("checkChangedEvent");
 
-            return (UICheckBox)UiHelper.AddCheckbox(label, isChecked, checkChangedEvent);
+            return (UICheckBox)UiHelperBase.AddCheckbox(label, isChecked, checkChangedEvent);
         }
 
-        public UIDropDown AddDropDown(
-            string label,
-            string[] values,
+        public UIDropDown AddDropDown(string label,
+            string[] options,
             int selectedIndex,
             OnDropdownSelectionChanged selectionChangedEvent)
         {
             label.ShouldNotBeNullOrEmpty("label");
-            values.ShouldNotBeNullOrEmpty("values");
+            options.ShouldNotBeNullOrEmpty("options");
             selectionChangedEvent.ShouldNotBeNull("selectionChangedEvent");
 
-            return (UIDropDown)UiHelper.AddDropdown(label, values, selectedIndex, selectionChangedEvent);
+            return (UIDropDown)UiHelperBase.AddDropdown(label, options, selectedIndex, selectionChangedEvent);
         }
 
         public StronglyTypedUIHelper AddGroup(string label)
         {
-            return new StronglyTypedUIHelper(UiHelper.AddGroup(label));
+            return new StronglyTypedUIHelper(UiHelperBase.AddGroup(label));
         }
 
         public UISlider AddSlider(
@@ -64,25 +74,24 @@
             value.ShouldBeLessThanOrEqualTo(maximumValue, "value");
             valueChangedEvent.ShouldNotBeNull("valueChangedEvent");
 
-            return (UISlider)UiHelper.AddSlider(label, minimumValue, maximumValue, step, value, valueChangedEvent);
+            return (UISlider)UiHelperBase.AddSlider(label, minimumValue, maximumValue, step, value, valueChangedEvent);
         }
 
-        public UIPanel AddSpace(int height)
+        public UIPanel AddSpace(int height = 10)
         {
             height.ShouldBeGreaterThanZero("height");
 
-            return (UIPanel)UiHelper.AddSpace(height);
+            return (UIPanel)UiHelperBase.AddSpace(height);
         }
 
-        public UITextField AddTextField(
-            string label,
+        public UITextField AddTextField(string label,
             string value,
             OnTextChanged textChangedEvent,
             OnTextSubmitted textSubmittedEvent)
         {
             label.ShouldNotBeNullOrEmpty("label");
 
-            return (UITextField)UiHelper.AddTextfield(label, value, textChangedEvent, textSubmittedEvent);
+            return (UITextField)UiHelperBase.AddTextfield(label, value, textChangedEvent, textSubmittedEvent);
         }
     }
 }
