@@ -37,5 +37,10 @@ namespace SexyFishHorse.CitiesSkylines.Infrastructure.DependencyInjection
         {
             return provider.Add(typeof(TImplementation), typeof(TImplementation), ServiceLifetime.Transient);
         }
+
+        public static IServiceProvider Add<TAbstraction>(this IServiceProvider provider, TAbstraction implementation)
+        {
+            return provider.Add(typeof(TAbstraction), implementation);
+        }
     }
 }

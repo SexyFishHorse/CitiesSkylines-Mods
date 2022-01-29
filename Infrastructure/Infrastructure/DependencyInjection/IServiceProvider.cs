@@ -7,5 +7,7 @@ namespace SexyFishHorse.CitiesSkylines.Infrastructure.DependencyInjection
         IServiceProvider Add(Type abstraction, Type implementation, ServiceLifetime lifetime);
 
         TImplementation GetService<TImplementation>();
+
+        IServiceProvider Add(Type abstraction, object implementation);
     }
 }

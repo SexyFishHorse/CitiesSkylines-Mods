@@ -26,6 +26,20 @@ namespace SexyFishHorse.CitiesSkylines.Infrastructure.DependencyInjection
             }
         }
 
+        public IServiceProvider Add(Type abstraction, object implementation)
+        {
+            if (abstraction.IsInstanceOfType(implementation) == false)
+            {
+                throw new ArgumentException(
+                    "The implementation " + implementation.GetType().FullName + " is not assignable to " +
+                    abstraction.FullName);
+            }
+
+            serviceCache.Add(abstraction, implementation);
+
+            return this;
+        }
+
         public IServiceProvider Add(Type abstraction, Type implementation, ServiceLifetime lifetime)
         {
             if (abstraction != implementation)
