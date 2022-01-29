@@ -3,7 +3,7 @@
     using System;
     using ColossalFramework.Plugins;
 
-    public class ConsoleOutput : LogOutputBase
+    public class DebugPanelOutput : LogOutputBase
     {
         public override void Dispose()
         {

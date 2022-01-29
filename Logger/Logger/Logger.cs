@@ -11,7 +11,7 @@
         private readonly IList<LogOutputBase> logOutputs;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="Logger"/> class which logs to both the in-game console and to a <see cref="loggerName"/>.log 
+        /// Initializes a new instance of the <see cref="Logger"/> class which logs to both the in-game console and to a <see cref="loggerName"/>.log
         /// file in the %LocalAppData%\Colossal Order\Cities_Skylines\Logs\ folder (The folder will be automatically created).
         /// </summary>
         /// <param name="loggerName">The name of the logger. This will be used for the filename for the log as well.</param>
@@ -20,7 +20,7 @@
             Directory.CreateDirectory(GetLogFolderPath());
             var path = Path.Combine(GetLogFolderPath(), string.Format("{0}.log", loggerName));
 
-            logOutputs = new List<LogOutputBase> { /*new ConsoleOutput(),*/ new FileOutput(path), new DebugOutput() };
+            logOutputs = new List<LogOutputBase> { new DebugPanelOutput(), new FileOutput(path), new DebugOutput() };
         }
 
         /// <summary>
