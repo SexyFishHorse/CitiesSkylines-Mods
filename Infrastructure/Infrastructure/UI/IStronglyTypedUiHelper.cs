@@ -1,5 +1,6 @@
 ﻿namespace SexyFishHorse.CitiesSkylines.Infrastructure.UI
 {
+    using System.Collections.Generic;
     using ColossalFramework.UI;
     using ICities;
     using JetBrains.Annotations;
@@ -20,7 +21,7 @@
 
         [NotNull]
         UIDropDown AddDropDown([NotNull] string label,
-            [NotNull] string[] options,
+            [NotNull] ICollection<string> options,
             int selectedIndex,
             [NotNull] OnDropdownSelectionChanged selectionChangedEvent);
 

@@ -1,6 +1,8 @@
 ﻿namespace SexyFishHorse.CitiesSkylines.Infrastructure.UI
 {
     using System;
+    using System.Collections.Generic;
+    using System.Linq;
     using System.Reflection;
     using ColossalFramework.UI;
     using ICities;
@@ -43,7 +45,7 @@
         }
 
         public UIDropDown AddDropDown(string label,
-            string[] options,
+            ICollection<string> options,
             int selectedIndex,
             OnDropdownSelectionChanged selectionChangedEvent)
         {
@@ -51,7 +53,7 @@
             options.ShouldNotBeNullOrEmpty("options");
             selectionChangedEvent.ShouldNotBeNull("selectionChangedEvent");
 
-            return (UIDropDown)UiHelperBase.AddDropdown(label, options, selectedIndex, selectionChangedEvent);
+            return (UIDropDown)UiHelperBase.AddDropdown(label, options.ToArray(), selectedIndex, selectionChangedEvent);
         }
 
         public StronglyTypedUIHelper AddGroup(string label)

@@ -2,6 +2,7 @@
 {
     using System;
     using System.Collections.Generic;
+    using System.Linq;
     using ColossalFramework.PlatformServices;
     using Infrastructure.UI;
     using Infrastructure.UI.Configuration;
@@ -9,7 +10,14 @@
 
     public class OptionsPanelManager : IOptionsPanelManager
     {
-        private static readonly List<string> Positions = new List<string> { "Bottom right", "Bottom left", "Top right", "Top left", };
+        private static readonly IDictionary<string, NotificationPosition> Positions =
+            new Dictionary<string, NotificationPosition>
+            {
+                { "Bottom right", NotificationPosition.BottomRight },
+                { "Bottom left", NotificationPosition.BottomLeft },
+                { "Top right", NotificationPosition.TopRight },
+                { "Top left", NotificationPosition.TopLeft },
+            };
 
         private readonly ILogger logger;
 
@@ -29,15 +37,17 @@
 
                 appearance.AddDropDown(
                     "Popup position",
-                    Positions.ToArray(),
+                    Positions.Keys,
                     ModConfig.Instance.GetSetting<int>(SettingKeys.PopupPosition),
                     PositionChanged);
 
                 var behaviour = uiHelper.AddGroup("Behaviour");
-                behaviour.AddCheckBox("Enable achievements", ModConfig.Instance.GetSetting<bool>(SettingKeys.EnableAchievements), AchievementStatusChanged);
+                behaviour.AddCheckBox("Enable achievements",
+                    ModConfig.Instance.GetSetting<bool>(SettingKeys.EnableAchievements), AchievementStatusChanged);
 
                 var debugging = uiHelper.AddGroup("Debugging");
-                debugging.AddCheckBox("Enable logging", ModConfig.Instance.GetSetting<bool>(SettingKeys.EnableLogging), EnableLoggingChanged);
+                debugging.AddCheckBox("Enable logging", ModConfig.Instance.GetSetting<bool>(SettingKeys.EnableLogging),
+                    EnableLoggingChanged);
 
                 logger.Info("OnSettingsUi");
             }
@@ -89,26 +99,7 @@
         {
             try
             {
-                NotificationPosition position;
-                switch (Positions[selectedIndex].ToLower())
-                {
-                    case "top right":
-                        position = NotificationPosition.TopRight;
-
-                        break;
-                    case "top left":
-                        position = NotificationPosition.TopLeft;
-
-                        break;
-                    case "bottom left":
-                        position = NotificationPosition.BottomLeft;
-
-                        break;
-                    default:
-                        position = NotificationPosition.BottomRight;
-
-                        break;
-                }
+                var position = Positions[Positions.Keys.ToList()[selectedIndex]];
 
                 ModConfig.Instance.SaveSetting(SettingKeys.PopupPosition, (int)position);
 
