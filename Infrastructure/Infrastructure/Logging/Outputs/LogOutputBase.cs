@@ -20,6 +20,6 @@ namespace SexyFishHorse.CitiesSkylines.Infrastructure.Logging.Outputs
 
         protected abstract void LogMessage(PluginManager.MessageType messageType, string message);
 
-        public abstract void LogException(Exception ex);
+        public abstract void LogException(Exception ex, string message = null, params object[] args);
     }
 }

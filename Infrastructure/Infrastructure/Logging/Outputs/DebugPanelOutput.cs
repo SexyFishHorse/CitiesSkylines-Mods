@@ -16,8 +16,13 @@
             DebugOutputPanel.AddMessage(messageType, message);
         }
 
-        public override void LogException(Exception ex)
+        public override void LogException(Exception ex, string message = null, params object[] args)
         {
+            if (string.IsNullOrEmpty(message) == false)
+            {
+                LogMessage(PluginManager.MessageType.Error, string.Format(message, args));
+            }
+
             LogMessage(PluginManager.MessageType.Error, ex.Message);
             LogMessage(PluginManager.MessageType.Error, ex.StackTrace);
         }

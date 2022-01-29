@@ -66,13 +66,13 @@
             }
         }
 
-        public void LogException(Exception exception)
+        public void LogException(Exception exception, string message = null, params object[] args)
         {
             EnsureNotDisposed();
 
             if (LoggingEnabled)
             {
-                logger.LogException(exception);
+                logger.LogException(exception, message, args);
             }
         }
 

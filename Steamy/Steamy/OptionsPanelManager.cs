@@ -48,8 +48,6 @@
                 var debugging = uiHelper.AddGroup("Debugging");
                 debugging.AddCheckBox("Enable logging", ModConfig.Instance.GetSetting<bool>(SettingKeys.EnableLogging),
                     EnableLoggingChanged);
-
-                logger.Info("OnSettingsUi");
             }
             catch (Exception ex)
             {

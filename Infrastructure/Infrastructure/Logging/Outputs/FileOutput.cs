@@ -2,6 +2,7 @@ namespace SexyFishHorse.CitiesSkylines.Infrastructure.Logging.Outputs
 {
     using System;
     using System.IO;
+    using System.Linq;
     using ColossalFramework.Plugins;
 
     public class FileOutput : LogOutputBase
@@ -19,8 +20,13 @@ namespace SexyFishHorse.CitiesSkylines.Infrastructure.Logging.Outputs
             streamWriter.Dispose();
         }
 
-        public override void LogException(Exception ex)
+        public override void LogException(Exception ex, string message = null, params object[] args)
         {
+            if (string.IsNullOrEmpty(message) == false)
+            {
+                LogMessage(PluginManager.MessageType.Error, string.Format(message, args ?? Enumerable.Empty<object>()));
+            }
+
             LogMessage(PluginManager.MessageType.Error, ex.Message);
             LogMessage(PluginManager.MessageType.Error, ex.StackTrace);
         }

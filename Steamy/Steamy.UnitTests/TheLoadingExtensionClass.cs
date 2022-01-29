@@ -36,7 +36,7 @@ namespace SexyFishHorse.CitiesSkylines.Steamy.UnitTests
 
                 act.Should().Throw<Exception>();
 
-                logger.Verify(x => x.LogException(It.IsAny<Exception>()), Times.Once);
+                logger.Verify(x => x.LogException(It.IsAny<Exception>(), It.IsAny<string>(), It.IsAny<object[]>()), Times.Once);
             }
 
             [Fact]

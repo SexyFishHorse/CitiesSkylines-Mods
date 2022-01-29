@@ -67,11 +67,11 @@
             }
         }
 
-        public void LogException(Exception ex)
+        public void LogException(Exception ex, string message = null, params object[] args)
         {
             foreach (var output in logOutputs)
             {
-                output.LogException(ex);
+                output.LogException(ex, message, args);
             }
         }
 

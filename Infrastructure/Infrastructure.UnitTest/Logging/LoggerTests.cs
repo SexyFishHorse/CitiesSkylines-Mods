@@ -1,4 +1,4 @@
-﻿namespace SexyFishHorse.CitiesSkylines.Logger.UnitTest.Logger
+﻿namespace SexyFishHorse.CitiesSkylines.Infrastructure.UnitTest.Logging
 {
     using System;
     using System.Linq;

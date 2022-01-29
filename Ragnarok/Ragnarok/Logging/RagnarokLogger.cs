@@ -10,7 +10,7 @@
     {
         private static ILogger internalLogger;
 
-        private ILogger logger;
+        private readonly ILogger logger;
 
         private RagnarokLogger()
         {
@@ -21,7 +21,8 @@
             }
             catch (Exception ex)
             {
-                DebugOutputPanel.AddMessage(PluginManager.MessageType.Error, "[Ragnarok][RagnarokLogger]: " + ex.Message);
+                DebugOutputPanel.AddMessage(
+                    PluginManager.MessageType.Error, "[Ragnarok][RagnarokLogger]: " + ex.Message);
             }
         }
 
@@ -49,7 +50,8 @@
             }
             catch (Exception ex)
             {
-                DebugOutputPanel.AddMessage(PluginManager.MessageType.Error, "[Ragnarok][RagnarokLogger.Error] ERROR: " + ex.Message);
+                DebugOutputPanel.AddMessage(
+                    PluginManager.MessageType.Error, "[Ragnarok][RagnarokLogger.Error] ERROR: " + ex.Message);
             }
         }
 
@@ -66,7 +68,8 @@
             }
             catch (Exception ex)
             {
-                DebugOutputPanel.AddMessage(PluginManager.MessageType.Error, "[Ragnarok][RagnarokLogger.Info] ERROR: " + ex.Message);
+                DebugOutputPanel.AddMessage(
+                    PluginManager.MessageType.Error, "[Ragnarok][RagnarokLogger.Info] ERROR: " + ex.Message);
             }
         }
 
@@ -84,19 +87,21 @@
             }
             catch (Exception ex)
             {
-                DebugOutputPanel.AddMessage(PluginManager.MessageType.Error, "[Ragnarok][RagnarokLogger.Log] ERROR: " + ex.Message);
+                DebugOutputPanel.AddMessage(
+                    PluginManager.MessageType.Error, "[Ragnarok][RagnarokLogger.Log] ERROR: " + ex.Message);
             }
         }
 
-        public void LogException(Exception exception)
+        public void LogException(Exception exception, string message = null, params object[] args)
         {
             try
             {
-                logger.LogException(exception);
+                logger.LogException(exception, message, args);
             }
             catch (Exception ex)
             {
-                DebugOutputPanel.AddMessage(PluginManager.MessageType.Error, "[Ragnarok][RagnarokLogger.LogException] ERROR: " + ex.Message);
+                DebugOutputPanel.AddMessage(
+                    PluginManager.MessageType.Error, "[Ragnarok][RagnarokLogger.LogException] ERROR: " + ex.Message);
             }
         }
 
@@ -114,7 +119,8 @@
             }
             catch (Exception ex)
             {
-                DebugOutputPanel.AddMessage(PluginManager.MessageType.Error, "[Ragnarok][RagnarokLogger.Warn] ERROR: " + ex.Message);
+                DebugOutputPanel.AddMessage(
+                    PluginManager.MessageType.Error, "[Ragnarok][RagnarokLogger.Warn] ERROR: " + ex.Message);
             }
         }
     }

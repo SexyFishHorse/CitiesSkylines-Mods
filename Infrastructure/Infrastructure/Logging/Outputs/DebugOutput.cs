@@ -1,6 +1,7 @@
 ﻿namespace SexyFishHorse.CitiesSkylines.Infrastructure.Logging.Outputs
 {
     using System;
+    using System.Linq;
     using ColossalFramework.Plugins;
     using UnityEngine;
 
@@ -10,8 +11,13 @@
         {
         }
 
-        public override void LogException(Exception ex)
+        public override void LogException(Exception ex, string message = null, params object[] args)
         {
+            if(string.IsNullOrEmpty(message) == false)
+            {
+                Debug.LogErrorFormat(message, args ?? Enumerable.Empty<object>());
+            }
+
             Debug.LogException(ex);
         }
 
