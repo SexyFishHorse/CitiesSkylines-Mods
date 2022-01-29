@@ -8,16 +8,19 @@
     using SexyFishHorse.CitiesSkylines.Infrastructure.UI;
     using SexyFishHorse.CitiesSkylines.Infrastructure.UI.Configuration;
     using SexyFishHorse.CitiesSkylines.Infrastructure.UI.Extensions;
-    using ILogger = SexyFishHorse.CitiesSkylines.Logger.ILogger;
+    using SexyFishHorse.CitiesSkylines.Logger;
 
     public class OptionsPanelManager : IOptionsPanelManager
     {
+        private const string ResetPositionButtonTooltip = "Only available while in game";
+
+        private static UIButton resetPositionButton;
+
+        private static IChirper chirper;
+
         private readonly ILogger logger;
 
         private readonly PositionService positionService;
-
-        private static UIButton resetPositionButton;
-        private static IChirper chirper;
 
         public OptionsPanelManager(ILogger logger, PositionService positionService)
         {
@@ -31,22 +34,17 @@
             {
                 return chirper;
             }
+
             set
             {
                 chirper = value;
 
                 if (resetPositionButton != null)
                 {
-                    if (chirper == null)
-                    {
-                        resetPositionButton.isEnabled = false;
-                        resetPositionButton.tooltip = "Only available while in game";
-                    }
-                    else
-                    {
-                        resetPositionButton.isEnabled = true;
-                        resetPositionButton.tooltip = null;
-                    }
+                    var enable = chirper != null;
+
+                    resetPositionButton.isEnabled = enable;
+                    resetPositionButton.tooltip = enable ? ResetPositionButtonTooltip : null;
                 }
             }
         }
@@ -74,7 +72,7 @@
                 .WithTooltipLocaleId(localeId);
         }
 
-        private void AddBehaviourSettings(IStronglyTypedUIHelper uiHelper)
+        private static void AddBehaviourSettings(IStronglyTypedUIHelper uiHelper)
         {
             var group = uiHelper.AddGroup("Filter chirps");
             group.AddLabel("Mouse over each setting to see an example of each chirp");
@@ -82,35 +80,42 @@
             group.AddSpace(25);
 
             group.AddLabel("Triggered at random to make the city feel alive");
-            AddCheckBox(group,
+            AddCheckBox(
+                group,
                 "Pointless random chirps",
                 SettingKeys.FilterPointlessChirps, LocaleID.CHIRP_RANDOM_EXP8);
             group.AddSpace();
 
             group.AddLabel("Triggered when you build or unlock buildings");
-            AddCheckBox(group,
+            AddCheckBox(
+                group,
                 "First time a service building is built",
                 SettingKeys.FilterFirstTypeOfServiceBuilt, LocaleID.CHIRP_FIRST_AIRPORT);
-            AddCheckBox(group, "When subsequent service buildings are built",
+            AddCheckBox(
+                group, "When subsequent service buildings are built",
                 SettingKeys.FilterServiceBuilt, LocaleID.CHIRP_NEW_PARK);
-            AddCheckBox(group, "Fishery buildings unlocked", SettingKeys.FilterFishingBuildingUnlocked,
+            AddCheckBox(
+                group, "Fishery buildings unlocked", SettingKeys.FilterFishingBuildingUnlocked,
                 LocaleID.CHIRP_FISHING_BOAT_HARBOR_04_UNLOCKED);
             group.AddSpace();
 
             group.AddLabel("Events that happen in your city");
-            AddCheckBox(group, "Varsity sports matches", SettingKeys.FilterVarsitySportsMatches,
+            AddCheckBox(
+                group, "Varsity sports matches", SettingKeys.FilterVarsitySportsMatches,
                 LocaleID.VARSITYSPORTSCHIRP_WIN);
             AddCheckBox(group, "Football matches", SettingKeys.FilterFootballMatches, LocaleID.FOOTBALLCHIRP_LOSE);
             AddCheckBox(group, "Concerts", SettingKeys.FilterConcerts, LocaleID.CHIRP_BAND_MOTI);
             AddCheckBox(group, "ChirpX launches", SettingKeys.FilterChirpXLaunches, LocaleID.CHIRP_LAUNCH);
             group.AddSpace();
 
-            AddCheckBox(group, "Celebrations (high attractiveness, milestone reached etc.)",
+            AddCheckBox(
+                group, "Celebrations (high attractiveness, milestone reached etc.)",
                 SettingKeys.FilterCelebrations, LocaleID.CHIRP_ATTRACTIVE_CITY);
             group.AddSpace();
 
             group.AddLabel("If you feel the notification icons are more than enough");
-            AddCheckBox(group, "City problems (high crime, no power etc.)", SettingKeys.FilterCityProblems,
+            AddCheckBox(
+                group, "City problems (high crime, no power etc.)", SettingKeys.FilterCityProblems,
                 LocaleID.CHIRP_NO_WATER);
 
             group.AddSpace();
@@ -127,22 +132,25 @@
         private void AddAppearanceSettings(IStronglyTypedUIHelper uiHelper)
         {
             var group = uiHelper.AddGroup("Appearance");
-            group.AddCheckBox("Hide Chirper", ModConfig.Instance.GetSetting<bool>(SettingKeys.HideChirper),
+            group.AddCheckBox(
+                "Hide Chirper", ModConfig.Instance.GetSetting<bool>(SettingKeys.HideChirper),
                 ToggleChirper);
             group.AddCheckBox(
                 "Make Chirper draggable (hold ctrl + left mouse button)",
                 ModConfig.Instance.GetSetting<bool>(SettingKeys.Draggable),
                 ToggleDraggable);
 
-                group.AddSpace();
-                resetPositionButton = group.AddButton("Reset Chirper position", ResetPosition).WithTooltip("Only available while in game");
-                resetPositionButton.isEnabled = false;
+            group.AddSpace();
+            resetPositionButton = group.AddButton("Reset Chirper position", ResetPosition)
+                .WithTooltip(ResetPositionButtonTooltip);
+            resetPositionButton.isEnabled = false;
         }
 
         private void AddDebugSettings(IStronglyTypedUIHelper uiHelper)
         {
             var group = uiHelper.AddGroup("Debugging");
-            group.AddCheckBox("Enable logging", ModConfig.Instance.GetSetting<bool>(SettingKeys.EnableLogging),
+            group.AddCheckBox(
+                "Enable logging", ModConfig.Instance.GetSetting<bool>(SettingKeys.EnableLogging),
                 ToggleLogging);
         }
 
@@ -154,7 +162,6 @@
             }
 
             positionService.ResetPosition();
-
             positionService.SaveChirperPosition();
         }
 
@@ -187,7 +194,7 @@
 
         private void ToggleLogging(bool loggingEnabled)
         {
-            ((BirdcageLogger)BirdcageLogger.Instance).LoggingEnabled = loggingEnabled;
+            ((BirdcageLogger)logger).LoggingEnabled = loggingEnabled;
             ModConfig.Instance.SaveSetting(SettingKeys.EnableLogging, loggingEnabled);
         }
     }

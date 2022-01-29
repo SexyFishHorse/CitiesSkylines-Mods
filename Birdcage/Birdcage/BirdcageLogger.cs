@@ -6,25 +6,15 @@
 
     public class BirdcageLogger : ILogger
     {
-        private static ILogger instance;
-
         private readonly ILogger logger;
 
         private bool disposed;
 
-        private BirdcageLogger()
+        public BirdcageLogger()
         {
             LoggingEnabled = ModConfig.Instance.GetSetting<bool>(SettingKeys.EnableLogging);
 
             logger = LogManager.Instance.GetOrCreateLogger(UserMod.ModName);
-        }
-
-        public static ILogger Instance
-        {
-            get
-            {
-                return instance ?? (instance = new BirdcageLogger());
-            }
         }
 
         public bool LoggingEnabled { get; set; }

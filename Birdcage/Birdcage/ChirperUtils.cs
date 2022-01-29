@@ -1,6 +1,5 @@
 ﻿namespace SexyFishHorse.CitiesSkylines.Birdcage
 {
-    using System.Collections.Generic;
     using System.Reflection;
     using ColossalFramework.UI;
 

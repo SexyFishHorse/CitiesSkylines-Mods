@@ -4,17 +4,22 @@
     using System.Reflection;
     using ColossalFramework.UI;
     using UnityEngine;
+    using ILogger = SexyFishHorse.CitiesSkylines.Logger.ILogger;
 
     public class ChirpPanelWrapper : IChirpPanelWrapper
     {
         private readonly FieldInfo newMessageCountFieldInfo;
 
+        private readonly ILogger logger;
+
         private ChirpPanel chirpPanel;
 
         private UITextComponent counter;
 
-        public ChirpPanelWrapper()
+        public ChirpPanelWrapper(ILogger logger)
         {
+            this.logger = logger;
+
             newMessageCountFieldInfo = typeof(ChirpPanel).GetField("m_NewMessageCount", BindingFlags.Instance | BindingFlags.NonPublic);
         }
 
@@ -22,7 +27,9 @@
         {
             get
             {
-                return chirpPanel ?? (chirpPanel = ChirpPanel.instance);
+                return chirpPanel
+                    ? chirpPanel
+                    : chirpPanel = ChirpPanel.instance;
             }
         }
 
@@ -50,7 +57,7 @@
         {
             if (Panel == null)
             {
-                BirdcageLogger.Instance.Error("Panel is null");
+                logger.Error("Panel is null");
 
                 return;
             }

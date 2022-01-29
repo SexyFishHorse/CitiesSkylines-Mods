@@ -6,21 +6,6 @@
 
     public class PositionService
     {
-        private static PositionService instance;
-
-        public static PositionService Instance
-        {
-            get
-            {
-                return instance ?? (instance = new PositionService());
-            }
-        }
-
-        private PositionService()
-        {
-
-        }
-
         private const int ChirperBottomBound = 160;
 
         private const int ChirperLeftBound = 25;
