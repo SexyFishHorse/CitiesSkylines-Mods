@@ -3,6 +3,7 @@ namespace SexyFishHorse.CitiesSkylines.Infrastructure.DependencyInjection
     using System;
     using System.Collections.Generic;
     using System.Linq;
+    using SexyFishHorse.CitiesSkylines.Logger;
 
     public class ServiceProvider : IServiceProvider
     {
@@ -26,35 +27,61 @@ namespace SexyFishHorse.CitiesSkylines.Infrastructure.DependencyInjection
             }
         }
 
+        public ILogger Logger { get; set; }
+
         public IServiceProvider Add(Type abstraction, object implementation)
         {
-            if (abstraction.IsInstanceOfType(implementation) == false)
+            try
             {
-                throw new ArgumentException(
-                    "The implementation " + implementation.GetType().FullName + " is not assignable to " +
-                    abstraction.FullName);
+                if (abstraction.IsInstanceOfType(implementation) == false)
+                {
+                    throw new ArgumentException(
+                        "The implementation " + implementation.GetType().FullName + " is not assignable to " +
+                        abstraction.FullName);
+                }
+
+                serviceCache.Add(abstraction, implementation);
+
+                return this;
             }
+            catch (Exception ex)
+            {
+                if (Logger != null)
+                {
+                    Logger.LogException(ex);
+                }
 
-            serviceCache.Add(abstraction, implementation);
-
-            return this;
+                throw;
+            }
         }
 
         public IServiceProvider Add(Type abstraction, Type implementation, ServiceLifetime lifetime)
         {
-            if (abstraction != implementation)
+            try
             {
-                if (abstraction.IsAssignableFrom(implementation) == false)
+                if (abstraction != implementation)
                 {
-                    throw new ArgumentException(
-                        "The implementation " + implementation.FullName + " is not assignable to " +
-                        abstraction.FullName);
+                    if (abstraction.IsAssignableFrom(implementation) == false)
+                    {
+                        throw new ArgumentException(
+                            "The implementation " + implementation.FullName + " is not assignable to " +
+                            abstraction.FullName);
+                    }
                 }
+
+                serviceDefinitions.Add(abstraction, new ServiceDefinition(implementation, lifetime));
+
+                return this;
             }
+            catch (Exception ex)
+            {
+                if (Logger != null)
+                {
+                    Logger.LogException(ex);
+                }
 
-            serviceDefinitions.Add(abstraction, new ServiceDefinition(implementation, lifetime));
-
-            return this;
+                throw;
+            }
         }
 
         public TService GetService<TService>()
@@ -64,33 +91,48 @@ namespace SexyFishHorse.CitiesSkylines.Infrastructure.DependencyInjection
 
         public object GetService(Type type)
         {
-            Console.WriteLine("looking for " + type);
-            // See if the instance is already cached
-            object service;
-            if (serviceCache.TryGetValue(type, out service))
+            try
             {
-                Console.WriteLine("In singleton cache");
-
-                return service;
-            }
-
-            // See if it has a definition
-            ServiceDefinition serviceDefinition;
-            if (serviceDefinitions.TryGetValue(type, out serviceDefinition))
-            {
-                Console.WriteLine("in definitions");
-
-                service = BuildService(serviceDefinition.InstanceType);
-
-                if (serviceDefinition.Lifetime == ServiceLifetime.Singleton)
+                // See if the instance is already cached
+                object service;
+                if (serviceCache.TryGetValue(type, out service))
                 {
-                    serviceCache.Add(type, service);
+                    return service;
                 }
 
-                return service;
+                // See if it has a definition
+                ServiceDefinition serviceDefinition;
+                if (serviceDefinitions.TryGetValue(type, out serviceDefinition))
+                {
+                    service = BuildService(serviceDefinition.InstanceType);
+
+                    if (serviceDefinition.Lifetime == ServiceLifetime.Singleton)
+                    {
+                        serviceCache.Add(type, service);
+                    }
+
+                    return service;
+                }
+            }
+            catch (Exception ex)
+            {
+                if (Logger != null)
+                {
+                    Logger.LogException(ex);
+                }
+
+                throw;
             }
 
-            throw new ServiceNotFoundException(type);
+
+            var exception = new ServiceNotFoundException(type);
+
+            if (Logger != null)
+            {
+                Logger.LogException(exception);
+            }
+
+            throw exception;
         }
 
         private object BuildService(Type type)
