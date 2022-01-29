@@ -6,25 +6,15 @@
 
     public class SteamyLogger : ILogger
     {
-        private static ILogger instance;
-
         private readonly ILogger logger;
 
         private bool disposed;
 
-        private SteamyLogger()
+        public SteamyLogger()
         {
             LoggingEnabled = ModConfig.Instance.GetSetting<bool>(SettingKeys.EnableLogging);
 
             logger = LogManager.Instance.GetOrCreate(UserMod.ModName);
-        }
-
-        public static ILogger Instance
-        {
-            get
-            {
-                return instance ?? (instance = new SteamyLogger());
-            }
         }
 
         public bool LoggingEnabled { get; set; }

@@ -79,7 +79,7 @@
         {
             try
             {
-                ((SteamyLogger)SteamyLogger.Instance).LoggingEnabled = isLoggingEnabled;
+                ((SteamyLogger)logger).LoggingEnabled = isLoggingEnabled;
 
                 ModConfig.Instance.SaveSetting(SettingKeys.EnableLogging, isLoggingEnabled);
 

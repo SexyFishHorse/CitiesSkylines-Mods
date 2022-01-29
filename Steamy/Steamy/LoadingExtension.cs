@@ -2,8 +2,8 @@ namespace SexyFishHorse.CitiesSkylines.Steamy
 {
     using System;
     using ICities;
+    using SexyFishHorse.CitiesSkylines.Infrastructure.DependencyInjection;
     using SexyFishHorse.CitiesSkylines.Infrastructure.Logging;
-    using SexyFishHorse.CitiesSkylines.Steamy.Adapters;
 
     public class LoadingExtension : LoadingExtensionBase
     {
@@ -12,10 +12,8 @@ namespace SexyFishHorse.CitiesSkylines.Steamy
         private readonly ISteamController steamController;
 
         public LoadingExtension() : this(
-            SteamyLogger.Instance,
-            new SteamController(
-                new PlatformServiceAdapter(SteamyLogger.Instance),
-                new SimulationManagerAdapter(SteamyLogger.Instance)))
+            ServiceProvider.Instance.GetService<ILogger>(),
+            ServiceProvider.Instance.GetService<ISteamController>())
         {
         }
 
