@@ -7,7 +7,6 @@ namespace SexyFishHorse.CitiesSkylines.Birdcage
     using SexyFishHorse.CitiesSkylines.Birdcage.Helpers;
     using SexyFishHorse.CitiesSkylines.Birdcage.Services;
     using SexyFishHorse.CitiesSkylines.Birdcage.Settings;
-    using SexyFishHorse.CitiesSkylines.Infrastructure.DependencyInjection;
     using UnityEngine;
     using ILogger = SexyFishHorse.CitiesSkylines.Infrastructure.Logging.ILogger;
     using Object = UnityEngine.Object;
@@ -32,10 +31,10 @@ namespace SexyFishHorse.CitiesSkylines.Birdcage
 
         public ChirperExtension()
         {
-            logger = ServiceProvider.Instance.GetService<ILogger>();
-            filterService = ServiceProvider.Instance.GetService<FilterService>();
-            inputService = ServiceProvider.Instance.GetService<InputService>();
-            positionService = ServiceProvider.Instance.GetService<PositionService>();
+            logger = UserMod.Services.GetService<ILogger>();
+            filterService = UserMod.Services.GetService<FilterService>();
+            inputService = UserMod.Services.GetService<InputService>();
+            positionService = UserMod.Services.GetService<PositionService>();
         }
 
         public AudioClip NotificationSound { get; set; }

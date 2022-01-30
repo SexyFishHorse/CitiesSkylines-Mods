@@ -62,6 +62,7 @@
     <Compile Include="Helpers\ChirperUtils.cs" />
     <Compile Include="Helpers\Chirps.cs" />
     <Compile Include="LoadingExtension.cs" />
+    <Compile Include="ServiceProviderExtensions.cs" />
     <Compile Include="Settings\ModConfig.cs" />
     <Compile Include="Settings\OptionsPanelManager.cs" />
     <Compile Include="Settings\SettingKeys.cs" />
