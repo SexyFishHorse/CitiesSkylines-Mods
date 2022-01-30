@@ -8,25 +8,10 @@ namespace SexyFishHorse.CitiesSkylines.Infrastructure.DependencyInjection
 
     public class ServiceProvider : IServiceProvider
     {
-        private static IServiceProvider instance;
-
         private readonly IDictionary<Type, object> serviceCache = new Dictionary<Type, object>();
 
         private readonly IDictionary<Type, ServiceDefinition> serviceDefinitions =
             new Dictionary<Type, ServiceDefinition>();
-
-        public static IServiceProvider Instance
-        {
-            get
-            {
-                return instance ?? (instance = new ServiceProvider());
-            }
-
-            set
-            {
-                instance = value;
-            }
-        }
 
         public ILogger Logger { get; set; }
 

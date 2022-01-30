@@ -68,6 +68,7 @@
     <Compile Include="LoadingExtension.cs" />
     <Compile Include="ModConfig.cs" />
     <Compile Include="OptionsPanelManager.cs" />
+    <Compile Include="ServiceProviderExtensions.cs" />
     <Compile Include="SteamController.cs">
       <DependentUpon>ISteamController.cs</DependentUpon>
     </Compile>
