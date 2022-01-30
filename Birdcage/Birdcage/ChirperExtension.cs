@@ -4,7 +4,9 @@ namespace SexyFishHorse.CitiesSkylines.Birdcage
     using System.Linq;
     using ColossalFramework.UI;
     using ICities;
+    using SexyFishHorse.CitiesSkylines.Birdcage.Helpers;
     using SexyFishHorse.CitiesSkylines.Birdcage.Services;
+    using SexyFishHorse.CitiesSkylines.Birdcage.Settings;
     using SexyFishHorse.CitiesSkylines.Infrastructure.DependencyInjection;
     using UnityEngine;
     using ILogger = SexyFishHorse.CitiesSkylines.Infrastructure.Logging.ILogger;

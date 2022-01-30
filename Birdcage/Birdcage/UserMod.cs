@@ -1,6 +1,7 @@
 ﻿namespace SexyFishHorse.CitiesSkylines.Birdcage
 {
     using SexyFishHorse.CitiesSkylines.Birdcage.Services;
+    using SexyFishHorse.CitiesSkylines.Birdcage.Settings;
     using SexyFishHorse.CitiesSkylines.Birdcage.Wrappers;
     using SexyFishHorse.CitiesSkylines.Infrastructure;
     using SexyFishHorse.CitiesSkylines.Infrastructure.DependencyInjection;

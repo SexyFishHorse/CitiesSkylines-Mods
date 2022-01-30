@@ -2,6 +2,8 @@
 {
     using ColossalFramework.UI;
     using ICities;
+    using SexyFishHorse.CitiesSkylines.Birdcage.Helpers;
+    using SexyFishHorse.CitiesSkylines.Birdcage.Settings;
     using UnityEngine;
 
     public class PositionService

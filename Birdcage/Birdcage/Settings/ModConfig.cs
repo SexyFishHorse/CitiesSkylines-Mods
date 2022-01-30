@@ -1,4 +1,4 @@
-﻿namespace SexyFishHorse.CitiesSkylines.Birdcage
+﻿namespace SexyFishHorse.CitiesSkylines.Birdcage.Settings
 {
     using SexyFishHorse.CitiesSkylines.Infrastructure.Configuration;
 

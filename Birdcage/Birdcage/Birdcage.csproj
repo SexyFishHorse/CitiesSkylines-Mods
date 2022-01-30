@@ -59,18 +59,18 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Helpers\ChirperUtils.cs" />
+    <Compile Include="Helpers\Chirps.cs" />
     <Compile Include="LoadingExtension.cs" />
+    <Compile Include="Settings\ModConfig.cs" />
+    <Compile Include="Settings\OptionsPanelManager.cs" />
+    <Compile Include="Settings\SettingKeys.cs" />
     <Compile Include="UserMod.cs" />
     <Compile Include="ChirperExtension.cs" />
-    <Compile Include="ChirperUtils.cs" />
-    <Compile Include="Chirps.cs" />
     <Compile Include="Services\FilterService.cs" />
     <Compile Include="Services\InputService.cs" />
-    <Compile Include="ModConfig.cs" />
-    <Compile Include="OptionsPanelManager.cs" />
     <Compile Include="Services\PositionService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="SettingKeys.cs" />
     <Compile Include="BirdcageLogger.cs" />
     <Compile Include="Wrappers\ChirpPanelWrapper.cs" />
     <Compile Include="Wrappers\IChirpPanelWrapper.cs" />

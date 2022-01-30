@@ -1,4 +1,4 @@
-﻿namespace SexyFishHorse.CitiesSkylines.Birdcage
+﻿namespace SexyFishHorse.CitiesSkylines.Birdcage.Helpers
 {
     using System.Reflection;
     using ColossalFramework.UI;

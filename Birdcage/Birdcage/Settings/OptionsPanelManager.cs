@@ -1,9 +1,10 @@
-﻿namespace SexyFishHorse.CitiesSkylines.Birdcage
+﻿namespace SexyFishHorse.CitiesSkylines.Birdcage.Settings
 {
     using System;
     using ColossalFramework.Globalization;
     using ColossalFramework.UI;
     using ICities;
+    using SexyFishHorse.CitiesSkylines.Birdcage.Helpers;
     using SexyFishHorse.CitiesSkylines.Birdcage.Services;
     using SexyFishHorse.CitiesSkylines.Infrastructure.Logging;
     using SexyFishHorse.CitiesSkylines.Infrastructure.UI;

@@ -4,6 +4,8 @@
     using System.Linq;
     using ColossalFramework.UI;
     using ICities;
+    using SexyFishHorse.CitiesSkylines.Birdcage.Helpers;
+    using SexyFishHorse.CitiesSkylines.Birdcage.Settings;
     using SexyFishHorse.CitiesSkylines.Birdcage.Wrappers;
     using UnityEngine;
     using ILogger = SexyFishHorse.CitiesSkylines.Infrastructure.Logging.ILogger;

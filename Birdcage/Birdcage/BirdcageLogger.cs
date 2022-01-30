@@ -2,6 +2,7 @@
 {
     using System;
     using ColossalFramework.Plugins;
+    using SexyFishHorse.CitiesSkylines.Birdcage.Settings;
     using SexyFishHorse.CitiesSkylines.Infrastructure.Logging;
 
     public class BirdcageLogger : ILogger
