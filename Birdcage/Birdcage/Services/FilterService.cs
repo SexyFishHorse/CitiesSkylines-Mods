@@ -28,6 +28,12 @@
             this.logger = logger;
             this.messageManager = messageManager;
 
+            UpdateFilters();
+        }
+
+        public void UpdateFilters()
+        {
+            messagesToRemove.Clear();
             GetChirpsForSetting(SettingKeys.FilterFirstTypeOfServiceBuilt, Chirps.FirstTypeOfServiceBuilt);
             GetChirpsForSetting(SettingKeys.FilterServiceBuilt, Chirps.ServiceBuilt);
             GetChirpsForSetting(SettingKeys.FilterCelebrations, Chirps.Celebrations);
