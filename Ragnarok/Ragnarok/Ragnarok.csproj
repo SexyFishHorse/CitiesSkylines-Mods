@@ -63,9 +63,10 @@
     <Compile Include="ModExtensions\DisasterProbabilityService.cs" />
     <Compile Include="ModExtensions\EvacuationService.cs" />
     <Compile Include="ModExtensions\GiantDisasterService.cs" />
+    <Compile Include="ServiceProviderExtensions.cs" />
     <Compile Include="Services\GenericDisasterServices.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="RagnarokUserMod.cs" />
+    <Compile Include="UserMod.cs" />
     <Compile Include="Configuration\SettingKeys.cs" />
     <Compile Include="Configuration\SettingKeys.DisasterSettingKeys.cs" />
   </ItemGroup>

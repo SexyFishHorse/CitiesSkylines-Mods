@@ -44,8 +44,7 @@ namespace SexyFishHorse.CitiesSkylines.Infrastructure.DependencyInjection
                 {
                     if (abstraction.IsAssignableFrom(implementation) == false)
                     {
-                        throw new ArgumentException(
-                            string.Format("The implementation {0} is not assignable to {1}.", implementation.FullName, abstraction.FullName));
+                        throw new ArgumentException(string.Format("The implementation {0} is not assignable to {1}.", implementation.FullName, abstraction.FullName));
                     }
                 }
 
@@ -100,13 +99,9 @@ namespace SexyFishHorse.CitiesSkylines.Infrastructure.DependencyInjection
                 throw;
             }
 
-
             var exception = new ServiceNotFoundException(type);
 
-            if (Logger != null)
-            {
-                Logger.LogException(exception);
-            }
+            LogException(exception, "No service registered for type {0}.", type);
 
             throw exception;
         }

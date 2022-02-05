@@ -1,17 +1,17 @@
 ﻿namespace EminentDomain
 {
-    using SexyFishHorse.CitiesSkylines.Infrastructure;
+    using ICities;
 
-    public class UserMod : UserModBase
+    public class UserMod : IUserMod
     {
         public const string ModName = "Eminent Domain";
 
-        public override string Description
+        public string Description
         {
             get { return "Unlock all 25 tiles on the last milestone"; }
         }
 
-        public override string Name
+        public string Name
         {
             get { return ModName; }
         }

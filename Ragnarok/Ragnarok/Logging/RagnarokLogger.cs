@@ -16,7 +16,7 @@
         {
             try
             {
-                logger = LogManager.Instance.GetOrCreate(RagnarokUserMod.ModName);
+                logger = LogManager.Instance.GetOrCreate(UserMod.ModName);
                 Enabled = ModConfig.Instance.GetSetting<bool>(SettingKeys.EnableLogging);
             }
             catch (Exception ex)
