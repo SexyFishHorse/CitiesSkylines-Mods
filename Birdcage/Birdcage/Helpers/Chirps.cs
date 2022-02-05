@@ -518,19 +518,27 @@ namespace SexyFishHorse.CitiesSkylines.Birdcage.Helpers
             LocaleID.CHIRP_FISH_FARM_03_UNLOCKED,
         };
 
+        public static readonly HashSet<string> TogaPartiesAndGraduations = new HashSet<string>
+        {
+            LocaleID.GRADUATIONCHIRP_GENERIC,
+            LocaleID.TOGAPARTYCHIRP_GENERIC,
+        };
+
+        public static readonly HashSet<string> PoliciesAndThemes = new HashSet<string>
+        {
+            LocaleID.CHIRP_POLICY,
+            LocaleID.CHIRP_HIGH_TECH_LEVEL,
+            LocaleID.CHIRP_ORGANIC_FARMING,
+            LocaleID.CHIRP_RANDOM_THEME,
+        };
+
         public static readonly IEnumerable<string> Uncategorized = new List<string>
         {
             LocaleID.CHIRP_ASSISTIVE_TECHNOLOGIES,
             LocaleID.CHIRP_DAYCARE_SERVICE,
             LocaleID.CHIRP_DEFAULT,
             LocaleID.CHIRP_DISASTER,
-            LocaleID.CHIRP_POLICY,
-            LocaleID.CHIRP_HIGH_TECH_LEVEL,
-            LocaleID.CHIRP_ORGANIC_FARMING,
             LocaleID.CHIRP_STUDENT_LODGING,
-            LocaleID.GRADUATIONCHIRP_GENERIC,
-            LocaleID.TOGAPARTYCHIRP_GENERIC,
-            LocaleID.CHIRP_RANDOM_THEME,
             LocaleID.CHIRP_AIRPORTBUILDING,
         };
     }

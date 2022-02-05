@@ -2,6 +2,10 @@
 {
     public static class SettingKeys
     {
+        public const string FilterPoliciesAndThemes = "Filter:PoliciesAndThemes";
+
+        public const string FilterTogaPartiesAndGraduations = "Filter:TogaPartiesAndGraduations";
+
         public const string FilterCelebrations = "Filter:Celebrations";
 
         public const string FilterChirpXLaunches = "Filter:ChirpXLaunches";

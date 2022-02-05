@@ -119,6 +119,11 @@
             AddCheckBox(group, "Football matches", SettingKeys.FilterFootballMatches, LocaleID.FOOTBALLCHIRP_LOSE);
             AddCheckBox(group, "Concerts", SettingKeys.FilterConcerts, LocaleID.CHIRP_BAND_MOTI);
             AddCheckBox(group, "ChirpX launches", SettingKeys.FilterChirpXLaunches, LocaleID.CHIRP_LAUNCH);
+            AddCheckBox(
+                group,
+                "Toga parties and graduations",
+                SettingKeys.FilterTogaPartiesAndGraduations,
+                LocaleID.GRADUATIONCHIRP_GENERIC);
             group.AddSpace();
 
             AddCheckBox(
@@ -126,9 +131,13 @@
                 "Celebrations (high attractiveness, milestone reached etc.)",
                 SettingKeys.FilterCelebrations,
                 LocaleID.CHIRP_ATTRACTIVE_CITY);
+            AddCheckBox(
+                group,
+                "Random chirps about enacted policies and district themes",
+                SettingKeys.FilterPoliciesAndThemes,
+                LocaleID.CHIRP_RANDOM_THEME);
             group.AddSpace();
 
-            group.AddLabel("If you feel the notification icons are more than enough");
             AddCheckBox(
                 group,
                 "City problems (high crime, no power etc.)",
