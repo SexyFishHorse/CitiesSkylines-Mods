@@ -418,6 +418,7 @@ namespace SexyFishHorse.CitiesSkylines.Birdcage.Helpers
             LocaleID.CHIRP_FIRST_ZOO_SIDE_GATE,
             LocaleID.CHIRP_FIRST_ZOO_SOUVENIR_SHOP_01,
             LocaleID.FOOTBALLCHIRP_FIRST_FSTADIUM,
+            LocaleID.CHIRP_AIRPORTBUILDING,
         };
 
         public static readonly HashSet<string> ServiceBuilt = new HashSet<string>
@@ -538,7 +539,6 @@ namespace SexyFishHorse.CitiesSkylines.Birdcage.Helpers
             LocaleID.CHIRP_DAYCARE_SERVICE,
             LocaleID.CHIRP_DISASTER,
             LocaleID.CHIRP_STUDENT_LODGING,
-            LocaleID.CHIRP_AIRPORTBUILDING,
         };
     }
 }
