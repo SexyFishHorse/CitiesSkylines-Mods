@@ -536,7 +536,6 @@ namespace SexyFishHorse.CitiesSkylines.Birdcage.Helpers
         {
             LocaleID.CHIRP_ASSISTIVE_TECHNOLOGIES,
             LocaleID.CHIRP_DAYCARE_SERVICE,
-            LocaleID.CHIRP_DEFAULT,
             LocaleID.CHIRP_DISASTER,
             LocaleID.CHIRP_STUDENT_LODGING,
             LocaleID.CHIRP_AIRPORTBUILDING,
