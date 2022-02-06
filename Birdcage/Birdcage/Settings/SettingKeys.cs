@@ -2,6 +2,8 @@
 {
     public static class SettingKeys
     {
+        public const string FilterUncategorized = "Filter:Uncategorized";
+
         public const string FilterDisasters = "Filter:Disasters";
 
         public const string FilterPoliciesAndThemes = "Filter:PoliciesAndThemes";

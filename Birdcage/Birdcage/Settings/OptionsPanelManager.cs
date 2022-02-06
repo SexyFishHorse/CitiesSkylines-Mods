@@ -1,10 +1,8 @@
 ﻿namespace SexyFishHorse.CitiesSkylines.Birdcage.Settings
 {
     using System;
-    using ColossalFramework.Globalization;
     using ColossalFramework.UI;
     using ICities;
-    using SexyFishHorse.CitiesSkylines.Birdcage.Helpers;
     using SexyFishHorse.CitiesSkylines.Birdcage.Services;
     using SexyFishHorse.CitiesSkylines.Infrastructure.Logging;
     using SexyFishHorse.CitiesSkylines.Infrastructure.UI;
@@ -19,11 +17,11 @@
 
         private static IChirper chirper;
 
+        private readonly FilterService filterService;
+
         private readonly ILogger logger;
 
         private readonly PositionService positionService;
-
-        private readonly FilterService filterService;
 
         public OptionsPanelManager(ILogger logger, PositionService positionService, FilterService filterService)
         {
@@ -141,17 +139,25 @@
                 "Actual city problems (high crime, no power etc.)",
                 SettingKeys.FilterCityProblems,
                 LocaleID.CHIRP_NO_WATER);
-            AddCheckBox(group, "Reactions to disasters",
-                SettingKeys.FilterDisasters, LocaleID.CHIRP_RANDOM_DISASTERS);
+            AddCheckBox(
+                group,
+                "Reactions to disasters",
+                SettingKeys.FilterDisasters,
+                LocaleID.CHIRP_RANDOM_DISASTERS);
 
             group.AddSpace();
-            group.AddLabel("Uncategorized chirps:");
+            AddCheckBox(
+                group,
+                "Uncategorized chirps (chirps I haven't yet figured out how are triggered)",
+                SettingKeys.FilterUncategorized,
+                LocaleID.CHIRP_ASSISTIVE_TECHNOLOGIES);
 
-            foreach (var chirp in Chirps.Uncategorized)
-            {
-                group.AddTextField(chirp, Locale.Get(chirp), text => { }, text => { })
-                     .AsWideAsGroup(group);
-            }
+            // foreach (var chirp in Chirps.Uncategorized)
+            // {
+            //     group.AddTextField(chirp, Locale.Get(chirp), text => { }, text => { })
+            //          .AsWideAsGroup(group)
+            //          .readOnly = true;
+            // }
         }
 
         private void AddAppearanceSettings(IStronglyTypedUIHelper uiHelper)

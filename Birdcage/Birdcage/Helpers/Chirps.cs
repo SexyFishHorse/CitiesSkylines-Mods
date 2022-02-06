@@ -19,6 +19,8 @@ namespace SexyFishHorse.CitiesSkylines.Birdcage.Helpers
     ///     Search & replace regex:
     ///         Search: <code>.+ {</code>
     ///         Replace: <code>{</code>
+    ///
+    /// Note that CHIRP_DEFAULT is not filtered (probably set up directly in the prefab instead of fed in like the other chirps)
     ///</remarks>
     public static class Chirps
     {
@@ -538,6 +540,9 @@ namespace SexyFishHorse.CitiesSkylines.Birdcage.Helpers
             LocaleID.CHIRP_DISASTER,
         };
 
+        /// <summary>
+        /// Chirps I haven't figured out how to spawn
+        /// </summary>
         public static readonly IEnumerable<string> Uncategorized = new List<string>
         {
             LocaleID.CHIRP_ASSISTIVE_TECHNOLOGIES,
