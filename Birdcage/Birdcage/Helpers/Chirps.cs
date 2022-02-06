@@ -533,11 +533,15 @@ namespace SexyFishHorse.CitiesSkylines.Birdcage.Helpers
             LocaleID.CHIRP_RANDOM_THEME,
         };
 
+        public static readonly HashSet<string> Disasters = new HashSet<string>
+        {
+            LocaleID.CHIRP_DISASTER,
+        };
+
         public static readonly IEnumerable<string> Uncategorized = new List<string>
         {
             LocaleID.CHIRP_ASSISTIVE_TECHNOLOGIES,
             LocaleID.CHIRP_DAYCARE_SERVICE,
-            LocaleID.CHIRP_DISASTER,
             LocaleID.CHIRP_STUDENT_LODGING,
         };
     }

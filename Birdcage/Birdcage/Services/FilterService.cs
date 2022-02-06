@@ -46,6 +46,7 @@
             GetChirpsForSetting(SettingKeys.FilterFishingBuildingUnlocked, Chirps.UnlockedFishingBuildings);
             GetChirpsForSetting(SettingKeys.FilterTogaPartiesAndGraduations, Chirps.TogaPartiesAndGraduations);
             GetChirpsForSetting(SettingKeys.FilterPoliciesAndThemes, Chirps.PoliciesAndThemes);
+            GetChirpsForSetting(SettingKeys.FilterDisasters, Chirps.Disasters);
         }
 
         public ICollection<IChirperMessage> MessagesToRemove

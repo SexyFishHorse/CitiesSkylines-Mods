@@ -84,33 +84,43 @@
 
             group.AddSpace(25);
 
-            group.AddLabel("Triggered at random to make the city feel alive");
+            group.AddLabel("Random \"filler\" chirps");
             AddCheckBox(
                 group,
-                "Pointless random chirps",
+                "Citizen chatter",
                 SettingKeys.FilterPointlessChirps,
                 LocaleID.CHIRP_RANDOM_EXP8);
+            AddCheckBox(
+                group,
+                "Enacted policies and district themes",
+                SettingKeys.FilterPoliciesAndThemes,
+                LocaleID.CHIRP_ORGANIC_FARMING);
             group.AddSpace();
 
-            group.AddLabel("Triggered when you build or unlock buildings");
+            group.AddLabel("When you build, unlock or achieve something");
             AddCheckBox(
                 group,
-                "First time a service building is built",
+                "First time you build  a service building (eg. city's first hospital)",
                 SettingKeys.FilterFirstTypeOfServiceBuilt,
-                LocaleID.CHIRP_FIRST_AIRPORT);
+                LocaleID.CHIRP_FIRST_FIRE_STATION);
             AddCheckBox(
                 group,
-                "When subsequent service buildings are built",
+                "When subsequent service buildings are built (eg. city's second hospital)",
                 SettingKeys.FilterServiceBuilt,
-                LocaleID.CHIRP_NEW_PARK);
+                LocaleID.CHIRP_NEW_FIRE_STATION);
             AddCheckBox(
                 group,
-                "Fishery buildings unlocked",
+                "When you unlock fishery buildings",
                 SettingKeys.FilterFishingBuildingUnlocked,
                 LocaleID.CHIRP_FISHING_BOAT_HARBOR_04_UNLOCKED);
+            AddCheckBox(
+                group,
+                "Celebrations (high attractiveness, milestone reached etc.)",
+                SettingKeys.FilterCelebrations,
+                LocaleID.CHIRP_ATTRACTIVE_CITY);
             group.AddSpace();
 
-            group.AddLabel("Events that happen in your city");
+            group.AddLabel("Citizens reacting to events that happen in your city");
             AddCheckBox(
                 group,
                 "Varsity sports matches",
@@ -128,24 +138,13 @@
 
             AddCheckBox(
                 group,
-                "Celebrations (high attractiveness, milestone reached etc.)",
-                SettingKeys.FilterCelebrations,
-                LocaleID.CHIRP_ATTRACTIVE_CITY);
-            AddCheckBox(
-                group,
-                "Random chirps about enacted policies and district themes",
-                SettingKeys.FilterPoliciesAndThemes,
-                LocaleID.CHIRP_RANDOM_THEME);
-            group.AddSpace();
-
-            AddCheckBox(
-                group,
-                "City problems (high crime, no power etc.)",
+                "Actual city problems (high crime, no power etc.)",
                 SettingKeys.FilterCityProblems,
                 LocaleID.CHIRP_NO_WATER);
+            AddCheckBox(group, "Reactions to disasters",
+                SettingKeys.FilterDisasters, LocaleID.CHIRP_RANDOM_DISASTERS);
 
             group.AddSpace();
-
             group.AddLabel("Uncategorized chirps:");
 
             foreach (var chirp in Chirps.Uncategorized)
