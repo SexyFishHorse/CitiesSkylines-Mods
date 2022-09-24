@@ -13,28 +13,28 @@ namespace SexyFishHorse.CitiesSkylines.Birdcage
 
     public class ChirperExtension : IChirperExtension
     {
-        private readonly FilterService filterService;
+        private readonly FilterService _filterService;
 
-        private readonly InputService inputService;
+        private readonly InputService _inputService;
 
-        private readonly ILogger logger;
+        private readonly ILogger _logger;
 
-        private readonly PositionService positionService;
+        private readonly PositionService _positionService;
 
-        private UIButton chirpButton;
+        private UIButton _chirpButton;
 
-        private IChirper chirperWrapper;
+        private IChirper _chirperWrapper;
 
-        private bool dragging;
+        private bool _dragging;
 
-        private bool initialized;
+        private bool _initialized;
 
         public ChirperExtension()
         {
-            logger = UserMod.Services.GetService<ILogger>();
-            filterService = UserMod.Services.GetService<FilterService>();
-            inputService = UserMod.Services.GetService<InputService>();
-            positionService = UserMod.Services.GetService<PositionService>();
+            _logger = UserMod.Services.GetService<ILogger>();
+            _filterService = UserMod.Services.GetService<FilterService>();
+            _inputService = UserMod.Services.GetService<InputService>();
+            _positionService = UserMod.Services.GetService<PositionService>();
         }
 
         public AudioClip NotificationSound { get; set; }
@@ -43,17 +43,17 @@ namespace SexyFishHorse.CitiesSkylines.Birdcage
         {
             try
             {
-                chirperWrapper = chirper;
+                _chirperWrapper = chirper;
                 OptionsPanelManager.Chirper = chirper;
 
-                chirpButton = Object.FindObjectsOfType<UIButton>().FirstOrDefault(x => x.name == "Zone");
+                _chirpButton = Object.FindObjectsOfType<UIButton>().FirstOrDefault(x => x.name == "Zone");
 
                 var counterLabel = Object.FindObjectsOfType<UILabel>().FirstOrDefault(x => x.name == "Counter");
-                filterService.SetCounter(counterLabel);
+                _filterService.SetCounter(counterLabel);
             }
             catch (Exception ex)
             {
-                logger.LogException(ex);
+                _logger.LogException(ex);
 
                 throw;
             }
@@ -69,12 +69,12 @@ namespace SexyFishHorse.CitiesSkylines.Birdcage
             {
                 if (ModConfig.FilterMessages)
                 {
-                    filterService.HandleNewMessage(message);
+                    _filterService.HandleNewMessage(message);
                 }
             }
             catch (Exception ex)
             {
-                logger.LogException(ex);
+                _logger.LogException(ex);
 
                 throw;
             }
@@ -90,7 +90,7 @@ namespace SexyFishHorse.CitiesSkylines.Birdcage
             {
                 Initialize();
 
-                inputService.Update();
+                _inputService.Update();
                 if (ChirpPanel.instance == null)
                 {
                     return;
@@ -103,7 +103,7 @@ namespace SexyFishHorse.CitiesSkylines.Birdcage
 
                 if (ModConfig.FilterMessages)
                 {
-                    filterService.RemovePendingMessages(NotificationSound);
+                    _filterService.RemovePendingMessages(NotificationSound);
                 }
 
                 if (ModConfig.Get(SettingKeys.Draggable))
@@ -113,7 +113,7 @@ namespace SexyFishHorse.CitiesSkylines.Birdcage
             }
             catch (Exception ex)
             {
-                logger.LogException(ex);
+                _logger.LogException(ex);
 
                 throw;
             }
@@ -122,20 +122,20 @@ namespace SexyFishHorse.CitiesSkylines.Birdcage
         // TODO: Move this to OnCreated when CO fixes the initial state position mismatch
         private void Initialize()
         {
-            if (initialized)
+            if (_initialized)
             {
                 return;
             }
 
-            positionService.Chirper = chirperWrapper;
-            positionService.DefaultPosition = chirperWrapper.builtinChirperPosition;
-            positionService.UiView = ChirpPanel.instance.component.GetUIView();
+            _positionService.Chirper = _chirperWrapper;
+            _positionService.DefaultPosition = _chirperWrapper.builtinChirperPosition;
+            _positionService.UiView = ChirpPanel.instance.component.GetUIView();
 
             NotificationSound = ChirpPanel.instance.m_NotificationSound;
 
             if (ModConfig.Get(SettingKeys.Draggable))
             {
-                chirperWrapper.SetBuiltinChirperFree(true);
+                _chirperWrapper.SetBuiltinChirperFree(true);
 
                 if (ModConfig.Get<int>(SettingKeys.ChirperPositionX) > 0)
                 {
@@ -143,27 +143,27 @@ namespace SexyFishHorse.CitiesSkylines.Birdcage
                     var chirperY = ModConfig.Instance.GetSetting<int>(SettingKeys.ChirperPositionY);
                     var chirperPosition = new Vector2(chirperX, chirperY);
 
-                    positionService.UpdateChirperPosition(chirperPosition);
+                    _positionService.UpdateChirperPosition(chirperPosition);
                 }
             }
 
             var hideChirper = ModConfig.Instance.GetSetting<bool>(SettingKeys.HideChirper);
-            chirperWrapper.ShowBuiltinChirper(!hideChirper);
+            _chirperWrapper.ShowBuiltinChirper(!hideChirper);
 
-            initialized = true;
+            _initialized = true;
         }
 
         private void ProcessDragging()
         {
-            if (inputService.PrimaryMouseButtonDownState && inputService.AnyControlDown)
+            if (_inputService.PrimaryMouseButtonDownState && _inputService.AnyControlDown)
             {
-                if (dragging)
+                if (_dragging)
                 {
-                    positionService.Dragging();
+                    _positionService.Dragging();
                 }
                 else
                 {
-                    if (positionService.IsMouseOnChirper())
+                    if (_positionService.IsMouseOnChirper())
                     {
                         StartDragging();
                     }
@@ -177,37 +177,37 @@ namespace SexyFishHorse.CitiesSkylines.Birdcage
 
         private void StartDragging()
         {
-            if (dragging)
+            if (_dragging)
             {
                 return;
             }
 
-            logger.Info("Start dragging");
+            _logger.Info("Start dragging");
 
             ChirperUtils.CollapseChirperInstantly();
-            dragging = true;
-            if (chirpButton != null)
+            _dragging = true;
+            if (_chirpButton != null)
             {
-                chirpButton.isEnabled = false;
+                _chirpButton.isEnabled = false;
             }
         }
 
         private void StopDragging()
         {
-            if (dragging == false)
+            if (_dragging == false)
             {
                 return;
             }
 
-            logger.Info("Stop dragging");
+            _logger.Info("Stop dragging");
 
-            dragging = false;
-            positionService.UpdateChirperAnchor();
-            positionService.SaveChirperPosition();
+            _dragging = false;
+            _positionService.UpdateChirperAnchor();
+            _positionService.SaveChirperPosition();
 
-            if (chirpButton != null)
+            if (_chirpButton != null)
             {
-                chirpButton.isEnabled = true;
+                _chirpButton.isEnabled = true;
             }
         }
     }

@@ -13,12 +13,12 @@
     [Trait("Category", "UnitTest")]
     public class TheFilterServiceClass
     {
-        private readonly Fixture fixture;
+        private readonly Fixture _fixture;
 
         protected TheFilterServiceClass()
         {
-            fixture = new Fixture();
-            fixture.Customize(new AutoMoqCustomization());
+            _fixture = new Fixture();
+            _fixture.Customize(new AutoMoqCustomization());
         }
 
         public class TheHandleNewMessageMethod : TheFilterServiceClass
@@ -30,9 +30,9 @@
             [InlineData(LocaleID.CHIRP_RANDOM)]
             public void ShouldFilterUnimportantMessages(string messageId)
             {
-                var instance = fixture.Create<FilterService>();
+                var instance = _fixture.Create<FilterService>();
 
-                var message = fixture.Build<CitizenMessage>().With(x => x.m_messageID, messageId).Create();
+                var message = _fixture.Build<CitizenMessage>().With(x => x.m_messageID, messageId).Create();
 
                 instance.HandleNewMessage(message);
 
@@ -48,9 +48,9 @@
             [InlineData(LocaleID.CHIRP_TRASH_PILING_UP)]
             public void ShouldNotFilterImportantMessages(string messageId)
             {
-                var instance = fixture.Create<FilterService>();
+                var instance = _fixture.Create<FilterService>();
 
-                var message = fixture.Build<CitizenMessage>().With(x => x.m_messageID, messageId).Create();
+                var message = _fixture.Build<CitizenMessage>().With(x => x.m_messageID, messageId).Create();
 
                 instance.HandleNewMessage(message);
 
@@ -60,9 +60,9 @@
             [Fact(Skip = "Rewrite test due to change in filter service")]
             public void ShouldNotHandleGenericMessages()
             {
-                var instance = fixture.Create<FilterService>();
+                var instance = _fixture.Create<FilterService>();
 
-                instance.HandleNewMessage(fixture.Create<GenericMessage>());
+                instance.HandleNewMessage(_fixture.Create<GenericMessage>());
 
                 instance.MessagesToRemove.Should().HaveCount(0, "because generic messages should not be removed");
             }
@@ -70,11 +70,11 @@
             [Fact(Skip = "Rewrite test due to change in filter service")]
             public void ShouldNotRemoveNotificationSoundForUnfilteredMessages()
             {
-                var chirpPanel = fixture.Freeze<Mock<IChirpPanelWrapper>>();
+                var chirpPanel = _fixture.Freeze<Mock<IChirpPanelWrapper>>();
 
-                var instance = fixture.Create<FilterService>();
+                var instance = _fixture.Create<FilterService>();
 
-                var message = fixture.Build<CitizenMessage>().With(x => x.m_messageID, LocaleID.CHIRP_DISASTER).Create();
+                var message = _fixture.Build<CitizenMessage>().With(x => x.m_messageID, LocaleID.CHIRP_DISASTER).Create();
 
                 instance.HandleNewMessage(message);
 
@@ -84,11 +84,11 @@
             [Fact(Skip = "Rewrite test due to change in filter service")]
             public void ShouldRemoveNotificationSoundForFilteredMessages()
             {
-                var chirpPanel = fixture.Freeze<Mock<IChirpPanelWrapper>>();
+                var chirpPanel = _fixture.Freeze<Mock<IChirpPanelWrapper>>();
 
-                var instance = fixture.Create<FilterService>();
+                var instance = _fixture.Create<FilterService>();
 
-                var message = fixture.Build<CitizenMessage>().With(x => x.m_messageID, LocaleID.CHIRP_RANDOM).Create();
+                var message = _fixture.Build<CitizenMessage>().With(x => x.m_messageID, LocaleID.CHIRP_RANDOM).Create();
 
                 instance.HandleNewMessage(message);
 
@@ -101,8 +101,8 @@
             [Fact]
             public void ShouldClearPendingMessages()
             {
-                var instance = fixture.Create<FilterService>();
-                instance.MessagesToRemove.Add(fixture.Create<IChirperMessage>());
+                var instance = _fixture.Create<FilterService>();
+                instance.MessagesToRemove.Add(_fixture.Create<IChirperMessage>());
 
                 instance.RemovePendingMessages(new AudioClip());
 
@@ -112,8 +112,8 @@
             [Fact]
             public void ShouldNotCollapsePanelIfThereAreNoMessagesToRemove()
             {
-                var chirpPanel = fixture.Freeze<Mock<IChirpPanelWrapper>>();
-                var instance = fixture.Create<FilterService>();
+                var chirpPanel = _fixture.Freeze<Mock<IChirpPanelWrapper>>();
+                var instance = _fixture.Create<FilterService>();
 
                 instance.RemovePendingMessages(new AudioClip());
 
@@ -126,10 +126,10 @@
             [InlineData(3)]
             public void ShouldRemoveAllPendingMessages(int numberOfMessages)
             {
-                var messageManager = fixture.Freeze<Mock<IMessageManagerWrapper>>();
+                var messageManager = _fixture.Freeze<Mock<IMessageManagerWrapper>>();
 
-                var instance = fixture.Create<FilterService>();
-                instance.MessagesToRemove.AddMany(fixture.Create<IChirperMessage>, numberOfMessages);
+                var instance = _fixture.Create<FilterService>();
+                instance.MessagesToRemove.AddMany(_fixture.Create<IChirperMessage>, numberOfMessages);
 
                 instance.RemovePendingMessages(new AudioClip());
 
@@ -142,10 +142,10 @@
             [InlineData(3)]
             public void ShouldSetTheNotificationSoundOnce(int numberOfMessages)
             {
-                var chirpPanel = fixture.Freeze<Mock<IChirpPanelWrapper>>();
+                var chirpPanel = _fixture.Freeze<Mock<IChirpPanelWrapper>>();
 
-                var instance = fixture.Create<FilterService>();
-                instance.MessagesToRemove.AddMany(fixture.Create<IChirperMessage>, numberOfMessages);
+                var instance = _fixture.Create<FilterService>();
+                instance.MessagesToRemove.AddMany(_fixture.Create<IChirperMessage>, numberOfMessages);
 
                 var notificationSound = new AudioClip();
 
@@ -160,10 +160,10 @@
             [InlineData(3)]
             public void ShouldSynchronizeMessagesOnce(int numberOfMessages)
             {
-                var chirpPanel = fixture.Freeze<Mock<IChirpPanelWrapper>>();
+                var chirpPanel = _fixture.Freeze<Mock<IChirpPanelWrapper>>();
 
-                var instance = fixture.Create<FilterService>();
-                instance.MessagesToRemove.AddMany(fixture.Create<IChirperMessage>, numberOfMessages);
+                var instance = _fixture.Create<FilterService>();
+                instance.MessagesToRemove.AddMany(_fixture.Create<IChirperMessage>, numberOfMessages);
 
                 instance.RemovePendingMessages(new AudioClip());
 

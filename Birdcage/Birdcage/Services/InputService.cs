@@ -4,15 +4,15 @@
 
     public class InputService
     {
-        private bool leftCtrlDown;
+        private bool _leftCtrlDown;
 
-        private bool rightCtrlDown;
+        private bool _rightCtrlDown;
 
         public bool AnyControlDown
         {
             get
             {
-                return leftCtrlDown || rightCtrlDown;
+                return _leftCtrlDown || _rightCtrlDown;
             }
         }
 
@@ -28,22 +28,22 @@
         {
             if (Input.GetKeyDown(KeyCode.LeftControl))
             {
-                leftCtrlDown = true;
+                _leftCtrlDown = true;
             }
 
             if (Input.GetKeyUp(KeyCode.LeftControl))
             {
-                leftCtrlDown = false;
+                _leftCtrlDown = false;
             }
 
             if (Input.GetKeyDown(KeyCode.RightControl))
             {
-                rightCtrlDown = true;
+                _rightCtrlDown = true;
             }
 
             if (Input.GetKeyUp(KeyCode.RightControl))
             {
-                rightCtrlDown = false;
+                _rightCtrlDown = false;
             }
         }
 

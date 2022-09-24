@@ -9,28 +9,28 @@
 
     public class ChirpPanelWrapper : IChirpPanelWrapper
     {
-        private readonly FieldInfo newMessageCountFieldInfo;
+        private readonly FieldInfo _newMessageCountFieldInfo;
 
-        private readonly ILogger logger;
+        private readonly ILogger _logger;
 
-        private ChirpPanel chirpPanel;
+        private ChirpPanel _chirpPanel;
 
-        private UITextComponent counter;
+        private UITextComponent _counter;
 
         public ChirpPanelWrapper(ILogger logger)
         {
-            this.logger = logger;
+            _logger = logger;
 
-            newMessageCountFieldInfo = typeof(ChirpPanel).GetField("m_NewMessageCount", BindingFlags.Instance | BindingFlags.NonPublic);
+            _newMessageCountFieldInfo = typeof(ChirpPanel).GetField("m_NewMessageCount", BindingFlags.Instance | BindingFlags.NonPublic);
         }
 
         private ChirpPanel Panel
         {
             get
             {
-                return chirpPanel
-                    ? chirpPanel
-                    : chirpPanel = ChirpPanel.instance;
+                return _chirpPanel
+                    ? _chirpPanel
+                    : _chirpPanel = ChirpPanel.instance;
             }
         }
 
@@ -46,7 +46,7 @@
 
         public void SetCounter(UITextComponent counterLabel)
         {
-            counter = counterLabel;
+            _counter = counterLabel;
         }
 
         public void SetNotificationSound(AudioClip notificationSound)
@@ -58,35 +58,35 @@
         {
             if (Panel == null)
             {
-                logger.Error("Panel is null");
+                _logger.Error("Panel is null");
 
                 return;
             }
 
             Panel.SynchronizeMessages();
 
-            if (counter == null)
+            if (_counter == null)
             {
                 return;
             }
 
             var numberOfNewMessages = GetNumberOfNewMessages() - numberOfRemovedMessages;
-            counter.text = numberOfNewMessages.ToString();
+            _counter.text = numberOfNewMessages.ToString();
 
             if (numberOfNewMessages < 1)
             {
-                counter.isVisible = false;
+                _counter.isVisible = false;
             }
         }
 
         private int GetNumberOfNewMessages()
         {
-            if (newMessageCountFieldInfo == null)
+            if (_newMessageCountFieldInfo == null)
             {
                 return 0;
             }
 
-            return Convert.ToInt32(newMessageCountFieldInfo.GetValue(Panel));
+            return Convert.ToInt32(_newMessageCountFieldInfo.GetValue(Panel));
         }
     }
 }

@@ -13,37 +13,37 @@
     {
         private const string ResetPositionButtonTooltip = "Only available while in game";
 
-        private static UIButton resetPositionButton;
+        private static UIButton s_ResetPositionButton;
 
-        private static IChirper chirper;
+        private static IChirper s_Chirper;
 
-        private readonly FilterService filterService;
+        private readonly FilterService _filterService;
 
-        private readonly ILogger logger;
+        private readonly ILogger _logger;
 
-        private readonly PositionService positionService;
+        private readonly PositionService _positionService;
 
         public OptionsPanelManager(ILogger logger, PositionService positionService, FilterService filterService)
         {
-            this.logger = logger;
-            this.positionService = positionService;
-            this.filterService = filterService;
+            _logger = logger;
+            _positionService = positionService;
+            _filterService = filterService;
         }
 
         public static IChirper Chirper
         {
-            get { return chirper; }
+            get { return s_Chirper; }
 
             set
             {
-                chirper = value;
+                s_Chirper = value;
 
-                if (resetPositionButton != null)
+                if (s_ResetPositionButton != null)
                 {
-                    var enable = chirper != null;
+                    var enable = s_Chirper != null;
 
-                    resetPositionButton.isEnabled = enable;
-                    resetPositionButton.tooltip = enable ? ResetPositionButtonTooltip : null;
+                    s_ResetPositionButton.isEnabled = enable;
+                    s_ResetPositionButton.tooltip = enable ? ResetPositionButtonTooltip : null;
                 }
             }
         }
@@ -58,7 +58,7 @@
             }
             catch (Exception ex)
             {
-                logger.LogException(ex);
+                _logger.LogException(ex);
             }
         }
 
@@ -70,7 +70,7 @@
                      isChecked =>
                      {
                          ModConfig.Save(settingKey, isChecked);
-                         filterService.UpdateFilters();
+                         _filterService.UpdateFilters();
                      })
                  .WithTooltipLocaleId(localeId);
         }
@@ -173,9 +173,9 @@
                 ToggleDraggable);
 
             group.AddSpace();
-            resetPositionButton = group.AddButton("Reset Chirper position", ResetPosition)
+            s_ResetPositionButton = group.AddButton("Reset Chirper position", ResetPosition)
                                        .WithTooltip(ResetPositionButtonTooltip);
-            resetPositionButton.isEnabled = false;
+            s_ResetPositionButton.isEnabled = false;
         }
 
         private void AddDebugSettings(IStronglyTypedUIHelper uiHelper)
@@ -194,8 +194,8 @@
                 return;
             }
 
-            positionService.ResetPosition();
-            positionService.SaveChirperPosition();
+            _positionService.ResetPosition();
+            _positionService.SaveChirperPosition();
         }
 
         private void ToggleChirper(bool hideChirper)
@@ -211,7 +211,7 @@
             }
             catch (Exception ex)
             {
-                logger.LogException(ex);
+                _logger.LogException(ex);
             }
         }
 
@@ -227,7 +227,7 @@
 
         private void ToggleLogging(bool loggingEnabled)
         {
-            ((BirdcageLogger)logger).LoggingEnabled = loggingEnabled;
+            ((BirdcageLogger)_logger).LoggingEnabled = loggingEnabled;
             ModConfig.Instance.SaveSetting(SettingKeys.EnableLogging, loggingEnabled);
         }
     }

@@ -14,36 +14,36 @@
     [UsedImplicitly]
     public class EvacuationService : IDisasterBase
     {
-        private readonly ILogger logger;
+        private readonly ILogger _logger;
 
-        private readonly HashSet<ushort> manualReleaseDisasters = new HashSet<ushort>();
+        private readonly HashSet<ushort> _manualReleaseDisasters = new HashSet<ushort>();
 
-        private DisasterWrapper disasterWrapper;
+        private DisasterWrapper _disasterWrapper;
 
-        private FieldInfo evacuatingField;
+        private FieldInfo _evacuatingField;
 
-        private WarningPhasePanel phasePanel;
+        private WarningPhasePanel _phasePanel;
 
         public EvacuationService()
         {
-            logger = RagnarokLogger.Instance;
+            _logger = RagnarokLogger.Instance;
 
-            logger.Info("EvacuationService created");
+            _logger.Info("EvacuationService created");
         }
 
         public override void OnCreated(IDisaster disasters)
         {
-            logger.Info("EvacuationService: OnCreated");
-            disasterWrapper = (DisasterWrapper)disasters;
+            _logger.Info("EvacuationService: OnCreated");
+            _disasterWrapper = (DisasterWrapper)disasters;
         }
 
         public override void OnDisasterDeactivated(ushort disasterId)
         {
             try
             {
-                var disasterInfo = disasterWrapper.GetDisasterSettings(disasterId);
+                var disasterInfo = _disasterWrapper.GetDisasterSettings(disasterId);
 
-                logger.Info(
+                _logger.Info(
                     "EvacuationService.OnDisasterDeactivated. Id: {0}, Name: {1}, Type: {2}, Intensity: {3}",
                     disasterId,
                     disasterInfo.name,
@@ -57,20 +57,20 @@
 
                 if (!IsEvacuating())
                 {
-                    logger.Info("Not evacuating. Clear list of active manual release disasters");
-                    manualReleaseDisasters.Clear();
+                    _logger.Info("Not evacuating. Clear list of active manual release disasters");
+                    _manualReleaseDisasters.Clear();
                     return;
                 }
 
-                if (ShouldAutoRelease(disasterInfo.type) && !manualReleaseDisasters.Any())
+                if (ShouldAutoRelease(disasterInfo.type) && !_manualReleaseDisasters.Any())
                 {
-                    logger.Info("Auto releasing citizens");
+                    _logger.Info("Auto releasing citizens");
                     DisasterManager.instance.EvacuateAll(true);
                 }
             }
             catch (Exception ex)
             {
-                logger.LogException(ex);
+                _logger.LogException(ex);
 
                 throw;
             }
@@ -80,9 +80,9 @@
         {
             try
             {
-                var disasterInfo = disasterWrapper.GetDisasterSettings(disasterId);
+                var disasterInfo = _disasterWrapper.GetDisasterSettings(disasterId);
 
-                logger.Info(
+                _logger.Info(
                     "OnDisasterDetected. Id: {0}, Name: {1}, Type: {2}, Intensity: {3}",
                     disasterId,
                     disasterInfo.name,
@@ -96,27 +96,27 @@
 
                 if (ShouldAutoEvacuate(disasterInfo.type))
                 {
-                    logger.Info("Is auto-evacuate disaster");
+                    _logger.Info("Is auto-evacuate disaster");
                     if (!IsEvacuating())
                     {
-                        logger.Info("Starting evacuation");
+                        _logger.Info("Starting evacuation");
                         DisasterManager.instance.EvacuateAll(false);
                     }
                     else
                     {
-                        logger.Info("Already evacuating");
+                        _logger.Info("Already evacuating");
                     }
 
                     if (ShouldManualRelease(disasterInfo.type))
                     {
-                        logger.Info("Should be manually released");
-                        manualReleaseDisasters.Add(disasterId);
+                        _logger.Info("Should be manually released");
+                        _manualReleaseDisasters.Add(disasterId);
                     }
                 }
             }
             catch (Exception ex)
             {
-                logger.LogException(ex);
+                _logger.LogException(ex);
 
                 throw;
             }
@@ -124,24 +124,24 @@
 
         private void FindPhasePanel()
         {
-            logger.Info("ES: Find Phase Panel");
+            _logger.Info("ES: Find Phase Panel");
 
-            if (phasePanel != null)
+            if (_phasePanel != null)
             {
                 return;
             }
 
-            phasePanel = UnityObject.FindObjectOfType<WarningPhasePanel>();
-            evacuatingField = phasePanel.GetType().GetField("m_isEvacuating", BindingFlags.NonPublic | BindingFlags.Instance);
+            _phasePanel = UnityObject.FindObjectOfType<WarningPhasePanel>();
+            _evacuatingField = _phasePanel.GetType().GetField("m_isEvacuating", BindingFlags.NonPublic | BindingFlags.Instance);
         }
 
         private bool IsEvacuating()
         {
             FindPhasePanel();
 
-            var isEvacuating = (bool)evacuatingField.GetValue(phasePanel);
+            var isEvacuating = (bool)_evacuatingField.GetValue(_phasePanel);
 
-            logger.Info("Is evacuating: " + isEvacuating);
+            _logger.Info("Is evacuating: " + isEvacuating);
 
             return isEvacuating;
         }

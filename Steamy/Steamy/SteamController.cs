@@ -4,28 +4,28 @@
 
     public class SteamController : ISteamController
     {
-        private readonly IPlatformServiceAdapter platformService;
+        private readonly IPlatformServiceAdapter _platformService;
 
-        private readonly ISimulationManagerAdapter simulationManager;
+        private readonly ISimulationManagerAdapter _simulationManager;
 
         public SteamController(IPlatformServiceAdapter platformService, ISimulationManagerAdapter simulationManager)
         {
-            this.platformService = platformService;
-            this.simulationManager = simulationManager;
+            _platformService = platformService;
+            _simulationManager = simulationManager;
         }
 
         public void UpdateAchievementsStatus()
         {
             var enableAchievements = ModConfig.Instance.GetSetting<bool>(SettingKeys.EnableAchievements);
 
-            simulationManager.SetAchievementsEnabled(enableAchievements);
+            _simulationManager.SetAchievementsEnabled(enableAchievements);
         }
 
         public void UpdatePopupPosition()
         {
             var popupPosition = ModConfig.Instance.GetSetting<int>(SettingKeys.PopupPosition);
 
-            platformService.SetPopupPosition(popupPosition);
+            _platformService.SetPopupPosition(popupPosition);
         }
     }
 }

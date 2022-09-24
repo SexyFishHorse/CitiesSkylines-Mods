@@ -10,11 +10,11 @@
     {
         public class ShouldBeGreaterThanZeroMethod : IntExtensionsClass
         {
-            private readonly IFixture fixture;
+            private readonly IFixture _fixture;
 
             public ShouldBeGreaterThanZeroMethod()
             {
-                fixture = new Fixture();
+                _fixture = new Fixture();
             }
 
             [Theory]
@@ -25,7 +25,7 @@
             [InlineData(int.MaxValue)]
             public void ShouldNotThrowExceptionIfValueIsGreaterThanZero(int value)
             {
-                value.Invoking(x => x.ShouldBeGreaterThanZero(fixture.Create<string>())).Should().NotThrow();
+                value.Invoking(x => x.ShouldBeGreaterThanZero(_fixture.Create<string>())).Should().NotThrow();
             }
 
             [Theory]
@@ -37,7 +37,7 @@
             [InlineData(int.MinValue)]
             public void ShouldThrowArgumentOutOfRangeExceptionWhenValueIsLessThanOne(int value)
             {
-                var parameterName = fixture.Create<string>();
+                var parameterName = _fixture.Create<string>();
                 value.Invoking(x => x.ShouldBeGreaterThanZero(parameterName))
                      .Should()
                      .Throw<ArgumentOutOfRangeException>()

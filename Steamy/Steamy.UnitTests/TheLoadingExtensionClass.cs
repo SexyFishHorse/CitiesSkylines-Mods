@@ -13,12 +13,12 @@ namespace SexyFishHorse.CitiesSkylines.Steamy.UnitTests
     [Trait("Category", "UnitTest")]
     public class TheLoadingExtensionClass
     {
-        private readonly IFixture fixture;
+        private readonly IFixture _fixture;
 
         public TheLoadingExtensionClass()
         {
-            fixture = new Fixture().Customize(new AutoMoqCustomization());
-            fixture.Customize<LoadingExtension>(
+            _fixture = new Fixture().Customize(new AutoMoqCustomization());
+            _fixture.Customize<LoadingExtension>(
                 c => c.FromFactory(new MethodInvoker(new GreedyConstructorQuery())));
         }
 
@@ -27,12 +27,12 @@ namespace SexyFishHorse.CitiesSkylines.Steamy.UnitTests
             [Fact]
             public void ShouldLogExceptionAndRethrow()
             {
-                var logger = fixture.Freeze<Mock<ILogger>>();
-                var steamController = fixture.Freeze<Mock<ISteamController>>();
+                var logger = _fixture.Freeze<Mock<ILogger>>();
+                var steamController = _fixture.Freeze<Mock<ISteamController>>();
 
                 steamController.Setup(x => x.UpdateAchievementsStatus()).Throws<Exception>();
 
-                Action act = () => fixture.Create<LoadingExtension>();
+                Action act = () => _fixture.Create<LoadingExtension>();
 
                 act.Should().Throw<Exception>();
 
@@ -42,9 +42,9 @@ namespace SexyFishHorse.CitiesSkylines.Steamy.UnitTests
             [Fact]
             public void ShouldUpdateAchievementStatus()
             {
-                var steamController = fixture.Freeze<Mock<ISteamController>>();
+                var steamController = _fixture.Freeze<Mock<ISteamController>>();
 
-                fixture.Create<LoadingExtension>();
+                _fixture.Create<LoadingExtension>();
 
                 steamController.Verify(x => x.UpdateAchievementsStatus(), Times.Once);
             }
@@ -52,9 +52,9 @@ namespace SexyFishHorse.CitiesSkylines.Steamy.UnitTests
             [Fact]
             public void ShouldUpdatePopupPosition()
             {
-                var steamController = fixture.Freeze<Mock<ISteamController>>();
+                var steamController = _fixture.Freeze<Mock<ISteamController>>();
 
-                fixture.Create<LoadingExtension>();
+                _fixture.Create<LoadingExtension>();
 
                 steamController.Verify(x => x.UpdatePopupPosition(), Times.Once);
             }
@@ -65,11 +65,11 @@ namespace SexyFishHorse.CitiesSkylines.Steamy.UnitTests
             [Fact]
             public void ShouldUpdateAchievementStatus()
             {
-                var steamController = fixture.Freeze<Mock<ISteamController>>();
+                var steamController = _fixture.Freeze<Mock<ISteamController>>();
 
-                var instance = fixture.Freeze<LoadingExtension>();
+                var instance = _fixture.Freeze<LoadingExtension>();
 
-                instance.OnCreated(fixture.Create<ILoading>());
+                instance.OnCreated(_fixture.Create<ILoading>());
 
                 steamController.Verify(x => x.UpdateAchievementsStatus(),
                     Times.Exactly(2)); // Constructor and OnCreated
@@ -78,11 +78,11 @@ namespace SexyFishHorse.CitiesSkylines.Steamy.UnitTests
             [Fact]
             public void ShouldUpdatePopupPosition()
             {
-                var steamController = fixture.Freeze<Mock<ISteamController>>();
+                var steamController = _fixture.Freeze<Mock<ISteamController>>();
 
-                var instance = fixture.Freeze<LoadingExtension>();
+                var instance = _fixture.Freeze<LoadingExtension>();
 
-                instance.OnCreated(fixture.Create<ILoading>());
+                instance.OnCreated(_fixture.Create<ILoading>());
 
                 steamController.Verify(x => x.UpdatePopupPosition(), Times.Exactly(2)); // Constructor and OnCreated
             }
@@ -93,11 +93,11 @@ namespace SexyFishHorse.CitiesSkylines.Steamy.UnitTests
             [Fact]
             public void ShouldUpdateAchievementStatus()
             {
-                var steamController = fixture.Freeze<Mock<ISteamController>>();
+                var steamController = _fixture.Freeze<Mock<ISteamController>>();
 
-                var instance = fixture.Freeze<LoadingExtension>();
+                var instance = _fixture.Freeze<LoadingExtension>();
 
-                instance.OnLevelLoaded(fixture.Create<LoadMode>());
+                instance.OnLevelLoaded(_fixture.Create<LoadMode>());
 
                 steamController.Verify(x => x.UpdateAchievementsStatus(),
                     Times.Exactly(2)); // Constructor and OnCreated
@@ -106,11 +106,11 @@ namespace SexyFishHorse.CitiesSkylines.Steamy.UnitTests
             [Fact]
             public void ShouldUpdatePopupPosition()
             {
-                var steamController = fixture.Freeze<Mock<ISteamController>>();
+                var steamController = _fixture.Freeze<Mock<ISteamController>>();
 
-                var instance = fixture.Freeze<LoadingExtension>();
+                var instance = _fixture.Freeze<LoadingExtension>();
 
-                instance.OnLevelLoaded(fixture.Create<LoadMode>());
+                instance.OnLevelLoaded(_fixture.Create<LoadMode>());
 
                 steamController.Verify(x => x.UpdatePopupPosition(), Times.Exactly(2)); // Constructor and OnCreated
             }

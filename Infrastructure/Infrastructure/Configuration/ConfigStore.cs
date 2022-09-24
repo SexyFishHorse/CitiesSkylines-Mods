@@ -11,30 +11,30 @@
     {
         public const string DefaultConfigFileName = "ModConfiguration.xml";
 
-        private readonly IXmlFileSystem<ModConfiguration> fileSystemWrapper;
+        private readonly IXmlFileSystem<ModConfiguration> _fileSystemWrapper;
 
-        private readonly ModConfiguration cachedConfigs;
+        private readonly ModConfiguration _cachedConfigs;
 
         public ConfigStore(
             string modFolderName,
             string configFileName = DefaultConfigFileName,
             IXmlFileSystem<ModConfiguration> fileSystemWrapper = null)
         {
-            this.fileSystemWrapper = fileSystemWrapper ?? new XmlFileSystem<ModConfiguration>(new FileSystemWrapper());
+            _fileSystemWrapper = fileSystemWrapper ?? new XmlFileSystem<ModConfiguration>(new FileSystemWrapper());
 
             var modFolderPath = GamePaths.GetModFolderPath(GameFolder.Configs);
             modFolderPath = Path.Combine(modFolderPath, modFolderName);
 
-            this.fileSystemWrapper.CreateDirectory(modFolderPath);
+            _fileSystemWrapper.CreateDirectory(modFolderPath);
 
             ConfigFileInfo = new FileInfo(Path.Combine(modFolderPath, configFileName));
 
-            if (!this.fileSystemWrapper.FileExists(ConfigFileInfo))
+            if (!_fileSystemWrapper.FileExists(ConfigFileInfo))
             {
                 SaveConfigToFile(new ModConfiguration());
             }
 
-            cachedConfigs = LoadConfigFromFile();
+            _cachedConfigs = LoadConfigFromFile();
         }
 
         public FileInfo ConfigFileInfo { get; private set; }
@@ -43,9 +43,9 @@
         {
             key.ShouldNotBeNull("key");
 
-            if (cachedConfigs.Settings.Any(x => x.Key == key))
+            if (_cachedConfigs.Settings.Any(x => x.Key == key))
             {
-                var value = cachedConfigs.Settings.Single(x => x.Key == key).Value;
+                var value = _cachedConfigs.Settings.Single(x => x.Key == key).Value;
 
                 try
                 {
@@ -70,31 +70,31 @@
         {
             key.ShouldNotBeNullOrEmpty("key");
 
-            return cachedConfigs.Settings.Any(x => x.Key == key);
+            return _cachedConfigs.Settings.Any(x => x.Key == key);
         }
 
         public ModConfiguration LoadConfigFromFile()
         {
-            if (fileSystemWrapper.FileExists(ConfigFileInfo) == false)
+            if (_fileSystemWrapper.FileExists(ConfigFileInfo) == false)
             {
                 return new ModConfiguration();
             }
 
-            return fileSystemWrapper.GetFileAsObject(ConfigFileInfo) ?? new ModConfiguration();
+            return _fileSystemWrapper.GetFileAsObject(ConfigFileInfo) ?? new ModConfiguration();
         }
 
         public void RemoveSetting(string key)
         {
             key.ShouldNotBeNull("key");
 
-            cachedConfigs.Settings.Remove(cachedConfigs.Settings.Find(x => x.Key == key));
+            _cachedConfigs.Settings.Remove(_cachedConfigs.Settings.Find(x => x.Key == key));
 
-            SaveConfigToFile(cachedConfigs);
+            SaveConfigToFile(_cachedConfigs);
         }
 
         public void SaveConfigToFile(ModConfiguration modConfiguration)
         {
-            fileSystemWrapper.SaveObjectToFile(ConfigFileInfo, modConfiguration);
+            _fileSystemWrapper.SaveObjectToFile(ConfigFileInfo, modConfiguration);
         }
 
         public void SaveSetting<T>(string key, T value)

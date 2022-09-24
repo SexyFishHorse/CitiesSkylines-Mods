@@ -8,9 +8,9 @@ namespace SexyFishHorse.CitiesSkylines.Infrastructure.DependencyInjection
 
     public class ServiceProvider : IServiceProvider
     {
-        private readonly IDictionary<Type, object> serviceCache = new Dictionary<Type, object>();
+        private readonly IDictionary<Type, object> _serviceCache = new Dictionary<Type, object>();
 
-        private readonly IDictionary<Type, ServiceDefinition> serviceDefinitions =
+        private readonly IDictionary<Type, ServiceDefinition> _serviceDefinitions =
             new Dictionary<Type, ServiceDefinition>();
 
         public ILogger Logger { get; set; }
@@ -24,7 +24,7 @@ namespace SexyFishHorse.CitiesSkylines.Infrastructure.DependencyInjection
                     throw new ArgumentException(string.Format("The implementation {0} is not assignable to {1}.", implementation.GetType().FullName, abstraction.FullName));
                 }
 
-                serviceCache.Add(abstraction, implementation);
+                _serviceCache.Add(abstraction, implementation);
 
                 return this;
             }
@@ -48,7 +48,7 @@ namespace SexyFishHorse.CitiesSkylines.Infrastructure.DependencyInjection
                     }
                 }
 
-                serviceDefinitions.Add(abstraction, new ServiceDefinition(implementation, lifetime));
+                _serviceDefinitions.Add(abstraction, new ServiceDefinition(implementation, lifetime));
 
                 return this;
             }
@@ -73,20 +73,20 @@ namespace SexyFishHorse.CitiesSkylines.Infrastructure.DependencyInjection
             {
                 // See if the instance is already cached
                 object service;
-                if (serviceCache.TryGetValue(type, out service))
+                if (_serviceCache.TryGetValue(type, out service))
                 {
                     return service;
                 }
 
                 // See if it has a definition
                 ServiceDefinition serviceDefinition;
-                if (serviceDefinitions.TryGetValue(type, out serviceDefinition))
+                if (_serviceDefinitions.TryGetValue(type, out serviceDefinition))
                 {
                     service = BuildService(serviceDefinition.InstanceType);
 
                     if (serviceDefinition.Lifetime == ServiceLifetime.Singleton)
                     {
-                        serviceCache.Add(type, service);
+                        _serviceCache.Add(type, service);
                     }
 
                     return service;

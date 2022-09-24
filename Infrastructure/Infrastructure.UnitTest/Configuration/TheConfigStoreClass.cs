@@ -15,17 +15,17 @@
 
     public class TheConfigStoreClass
     {
-        private readonly Fixture fixture;
+        private readonly Fixture _fixture;
 
         protected TheConfigStoreClass()
         {
-            fixture = new Fixture();
-            fixture.Customize(new AutoMoqCustomization());
+            _fixture = new Fixture();
+            _fixture.Customize(new AutoMoqCustomization());
         }
 
         private Mock<IXmlFileSystem<ModConfiguration>> SetModConfig(ModConfiguration modConfig)
         {
-            var fileSystemWrapper = fixture.Freeze<Mock<IXmlFileSystem<ModConfiguration>>>();
+            var fileSystemWrapper = _fixture.Freeze<Mock<IXmlFileSystem<ModConfiguration>>>();
             fileSystemWrapper.Setup(x => x.FileExists(It.IsAny<FileInfo>())).Returns(true);
             fileSystemWrapper.Setup(x => x.GetFileAsObject(It.IsAny<FileInfo>())).Returns(modConfig);
 
@@ -37,12 +37,12 @@
             [Fact]
             public void ShouldLoadFileFromDisk()
             {
-                var fileSystemWrapper = fixture.Freeze<Mock<IXmlFileSystem<ModConfiguration>>>();
+                var fileSystemWrapper = _fixture.Freeze<Mock<IXmlFileSystem<ModConfiguration>>>();
                 fileSystemWrapper.Setup(x => x.FileExists(It.IsAny<FileInfo>())).Returns(true);
 
-                var instance = fixture.Create<ConfigStore>();
+                var instance = _fixture.Create<ConfigStore>();
 
-                instance.GetSetting<object>(fixture.Create<string>());
+                instance.GetSetting<object>(_fixture.Create<string>());
 
                 fileSystemWrapper.Verify(x => x.GetFileAsObject(It.IsAny<FileInfo>()), Times.Once);
             }
@@ -50,9 +50,9 @@
             [Fact]
             public void ShouldReturnDefaultValueIfFileIsMissing()
             {
-                var instance = fixture.Create<ConfigStore>();
+                var instance = _fixture.Create<ConfigStore>();
 
-                var setting = instance.GetSetting<string>(fixture.Create<string>());
+                var setting = instance.GetSetting<string>(_fixture.Create<string>());
 
                 setting.Should().BeNull();
             }
@@ -60,13 +60,13 @@
             [Fact]
             public void ShouldReturnValueFromFile()
             {
-                var setting = fixture.Create<KeyValuePair<string, object>>();
-                var modConfig = fixture.Create<ModConfiguration>();
+                var setting = _fixture.Create<KeyValuePair<string, object>>();
+                var modConfig = _fixture.Create<ModConfiguration>();
                 modConfig.Settings.Add(setting);
 
                 SetModConfig(modConfig);
 
-                var instance = fixture.Create<ConfigStore>();
+                var instance = _fixture.Create<ConfigStore>();
 
                 var settingValue = instance.GetSetting<object>(setting.Key);
 
@@ -77,7 +77,7 @@
             [SuppressMessage("ReSharper", "AssignNullToNotNullAttribute", Justification = "For testing purposes.")]
             public void ShouldThrowExceptionIfKeyIsMissing()
             {
-                var instance = fixture.Create<ConfigStore>();
+                var instance = _fixture.Create<ConfigStore>();
 
                 Action act = () => instance.GetSetting<object>(null);
 
@@ -90,22 +90,22 @@
             [Fact]
             public void ShouldReturnFalseIfSettingDoesNotExist()
             {
-                var instance = fixture.Create<ConfigStore>();
+                var instance = _fixture.Create<ConfigStore>();
 
-                instance.HasSetting(fixture.Create<string>()).Should().BeFalse("because the setting does not exist");
+                instance.HasSetting(_fixture.Create<string>()).Should().BeFalse("because the setting does not exist");
             }
 
             [Fact]
             public void ShouldReturnTrueIfSettingExist()
             {
-                var key = fixture.Create<string>();
+                var key = _fixture.Create<string>();
 
-                var modConfig = fixture.Create<ModConfiguration>();
-                modConfig.Settings.Add(new KeyValuePair<string, object>(key, fixture.Create<object>()));
+                var modConfig = _fixture.Create<ModConfiguration>();
+                modConfig.Settings.Add(new KeyValuePair<string, object>(key, _fixture.Create<object>()));
 
                 SetModConfig(modConfig);
 
-                var instance = fixture.Create<ConfigStore>();
+                var instance = _fixture.Create<ConfigStore>();
 
                 instance.HasSetting(key).Should().BeTrue("because the setting exist");
             }
@@ -114,7 +114,7 @@
             [SuppressMessage("ReSharper", "AssignNullToNotNullAttribute", Justification = "For testing purposes.")]
             public void ShouldThrowExceptionIfKeyIsNull()
             {
-                var instance = fixture.Create<ConfigStore>();
+                var instance = _fixture.Create<ConfigStore>();
 
                 Action act = () => instance.HasSetting(null);
 
@@ -127,14 +127,14 @@
             [Fact]
             public void ShouldRemoveSettingFromFile()
             {
-                var key = fixture.Create<string>();
+                var key = _fixture.Create<string>();
 
-                var modConfig = fixture.Create<ModConfiguration>();
-                modConfig.Settings.Add(new KeyValuePair<string, object>(key, fixture.Create<object>()));
+                var modConfig = _fixture.Create<ModConfiguration>();
+                modConfig.Settings.Add(new KeyValuePair<string, object>(key, _fixture.Create<object>()));
 
                 var fileSystemWrapper = SetModConfig(modConfig);
 
-                var instance = fixture.Create<ConfigStore>();
+                var instance = _fixture.Create<ConfigStore>();
 
                 instance.RemoveSetting(key);
 
@@ -149,7 +149,7 @@
             [SuppressMessage("ReSharper", "AssignNullToNotNullAttribute", Justification = "For testing purposes.")]
             public void ShouldThrowExceptionIfKeyIsNull()
             {
-                var instance = fixture.Create<ConfigStore>();
+                var instance = _fixture.Create<ConfigStore>();
 
                 Action act = () => instance.RemoveSetting(null);
 
@@ -162,13 +162,13 @@
             [Fact]
             public void ShouldOverwriteExistingSettings()
             {
-                var setting = fixture.Create<KeyValuePair<string, object>>();
-                var newSetting = new KeyValuePair<string, object>(setting.Key, fixture.Create<object>());
-                var modConfig = fixture.Create<ModConfiguration>();
+                var setting = _fixture.Create<KeyValuePair<string, object>>();
+                var newSetting = new KeyValuePair<string, object>(setting.Key, _fixture.Create<object>());
+                var modConfig = _fixture.Create<ModConfiguration>();
                 modConfig.Settings.Add(setting);
 
                 var fileSystemWrapper = SetModConfig(modConfig);
-                var instance = fixture.Create<ConfigStore>();
+                var instance = _fixture.Create<ConfigStore>();
 
                 instance.SaveSetting(newSetting.Key, newSetting.Value);
 
@@ -183,10 +183,10 @@
             [Fact]
             public void ShouldSaveSettingsToDisk()
             {
-                var setting = fixture.Create<KeyValuePair<string, object>>();
+                var setting = _fixture.Create<KeyValuePair<string, object>>();
 
-                var fileSystemWrapper = fixture.Freeze<Mock<IXmlFileSystem<ModConfiguration>>>();
-                var instance = fixture.Create<ConfigStore>();
+                var fileSystemWrapper = _fixture.Freeze<Mock<IXmlFileSystem<ModConfiguration>>>();
+                var instance = _fixture.Create<ConfigStore>();
 
                 instance.SaveSetting(setting.Key, setting.Value);
 
@@ -199,9 +199,9 @@
             [SuppressMessage("ReSharper", "AssignNullToNotNullAttribute", Justification = "For testing purposes.")]
             public void ShouldThrowExceptionIfKeyIsNull()
             {
-                var instance = fixture.Create<ConfigStore>();
+                var instance = _fixture.Create<ConfigStore>();
 
-                Action act = () => instance.SaveSetting(null, fixture.Create<object>());
+                Action act = () => instance.SaveSetting(null, _fixture.Create<object>());
 
                 act.Should().Throw<ArgumentNullException>().And.ParamName.Should().Be("key");
             }
@@ -210,9 +210,9 @@
             [SuppressMessage("ReSharper", "AssignNullToNotNullAttribute", Justification = "For testing purposes.")]
             public void ShouldThrowExceptionIfValueIsNull()
             {
-                var instance = fixture.Create<ConfigStore>();
+                var instance = _fixture.Create<ConfigStore>();
 
-                Action act = () => instance.SaveSetting<object>(fixture.Create<string>(), null);
+                Action act = () => instance.SaveSetting<object>(_fixture.Create<string>(), null);
 
                 act.Should().Throw<ArgumentNullException>().And.ParamName.Should().Be("value");
             }

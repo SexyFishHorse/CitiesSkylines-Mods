@@ -8,15 +8,15 @@
 
     public class RagnarokLogger : ILogger
     {
-        private static ILogger internalLogger;
+        private static ILogger s_InternalLogger;
 
-        private readonly ILogger logger;
+        private readonly ILogger _logger;
 
         private RagnarokLogger()
         {
             try
             {
-                logger = LogManager.Instance.GetOrCreate(UserMod.ModName);
+                _logger = LogManager.Instance.GetOrCreate(UserMod.ModName);
                 Enabled = ModConfig.Instance.GetSetting<bool>(SettingKeys.EnableLogging);
             }
             catch (Exception ex)
@@ -32,13 +32,13 @@
         {
             get
             {
-                return internalLogger ?? (internalLogger = new RagnarokLogger());
+                return s_InternalLogger ?? (s_InternalLogger = new RagnarokLogger());
             }
         }
 
         public void Dispose()
         {
-            logger.Dispose();
+            _logger.Dispose();
         }
 
         [StringFormatMethod("message")]
@@ -46,7 +46,7 @@
         {
             try
             {
-                logger.Error(message, args);
+                _logger.Error(message, args);
             }
             catch (Exception ex)
             {
@@ -64,7 +64,7 @@
 
             try
             {
-                logger.Info(message, args);
+                _logger.Info(message, args);
             }
             catch (Exception ex)
             {
@@ -83,7 +83,7 @@
 
             try
             {
-                logger.Log(messageType, message, args);
+                _logger.Log(messageType, message, args);
             }
             catch (Exception ex)
             {
@@ -96,7 +96,7 @@
         {
             try
             {
-                logger.LogException(exception, message, args);
+                _logger.LogException(exception, message, args);
             }
             catch (Exception ex)
             {
@@ -115,7 +115,7 @@
 
             try
             {
-                logger.Warn(message, args);
+                _logger.Warn(message, args);
             }
             catch (Exception ex)
             {

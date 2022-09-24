@@ -18,20 +18,20 @@ namespace SexyFishHorse.CitiesSkylines.Ragnarok.Configuration
 
         private const byte MinimumIntensityValue = byte.MinValue;
 
-        private static readonly string[] AutoEvacuateValues =
+        private static readonly string[] s_autoEvacuateValues =
         {
             "Disabled",
             "Enabled - manual release",
             "Enabled - auto release"
         };
 
-        private readonly ILogger logger;
+        private readonly ILogger _logger;
 
-        private readonly IDictionary<string, UISlider> maxIntensitySliders = new Dictionary<string, UISlider>();
+        private readonly IDictionary<string, UISlider> _maxIntensitySliders = new Dictionary<string, UISlider>();
 
         public OptionsPanelManager(ILogger logger)
         {
-            this.logger = logger;
+            _logger = logger;
 
             logger.Info("OptionsPanelManager created");
 
@@ -76,7 +76,7 @@ namespace SexyFishHorse.CitiesSkylines.Ragnarok.Configuration
             }
             catch (Exception ex)
             {
-                logger.LogException(ex);
+                _logger.LogException(ex);
 
                 throw;
             }
@@ -86,7 +86,7 @@ namespace SexyFishHorse.CitiesSkylines.Ragnarok.Configuration
         {
             var dropDown = autoEvacuateGroup.AddDropDown(
                 disasterName,
-                AutoEvacuateValues,
+                s_autoEvacuateValues,
                 ModConfig.Instance.GetSetting<int>(settingKey),
                 sel => SaveSetting(settingKey, sel));
 
@@ -121,13 +121,13 @@ namespace SexyFishHorse.CitiesSkylines.Ragnarok.Configuration
             var label = slider.GetLabel();
             label.width = (int)Math.Round(label.width * 1.4);
 
-            if (maxIntensitySliders.ContainsKey(impactSettingKey))
+            if (_maxIntensitySliders.ContainsKey(impactSettingKey))
             {
-                maxIntensitySliders[impactSettingKey] = slider;
+                _maxIntensitySliders[impactSettingKey] = slider;
             }
             else
             {
-                maxIntensitySliders.Add(impactSettingKey, slider);
+                _maxIntensitySliders.Add(impactSettingKey, slider);
             }
 
             UpdateMaxIntensityLabel(impactSettingKey, disasterName, setting);
@@ -242,7 +242,7 @@ namespace SexyFishHorse.CitiesSkylines.Ragnarok.Configuration
         {
             SaveSetting(SettingKeys.DisableAutofocusDisaster, isChecked);
 
-            GenericDisasterServices.UpdateAutoFollowDisaster(logger);
+            GenericDisasterServices.UpdateAutoFollowDisaster(_logger);
         }
 
         private void OnDisableNonDisasterFiresChanged(bool isChecked)
@@ -257,7 +257,7 @@ namespace SexyFishHorse.CitiesSkylines.Ragnarok.Configuration
 
         private void SaveSetting(string settingKey, object value)
         {
-            logger.Info("Saving setting {0} with value {1}", settingKey, value);
+            _logger.Info("Saving setting {0} with value {1}", settingKey, value);
 
             ModConfig.Instance.SaveSetting(settingKey, value);
         }
@@ -274,7 +274,7 @@ namespace SexyFishHorse.CitiesSkylines.Ragnarok.Configuration
                 intensity = (value / 10.0f).ToString("f1", CultureInfo.CurrentUICulture);
             }
 
-            maxIntensitySliders[impactSettingKey].SetLabelText("{0} ({1})", disasterName, intensity);
+            _maxIntensitySliders[impactSettingKey].SetLabelText("{0} ({1})", disasterName, intensity);
         }
     }
 }

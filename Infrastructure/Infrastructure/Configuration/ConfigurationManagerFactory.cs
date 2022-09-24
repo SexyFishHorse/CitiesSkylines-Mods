@@ -6,18 +6,18 @@
     [PublicAPI]
     public static class ConfigurationManagerFactory
     {
-        private static readonly IDictionary<string, IConfigurationManager> Managers =
+        private static readonly IDictionary<string, IConfigurationManager> s_managers =
             new Dictionary<string, IConfigurationManager>();
 
         [PublicAPI]
         public static IConfigurationManager GetOrCreateConfigurationManager(string modName)
         {
-            if (Managers.ContainsKey(modName) == false)
+            if (s_managers.ContainsKey(modName) == false)
             {
-                Managers.Add(modName, ConfigurationManager.Create(modName));
+                s_managers.Add(modName, ConfigurationManager.Create(modName));
             }
 
-            return Managers[modName];
+            return s_managers[modName];
         }
     }
 }

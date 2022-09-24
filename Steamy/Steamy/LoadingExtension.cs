@@ -6,9 +6,9 @@ namespace SexyFishHorse.CitiesSkylines.Steamy
 
     public class LoadingExtension : LoadingExtensionBase
     {
-        private readonly ILogger logger;
+        private readonly ILogger _logger;
 
-        private readonly ISteamController steamController;
+        private readonly ISteamController _steamController;
 
         public LoadingExtension() : this(
             UserMod.Services.GetService<ILogger>(),
@@ -18,8 +18,8 @@ namespace SexyFishHorse.CitiesSkylines.Steamy
 
         public LoadingExtension(ILogger logger, ISteamController steamController)
         {
-            this.logger = logger;
-            this.steamController = steamController;
+            _logger = logger;
+            _steamController = steamController;
 
             try
             {
@@ -41,14 +41,14 @@ namespace SexyFishHorse.CitiesSkylines.Steamy
         {
             try
             {
-                logger.Info("On created");
+                _logger.Info("On created");
 
-                steamController.UpdatePopupPosition();
-                steamController.UpdateAchievementsStatus();
+                _steamController.UpdatePopupPosition();
+                _steamController.UpdateAchievementsStatus();
             }
             catch (Exception ex)
             {
-                logger.LogException(ex);
+                _logger.LogException(ex);
 
                 throw;
             }
@@ -58,14 +58,14 @@ namespace SexyFishHorse.CitiesSkylines.Steamy
         {
             try
             {
-                logger.Info("On level loaded");
+                _logger.Info("On level loaded");
 
-                steamController.UpdatePopupPosition();
-                steamController.UpdateAchievementsStatus();
+                _steamController.UpdatePopupPosition();
+                _steamController.UpdateAchievementsStatus();
             }
             catch (Exception ex)
             {
-                logger.LogException(ex);
+                _logger.LogException(ex);
 
                 throw;
             }

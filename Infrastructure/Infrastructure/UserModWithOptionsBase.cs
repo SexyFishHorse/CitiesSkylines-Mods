@@ -9,13 +9,13 @@
     [UsedImplicitly(ImplicitUseTargetFlags.WithMembers)]
     public abstract class UserModWithOptionsBase : IUserModWithOptions
     {
-        private readonly IOptionsPanelManager optionsPanel;
+        private readonly IOptionsPanelManager _optionsPanel;
 
         protected UserModWithOptionsBase(string name, string description, IServiceProvider services)
         {
             Name = name;
             Description = description;
-            this.optionsPanel = services.GetService<IOptionsPanelManager>();
+            _optionsPanel = services.GetService<IOptionsPanelManager>();
         }
 
         public string Name { get; private set; }
@@ -26,7 +26,7 @@
         {
             var uiHelper = uiHelperBase.AsStronglyTyped();
 
-            optionsPanel.ConfigureOptionsPanel(uiHelper);
+            _optionsPanel.ConfigureOptionsPanel(uiHelper);
         }
     }
 }

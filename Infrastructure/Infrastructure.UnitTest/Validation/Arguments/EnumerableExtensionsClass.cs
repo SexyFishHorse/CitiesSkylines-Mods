@@ -11,25 +11,25 @@
     {
         public class ShouldNotBeNullOrEmptyMethod : EnumerableExtensionsClass
         {
-            private readonly IFixture fixture;
+            private readonly IFixture _fixture;
 
             public ShouldNotBeNullOrEmptyMethod()
             {
-                fixture = new Fixture();
+                _fixture = new Fixture();
             }
 
             [Fact]
             public void ShouldNotThrowExceptionWhenCollectionIsNotEmpty()
             {
-                var list = fixture.CreateMany<string>();
+                var list = _fixture.CreateMany<string>();
 
-                list.Invoking(x => x.ShouldNotBeNullOrEmpty(fixture.Create<string>())).Should().NotThrow();
+                list.Invoking(x => x.ShouldNotBeNullOrEmpty(_fixture.Create<string>())).Should().NotThrow();
             }
 
             [Fact]
             public void ShouldThrowArgumentExceptionWhenCollectionIsEmpty()
             {
-                var parameterName = fixture.Create<string>();
+                var parameterName = _fixture.Create<string>();
                 var list = new List<string>();
 
                 list.Invoking(x => x.ShouldNotBeNullOrEmpty(parameterName))
@@ -42,7 +42,7 @@
             [Fact]
             public void ShouldThrowArgumentNullExceptionWhenCollectionIsNull()
             {
-                var parameterName = fixture.Create<string>();
+                var parameterName = _fixture.Create<string>();
                 List<string> list = null;
 
                 // ReSharper disable once ExpressionIsAlwaysNull

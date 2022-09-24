@@ -10,20 +10,20 @@
     {
         public class ShouldNotBeNullMethod : ObjectExtensionsClass
         {
-            private readonly IFixture fixture;
+            private readonly IFixture _fixture;
 
             public ShouldNotBeNullMethod()
             {
-                fixture = new Fixture();
+                _fixture = new Fixture();
             }
 
             [Fact]
             public void ShouldNotThrowExceptionIfParameterIsNotNull()
             {
-                var value = fixture.Create<string>();
+                var value = _fixture.Create<string>();
 
                 // ReSharper disable once ExpressionIsAlwaysNull
-                value.Invoking(x => x.ShouldNotBeNull(fixture.Create<string>()))
+                value.Invoking(x => x.ShouldNotBeNull(_fixture.Create<string>()))
                      .Should()
                      .NotThrow();
             }
@@ -31,7 +31,7 @@
             [Fact]
             public void ShouldThrowArgumentNullExceptionWhenParameterIsNull()
             {
-                var parameterName = fixture.Create<string>();
+                var parameterName = _fixture.Create<string>();
                 string value = null;
 
                 // ReSharper disable once ExpressionIsAlwaysNull

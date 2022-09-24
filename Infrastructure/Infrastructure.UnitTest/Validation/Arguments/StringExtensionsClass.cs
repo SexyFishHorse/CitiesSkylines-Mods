@@ -10,25 +10,25 @@
     {
         public class ShouldNotBeNullOrEmptyMethod : StringExtensionsClass
         {
-            private readonly IFixture fixture;
+            private readonly IFixture _fixture;
 
             public ShouldNotBeNullOrEmptyMethod()
             {
-                fixture = new Fixture();
+                _fixture = new Fixture();
             }
 
             [Fact]
             public void ShouldNotThrowExceptionIfStringIsNotEmpty()
             {
-                var value = fixture.Create<string>();
+                var value = _fixture.Create<string>();
 
-                value.Invoking(x => x.ShouldNotBeNullOrEmpty(fixture.Create<string>())).Should().NotThrow();
+                value.Invoking(x => x.ShouldNotBeNullOrEmpty(_fixture.Create<string>())).Should().NotThrow();
             }
 
             [Fact]
             public void ShouldThrowArgumentExceptionIfStringIsEmpty()
             {
-                var parameterName = fixture.Create<string>();
+                var parameterName = _fixture.Create<string>();
                 var value = string.Empty;
 
                 value.Invoking(x => x.ShouldNotBeNullOrEmpty(parameterName))
@@ -40,7 +40,7 @@
             [Fact]
             public void ShouldThrowArgumentNullExceptionIfValueIsNull()
             {
-                var parameterName = fixture.Create<string>();
+                var parameterName = _fixture.Create<string>();
                 string value = null;
 
                 // ReSharper disable once ExpressionIsAlwaysNull

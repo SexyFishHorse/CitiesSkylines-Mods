@@ -11,11 +11,11 @@
     [UsedImplicitly]
     public class GiantDisasterService : ILoadingExtension
     {
-        private readonly ILogger logger;
+        private readonly ILogger _logger;
 
         public GiantDisasterService()
         {
-            logger = RagnarokLogger.Instance;
+            _logger = RagnarokLogger.Instance;
         }
 
         public void OnCreated(ILoading loading)
@@ -29,14 +29,14 @@
                 return;
             }
 
-            logger.Info("Changing max disaster spawn intensity");
+            _logger.Info("Changing max disaster spawn intensity");
 
             var optionPanel = UnityObject.FindObjectOfType<DisastersOptionPanel>();
             var slider = optionPanel.GetComponentInChildren<UISlider>();
             slider.maxValue = byte.MaxValue;
             slider.minValue = byte.MinValue;
 
-            logger.Info("Max disaster spawn intensity changed to 25.5");
+            _logger.Info("Max disaster spawn intensity changed to 25.5");
         }
 
         public void OnLevelUnloading()

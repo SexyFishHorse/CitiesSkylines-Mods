@@ -4,14 +4,14 @@
 
     public static class ModConfig
     {
-        private static IConfigurationManager instance;
+        private static IConfigurationManager s_Instance;
 
         public static IConfigurationManager Instance
         {
             get
             {
-                return instance ??
-                       (instance = ConfigurationManagerFactory.GetOrCreateConfigurationManager(UserMod.ModName));
+                return s_Instance ??
+                       (s_Instance = ConfigurationManagerFactory.GetOrCreateConfigurationManager(UserMod.ModName));
             }
         }
 

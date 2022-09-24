@@ -15,7 +15,7 @@
     [UsedImplicitly]
     public class DisableDisasterService : IDisasterBase, ILoadingExtension
     {
-        private static readonly Dictionary<DisasterType, DisasterSettingKeys> DisasterSettingDictionary =
+        private static readonly Dictionary<DisasterType, DisasterSettingKeys> s_disasterSettingDictionary =
             new Dictionary<DisasterType, DisasterSettingKeys>
             {
                 { DisasterType.Earthquake, SettingKeys.Earthquakes },
@@ -29,27 +29,27 @@
                 { DisasterType.Tsunami, SettingKeys.Tsunamis }
             };
 
-        private readonly ILogger logger;
+        private readonly ILogger _logger;
 
-        private FieldInfo conversionField;
+        private FieldInfo _conversionField;
 
-        private DisasterWrapper disasterWrapper;
+        private DisasterWrapper _disasterWrapper;
 
         public DisableDisasterService()
         {
-            logger = RagnarokLogger.Instance;
-            logger.Info("DisableDisasterService created");
+            _logger = RagnarokLogger.Instance;
+            _logger.Info("DisableDisasterService created");
         }
 
         public override void OnCreated(IDisaster disaster)
         {
             try
             {
-                logger.Info("DDS: OnCreated {0}", disaster);
+                _logger.Info("DDS: OnCreated {0}", disaster);
 
-                disasterWrapper = (DisasterWrapper)disaster;
+                _disasterWrapper = (DisasterWrapper)disaster;
 
-                conversionField = disasterWrapper.GetType()
+                _conversionField = _disasterWrapper.GetType()
                                                  .GetField(
                                                      "m_DisasterTypeToInfoConversion",
                                                      BindingFlags.NonPublic | BindingFlags.Instance);
@@ -58,7 +58,7 @@
             }
             catch (Exception ex)
             {
-                logger.LogException(ex);
+                _logger.LogException(ex);
 
                 throw;
             }
@@ -72,9 +72,9 @@
         {
             try
             {
-                var info = disasterWrapper.GetDisasterSettings(disasterId);
+                var info = _disasterWrapper.GetDisasterSettings(disasterId);
 
-                logger.Info(
+                _logger.Info(
                     "DDS: OnDisasterActivated. Id: {0}, Name: {1}, Type: {2}, Intensity: {3}",
                     disasterId,
                     info.name,
@@ -86,11 +86,11 @@
                     return;
                 }
 
-                GenericDisasterServices.HandlePauseOnDisaster(logger, info.type);
+                GenericDisasterServices.HandlePauseOnDisaster(_logger, info.type);
             }
             catch (Exception ex)
             {
-                logger.LogException(ex);
+                _logger.LogException(ex);
 
                 throw;
             }
@@ -100,9 +100,9 @@
         {
             SetConversionTable();
 
-            var info = disasterWrapper.GetDisasterSettings(disasterId);
+            var info = _disasterWrapper.GetDisasterSettings(disasterId);
 
-            logger.Info(
+            _logger.Info(
                 "DDS: OnDisasterCreated. Id: {0}, Name: {1}, Type: {2}, Intensity: {3}",
                 disasterId,
                 info.name,
@@ -111,8 +111,8 @@
 
             try
             {
-                var disasterInfo = disasterWrapper.GetDisasterSettings(disasterId);
-                logger.Info(
+                var disasterInfo = _disasterWrapper.GetDisasterSettings(disasterId);
+                _logger.Info(
                     "DDS: Created disaster type {0} with name {1} and intensity {2}",
                     disasterInfo.type,
                     disasterInfo.name,
@@ -125,7 +125,7 @@
             }
             catch (Exception ex)
             {
-                logger.LogException(ex);
+                _logger.LogException(ex);
 
                 throw;
             }
@@ -135,9 +135,9 @@
         {
             SetConversionTable();
 
-            var info = disasterWrapper.GetDisasterSettings(disasterId);
+            var info = _disasterWrapper.GetDisasterSettings(disasterId);
 
-            logger.Info(
+            _logger.Info(
                 "DDS: OnDisasterStarted. Id: {0}, Name: {1}, Type: {2}, Intensity: {3}",
                 disasterId,
                 info.name,
@@ -147,24 +147,24 @@
             var settingKeys = GetSettingKeysForDisasterType(info.type);
             if (settingKeys == null)
             {
-                logger.Info("DDS: No setting keys found");
+                _logger.Info("DDS: No setting keys found");
                 return;
             }
 
             if (ModConfig.Instance.GetSetting<bool>(settingKeys.Disable))
             {
-                logger.Info("DDS: Deactivating disaster");
-                disasterWrapper.EndDisaster(disasterId);
+                _logger.Info("DDS: Deactivating disaster");
+                _disasterWrapper.EndDisaster(disasterId);
             }
 
             var maxIntensity = ModConfig.Instance.GetSetting<byte>(settingKeys.MaxIntensity);
             if (maxIntensity > 0)
             {
-                logger.Info("DDS: Disable when over intensity {0}", maxIntensity);
+                _logger.Info("DDS: Disable when over intensity {0}", maxIntensity);
                 if (info.intensity > maxIntensity)
                 {
-                    logger.Info("DDS: Deactivating disaster");
-                    disasterWrapper.EndDisaster(disasterId);
+                    _logger.Info("DDS: Deactivating disaster");
+                    _disasterWrapper.EndDisaster(disasterId);
                 }
             }
         }
@@ -188,11 +188,11 @@
 
                 BuildingManager.instance.m_firesDisabled = ModConfig.Instance.GetSetting<bool>(SettingKeys.DisableNonDisasterFires);
 
-                GenericDisasterServices.UpdateAutoFollowDisaster(logger);
+                GenericDisasterServices.UpdateAutoFollowDisaster(_logger);
             }
             catch (Exception ex)
             {
-                logger.LogException(ex);
+                _logger.LogException(ex);
 
                 throw;
             }
@@ -204,16 +204,16 @@
 
         private static DisasterSettingKeys GetSettingKeysForDisasterType(DisasterType type)
         {
-            return DisasterSettingDictionary.ContainsKey(type) ? DisasterSettingDictionary[type] : null;
+            return s_disasterSettingDictionary.ContainsKey(type) ? s_disasterSettingDictionary[type] : null;
         }
 
         private void SetConversionTable()
         {
-            var fieldValue = (Dictionary<DisasterType, DisasterInfo>)conversionField.GetValue(disasterWrapper);
+            var fieldValue = (Dictionary<DisasterType, DisasterInfo>)_conversionField.GetValue(_disasterWrapper);
 
             if (fieldValue == null || !fieldValue.Any() || fieldValue.Any(x => x.Value == null))
             {
-                logger.Info("DDS: Rebuilding conversion table");
+                _logger.Info("DDS: Rebuilding conversion table");
                 var conversionDictionary = new Dictionary<DisasterType, DisasterInfo>();
                 conversionDictionary[DisasterType.Earthquake] = DisasterManager.FindDisasterInfo<EarthquakeAI>();
                 conversionDictionary[DisasterType.ForestFire] = DisasterManager.FindDisasterInfo<ForestFireAI>();
@@ -227,10 +227,10 @@
 
                 if (conversionDictionary.Any(x => x.Value == null))
                 {
-                    logger.Info("DDS: Contains null values");
+                    _logger.Info("DDS: Contains null values");
                 }
 
-                conversionField.SetValue(disasterWrapper, conversionDictionary);
+                _conversionField.SetValue(_disasterWrapper, conversionDictionary);
             }
         }
 
@@ -240,14 +240,14 @@
 
             if (settingKeys == null)
             {
-                logger.Info("DDS: No setting keys found");
+                _logger.Info("DDS: No setting keys found");
                 return true;
             }
 
             if (ModConfig.Instance.GetSetting<bool>(settingKeys.Disable))
             {
-                logger.Info("DDS: Deactivating disaster");
-                disasterWrapper.EndDisaster(disasterId);
+                _logger.Info("DDS: Deactivating disaster");
+                _disasterWrapper.EndDisaster(disasterId);
             }
 
             return false;

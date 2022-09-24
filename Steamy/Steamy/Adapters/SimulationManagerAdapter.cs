@@ -5,11 +5,11 @@
 
     public class SimulationManagerAdapter : ISimulationManagerAdapter
     {
-        private readonly ILogger logger;
+        private readonly ILogger _logger;
 
         public SimulationManagerAdapter(ILogger logger)
         {
-            this.logger = logger;
+            _logger = logger;
         }
 
         public void SetAchievementsEnabled(bool enableAchievements)
@@ -19,11 +19,11 @@
             if (Singleton<SimulationManager>.exists && Singleton<SimulationManager>.instance.m_metaData != null)
             {
                 Singleton<SimulationManager>.instance.m_metaData.m_disableAchievements = disableAchievements;
-                logger.Info("Changed achievements disabled to {0}", disableAchievements);
+                _logger.Info("Changed achievements disabled to {0}", disableAchievements);
             }
             else
             {
-                logger.Warn("Simulation manager or metadata not available (This warning can be safely ignored if you're in the main menu)");
+                _logger.Warn("Simulation manager or metadata not available (This warning can be safely ignored if you're in the main menu)");
             }
         }
     }

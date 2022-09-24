@@ -12,12 +12,12 @@
 
     public class ConfigurationManagerClass
     {
-        private readonly IFixture fixture;
+        private readonly IFixture _fixture;
 
         protected ConfigurationManagerClass()
         {
-            fixture = new Fixture();
-            fixture.Customize(new AutoMoqCustomization());
+            _fixture = new Fixture();
+            _fixture.Customize(new AutoMoqCustomization());
         }
 
         public class GetSettingMethod : ConfigurationManagerClass
@@ -25,10 +25,10 @@
             [Fact]
             public void ShouldLoadConfigFromFileOnFirstCall()
             {
-                var configStore = fixture.Freeze<Mock<IConfigStore>>();
-                var instance = fixture.Freeze<ConfigurationManager>();
+                var configStore = _fixture.Freeze<Mock<IConfigStore>>();
+                var instance = _fixture.Freeze<ConfigurationManager>();
 
-                instance.GetSetting<string>(fixture.Create<string>());
+                instance.GetSetting<string>(_fixture.Create<string>());
 
                 configStore.Verify(x => x.LoadConfigFromFile(), Times.Once);
             }
@@ -36,11 +36,11 @@
             [Fact]
             public void ShouldOnlyLoadFromFileOnceOnMultipleCalls()
             {
-                var configStore = fixture.Freeze<Mock<IConfigStore>>();
-                var instance = fixture.Freeze<ConfigurationManager>();
+                var configStore = _fixture.Freeze<Mock<IConfigStore>>();
+                var instance = _fixture.Freeze<ConfigurationManager>();
 
-                instance.GetSetting<string>(fixture.Create<string>());
-                instance.GetSetting<string>(fixture.Create<string>());
+                instance.GetSetting<string>(_fixture.Create<string>());
+                instance.GetSetting<string>(_fixture.Create<string>());
 
                 configStore.Verify(x => x.LoadConfigFromFile(), Times.Once);
             }
@@ -48,17 +48,17 @@
             [Fact]
             public void ShouldReturnDefaultValueForNonExistentSetting()
             {
-                var modConfiguration = fixture.Create<ModConfiguration>();
+                var modConfiguration = _fixture.Create<ModConfiguration>();
 
-                var key = fixture.Create<string>();
+                var key = _fixture.Create<string>();
                 if (modConfiguration.Settings.Any(x => x.Key == key))
                 {
                     modConfiguration.Settings.Remove(modConfiguration.Settings.Single(x => x.Key == key));
                 }
 
-                var configStore = fixture.Freeze<Mock<IConfigStore>>();
+                var configStore = _fixture.Freeze<Mock<IConfigStore>>();
                 configStore.Setup(x => x.LoadConfigFromFile()).Returns(modConfiguration);
-                var instance = fixture.Freeze<ConfigurationManager>();
+                var instance = _fixture.Freeze<ConfigurationManager>();
 
                 var setting = instance.GetSetting<string>(key);
 
@@ -68,15 +68,15 @@
             [Fact]
             public void ShouldReturnValueIfExistsAndTypesMatch()
             {
-                var modConfiguration = fixture.Create<ModConfiguration>();
+                var modConfiguration = _fixture.Create<ModConfiguration>();
 
-                var key = fixture.Create<string>();
-                var value = fixture.Create<string>();
+                var key = _fixture.Create<string>();
+                var value = _fixture.Create<string>();
                 modConfiguration.Settings.Add(new KeyValuePair<string, object>(key, value));
 
-                var configStore = fixture.Freeze<Mock<IConfigStore>>();
+                var configStore = _fixture.Freeze<Mock<IConfigStore>>();
                 configStore.Setup(x => x.LoadConfigFromFile()).Returns(modConfiguration);
-                var instance = fixture.Freeze<ConfigurationManager>();
+                var instance = _fixture.Freeze<ConfigurationManager>();
 
                 var setting = instance.GetSetting<string>(key);
 
@@ -86,14 +86,14 @@
             [Fact]
             public void ShouldThrowInvalidCastExceptionWhenTryingToCastToInvalidType()
             {
-                var modConfiguration = fixture.Create<ModConfiguration>();
+                var modConfiguration = _fixture.Create<ModConfiguration>();
 
-                var key = fixture.Create<string>();
+                var key = _fixture.Create<string>();
                 modConfiguration.Settings.Add(new KeyValuePair<string, object>(key, "myValue"));
 
-                var configStore = fixture.Freeze<Mock<IConfigStore>>();
+                var configStore = _fixture.Freeze<Mock<IConfigStore>>();
                 configStore.Setup(x => x.LoadConfigFromFile()).Returns(modConfiguration);
-                var instance = fixture.Freeze<ConfigurationManager>();
+                var instance = _fixture.Freeze<ConfigurationManager>();
 
                 instance.Invoking(x => x.GetSetting<int>(key))
                         .Should().Throw<InvalidCastException>()
@@ -106,15 +106,15 @@
             [Fact]
             public void ShouldAddNewSetting()
             {
-                var oldSettingKey = fixture.Create<string>();
-                var newSettingKey = fixture.Create<string>();
-                var value = fixture.Create<string>();
-                var modConfig = fixture.Create<ModConfiguration>();
+                var oldSettingKey = _fixture.Create<string>();
+                var newSettingKey = _fixture.Create<string>();
+                var value = _fixture.Create<string>();
+                var modConfig = _fixture.Create<ModConfiguration>();
                 modConfig.Settings.Add(new KeyValuePair<string, object>(oldSettingKey, value));
 
-                fixture.Freeze<Mock<IConfigStore>>().Setup(x => x.LoadConfigFromFile()).Returns(modConfig);
+                _fixture.Freeze<Mock<IConfigStore>>().Setup(x => x.LoadConfigFromFile()).Returns(modConfig);
 
-                var instance = fixture.Freeze<ConfigurationManager>();
+                var instance = _fixture.Freeze<ConfigurationManager>();
 
                 instance.MigrateKey<string>(oldSettingKey, newSettingKey);
 
@@ -124,16 +124,16 @@
             [Fact]
             public void ShouldCallSave()
             {
-                var oldSettingKey = fixture.Create<string>();
-                var newSettingKey = fixture.Create<string>();
-                var value = fixture.Create<string>();
-                var modConfig = fixture.Create<ModConfiguration>();
+                var oldSettingKey = _fixture.Create<string>();
+                var newSettingKey = _fixture.Create<string>();
+                var value = _fixture.Create<string>();
+                var modConfig = _fixture.Create<ModConfiguration>();
                 modConfig.Settings.Add(new KeyValuePair<string, object>(oldSettingKey, value));
 
-                var configStore = fixture.Freeze<Mock<IConfigStore>>();
+                var configStore = _fixture.Freeze<Mock<IConfigStore>>();
                 configStore.Setup(x => x.LoadConfigFromFile()).Returns(modConfig);
 
-                var instance = fixture.Freeze<ConfigurationManager>();
+                var instance = _fixture.Freeze<ConfigurationManager>();
 
                 instance.MigrateKey<string>(oldSettingKey, newSettingKey);
 
@@ -143,10 +143,10 @@
             [Fact]
             public void ShouldLoadConfigFromDiscOnFirstCall()
             {
-                var configStore = fixture.Freeze<Mock<IConfigStore>>();
-                var instance = fixture.Freeze<ConfigurationManager>();
+                var configStore = _fixture.Freeze<Mock<IConfigStore>>();
+                var instance = _fixture.Freeze<ConfigurationManager>();
 
-                instance.MigrateKey<string>(fixture.Create<string>(), fixture.Create<string>());
+                instance.MigrateKey<string>(_fixture.Create<string>(), _fixture.Create<string>());
 
                 configStore.Verify(x => x.LoadConfigFromFile(), Times.Once);
             }
@@ -154,10 +154,10 @@
             [Fact]
             public void ShouldNotCallSaveWhenSettingIsNotFound()
             {
-                var configStore = fixture.Freeze<Mock<IConfigStore>>();
-                var instance = fixture.Freeze<ConfigurationManager>();
+                var configStore = _fixture.Freeze<Mock<IConfigStore>>();
+                var instance = _fixture.Freeze<ConfigurationManager>();
 
-                instance.MigrateKey<string>(fixture.Create<string>(), fixture.Create<string>());
+                instance.MigrateKey<string>(_fixture.Create<string>(), _fixture.Create<string>());
 
                 configStore.Verify(x => x.SaveConfigToFile(It.IsAny<ModConfiguration>()), Times.Never);
             }
@@ -165,15 +165,15 @@
             [Fact]
             public void ShouldRemoveOldSetting()
             {
-                var oldSettingKey = fixture.Create<string>();
-                var modConfig = fixture.Create<ModConfiguration>();
-                modConfig.Settings.Add(new KeyValuePair<string, object>(oldSettingKey, fixture.Create<string>()));
+                var oldSettingKey = _fixture.Create<string>();
+                var modConfig = _fixture.Create<ModConfiguration>();
+                modConfig.Settings.Add(new KeyValuePair<string, object>(oldSettingKey, _fixture.Create<string>()));
 
-                fixture.Freeze<Mock<IConfigStore>>().Setup(x => x.LoadConfigFromFile()).Returns(modConfig);
+                _fixture.Freeze<Mock<IConfigStore>>().Setup(x => x.LoadConfigFromFile()).Returns(modConfig);
 
-                var instance = fixture.Freeze<ConfigurationManager>();
+                var instance = _fixture.Freeze<ConfigurationManager>();
 
-                instance.MigrateKey<string>(oldSettingKey, fixture.Create<string>());
+                instance.MigrateKey<string>(oldSettingKey, _fixture.Create<string>());
 
                 modConfig.Settings.Should().NotContain(x => x.Key == oldSettingKey);
             }
@@ -184,12 +184,12 @@
             [Fact]
             public void ShouldChangeTypeOfValue()
             {
-                var configStore = fixture.Freeze<Mock<IConfigStore>>();
-                var instance = fixture.Freeze<ConfigurationManager>();
+                var configStore = _fixture.Freeze<Mock<IConfigStore>>();
+                var instance = _fixture.Freeze<ConfigurationManager>();
 
-                var intValue = fixture.Create<int>();
-                var keyValuePair = new KeyValuePair<string, object>(fixture.Create<string>(), intValue.ToString());
-                var modConfig = fixture.Build<ModConfiguration>().WithAutoProperties().Create();
+                var intValue = _fixture.Create<int>();
+                var keyValuePair = new KeyValuePair<string, object>(_fixture.Create<string>(), intValue.ToString());
+                var modConfig = _fixture.Build<ModConfiguration>().WithAutoProperties().Create();
                 modConfig.Settings.Add(keyValuePair);
                 configStore.Setup(x => x.LoadConfigFromFile()).Returns(modConfig);
 
@@ -201,10 +201,10 @@
             [Fact]
             public void ShouldLoadConfigFromDiscOnFirstCall()
             {
-                var configStore = fixture.Freeze<Mock<IConfigStore>>();
-                var instance = fixture.Freeze<ConfigurationManager>();
+                var configStore = _fixture.Freeze<Mock<IConfigStore>>();
+                var instance = _fixture.Freeze<ConfigurationManager>();
 
-                instance.MigrateType<string, int>(fixture.Create<string>(), Convert.ToInt32);
+                instance.MigrateType<string, int>(_fixture.Create<string>(), Convert.ToInt32);
 
                 configStore.Verify(x => x.LoadConfigFromFile(), Times.Once);
             }
@@ -212,11 +212,11 @@
             [Fact]
             public void ShouldNotCallSaveWhenSettingIsOfCorrectType()
             {
-                var configStore = fixture.Freeze<Mock<IConfigStore>>();
-                var instance = fixture.Freeze<ConfigurationManager>();
+                var configStore = _fixture.Freeze<Mock<IConfigStore>>();
+                var instance = _fixture.Freeze<ConfigurationManager>();
 
-                var keyValuePair = new KeyValuePair<string, object>(fixture.Create<string>(), fixture.Create<int>());
-                var modConfig = fixture.Build<ModConfiguration>().WithAutoProperties().Create();
+                var keyValuePair = new KeyValuePair<string, object>(_fixture.Create<string>(), _fixture.Create<int>());
+                var modConfig = _fixture.Build<ModConfiguration>().WithAutoProperties().Create();
                 modConfig.Settings.Add(keyValuePair);
                 configStore.Setup(x => x.LoadConfigFromFile()).Returns(modConfig);
 
@@ -228,10 +228,10 @@
             [Fact]
             public void ShouldNotCallSaveWhenSettingNotFound()
             {
-                var configStore = fixture.Freeze<Mock<IConfigStore>>();
-                var instance = fixture.Freeze<ConfigurationManager>();
+                var configStore = _fixture.Freeze<Mock<IConfigStore>>();
+                var instance = _fixture.Freeze<ConfigurationManager>();
 
-                instance.MigrateType<string, int>(fixture.Create<string>(), Convert.ToInt32);
+                instance.MigrateType<string, int>(_fixture.Create<string>(), Convert.ToInt32);
 
                 configStore.Verify(x => x.SaveConfigToFile(It.IsAny<ModConfiguration>()), Times.Never);
             }
@@ -239,12 +239,12 @@
             [Fact]
             public void ShouldSaveSetting()
             {
-                var configStore = fixture.Freeze<Mock<IConfigStore>>();
-                var instance = fixture.Freeze<ConfigurationManager>();
+                var configStore = _fixture.Freeze<Mock<IConfigStore>>();
+                var instance = _fixture.Freeze<ConfigurationManager>();
 
-                var intValue = fixture.Create<int>();
-                var keyValuePair = new KeyValuePair<string, object>(fixture.Create<string>(), intValue.ToString());
-                var modConfig = fixture.Build<ModConfiguration>().WithAutoProperties().Create();
+                var intValue = _fixture.Create<int>();
+                var keyValuePair = new KeyValuePair<string, object>(_fixture.Create<string>(), intValue.ToString());
+                var modConfig = _fixture.Build<ModConfiguration>().WithAutoProperties().Create();
                 modConfig.Settings.Add(keyValuePair);
                 configStore.Setup(x => x.LoadConfigFromFile()).Returns(modConfig);
 

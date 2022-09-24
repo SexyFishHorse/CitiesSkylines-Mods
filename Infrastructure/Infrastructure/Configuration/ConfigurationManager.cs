@@ -8,13 +8,13 @@
 
     public class ConfigurationManager : IConfigurationManager
     {
-        private readonly IConfigStore configStore;
+        private readonly IConfigStore _configStore;
 
-        private ModConfiguration configuration;
+        private ModConfiguration _configuration;
 
         public ConfigurationManager(IConfigStore configStore)
         {
-            this.configStore = configStore;
+            _configStore = configStore;
         }
 
         public ILogger Logger { get; set; }
@@ -28,9 +28,9 @@
         {
             EnsureConfigLoaded();
 
-            if (configuration.Settings.Any(x => x.Key == settingKey))
+            if (_configuration.Settings.Any(x => x.Key == settingKey))
             {
-                var value = configuration.Settings.Single(x => x.Key == settingKey).Value;
+                var value = _configuration.Settings.Single(x => x.Key == settingKey).Value;
                 try
                 {
                     return (T)value;
@@ -58,19 +58,19 @@
         {
             EnsureConfigLoaded();
 
-            return configuration.Settings.Any(x => x.Key == settingKey);
+            return _configuration.Settings.Any(x => x.Key == settingKey);
         }
 
         public void MigrateKey<T>(string settingKey, string newSettingKey)
         {
             EnsureConfigLoaded();
 
-            if (configuration.Settings.All(x => x.Key != settingKey))
+            if (_configuration.Settings.All(x => x.Key != settingKey))
             {
                 return;
             }
 
-            var settingValue = configuration.Settings.Single(x => x.Key == settingKey);
+            var settingValue = _configuration.Settings.Single(x => x.Key == settingKey);
 
             RemoveSetting(settingKey);
             SaveSetting(newSettingKey, (T)settingValue.Value);
@@ -82,12 +82,12 @@
         {
             EnsureConfigLoaded();
 
-            if (configuration.Settings.All(x => x.Key != settingKey))
+            if (_configuration.Settings.All(x => x.Key != settingKey))
             {
                 return;
             }
 
-            var settingValue = configuration.Settings.Single(x => x.Key == settingKey).Value;
+            var settingValue = _configuration.Settings.Single(x => x.Key == settingKey).Value;
             if (settingValue.GetType().FullName == typeof(TTarget).FullName)
             {
                 return;
@@ -104,24 +104,24 @@
         {
             EnsureConfigLoaded();
 
-            if (configuration.Settings.Any(x => x.Key == settingKey))
+            if (_configuration.Settings.Any(x => x.Key == settingKey))
             {
-                configuration.Settings.Remove(configuration.Settings.Single(x => x.Key == settingKey));
+                _configuration.Settings.Remove(_configuration.Settings.Single(x => x.Key == settingKey));
             }
 
             var newKeyValuePair = new KeyValuePair<string, object>(settingKey, value);
-            configuration.Settings.Add(newKeyValuePair);
+            _configuration.Settings.Add(newKeyValuePair);
 
-            configStore.SaveConfigToFile(configuration);
+            _configStore.SaveConfigToFile(_configuration);
 
             TryLog("Saved setting {0} with value {1}", settingKey, value);
         }
 
         private void EnsureConfigLoaded()
         {
-            if (configuration == null)
+            if (_configuration == null)
             {
-                configuration = configStore.LoadConfigFromFile();
+                _configuration = _configStore.LoadConfigFromFile();
 
                 TryLog("Loaded config from file");
             }
@@ -129,10 +129,10 @@
 
         private void RemoveSetting(string settingKey)
         {
-            var setting = configuration.Settings.FirstOrDefault(x => x.Key == settingKey);
-            configuration.Settings.Remove(setting);
+            var setting = _configuration.Settings.FirstOrDefault(x => x.Key == settingKey);
+            _configuration.Settings.Remove(setting);
 
-            configStore.SaveConfigToFile(configuration);
+            _configStore.SaveConfigToFile(_configuration);
 
             TryLog("Removed setting for {0}", settingKey);
         }

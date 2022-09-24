@@ -5,7 +5,7 @@
 
     public static class LoadModeExtensions
     {
-        private static readonly ICollection<SimulationManager.UpdateMode> GameModes = new HashSet<SimulationManager.UpdateMode>
+        private static readonly ICollection<SimulationManager.UpdateMode> s_gameModes = new HashSet<SimulationManager.UpdateMode>
         {
             SimulationManager.UpdateMode.LoadGame,
             SimulationManager.UpdateMode.NewGameFromMap,
@@ -17,7 +17,7 @@
         {
             var updateMode = (SimulationManager.UpdateMode)mode;
 
-            return GameModes.Contains(updateMode);
+            return s_gameModes.Contains(updateMode);
         }
 
         public static bool IsScenario(this LoadMode mode)

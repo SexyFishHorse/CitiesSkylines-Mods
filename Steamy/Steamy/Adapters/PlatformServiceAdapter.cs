@@ -5,11 +5,11 @@
 
     public class PlatformServiceAdapter : IPlatformServiceAdapter
     {
-        private readonly ILogger logger;
+        private readonly ILogger _logger;
 
         public PlatformServiceAdapter(ILogger logger)
         {
-            this.logger = logger;
+            _logger = logger;
         }
 
         public void SetPopupPosition(int position)
@@ -18,7 +18,7 @@
 
             PlatformService.SetOverlayNotificationPosition(notificationPosition);
 
-            logger.Info("Changed popup position to {0}", position);
+            _logger.Info("Changed popup position to {0}", position);
         }
     }
 }

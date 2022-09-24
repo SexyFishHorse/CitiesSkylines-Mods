@@ -8,7 +8,7 @@
 
     public class Logger : ILogger
     {
-        private readonly IList<LogOutputBase> logOutputs;
+        private readonly IList<LogOutputBase> _logOutputs;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="Logger"/> class which logs to both the in-game console and to a <see cref="loggerName"/>.log
@@ -20,7 +20,7 @@
             Directory.CreateDirectory(GetLogFolderPath());
             var path = Path.Combine(GetLogFolderPath(), string.Format("{0}.log", loggerName));
 
-            logOutputs = new List<LogOutputBase> { new DebugPanelOutput(), new FileOutput(path), new DebugOutput() };
+            _logOutputs = new List<LogOutputBase> { new DebugPanelOutput(), new FileOutput(path), new DebugOutput() };
         }
 
         /// <summary>
@@ -29,7 +29,7 @@
         /// <param name="logOutputs">The outputs that log statements are outputted to.</param>
         public Logger(IList<LogOutputBase> logOutputs)
         {
-            this.logOutputs = logOutputs;
+            _logOutputs = logOutputs;
         }
 
         /// <summary>
@@ -43,7 +43,7 @@
 
         public void Dispose()
         {
-            foreach (var output in logOutputs)
+            foreach (var output in _logOutputs)
             {
                 output.Dispose();
             }
@@ -61,7 +61,7 @@
 
         public void Log(PluginManager.MessageType messageType, string message, params object[] args)
         {
-            foreach (var output in logOutputs)
+            foreach (var output in _logOutputs)
             {
                 output.Log(messageType, message, args);
             }
@@ -69,7 +69,7 @@
 
         public void LogException(Exception ex, string message = null, params object[] args)
         {
-            foreach (var output in logOutputs)
+            foreach (var output in _logOutputs)
             {
                 output.LogException(ex, message, args);
             }

@@ -7,17 +7,17 @@ namespace SexyFishHorse.CitiesSkylines.Infrastructure.Logging.Outputs
 
     public class FileOutput : LogOutputBase
     {
-        private readonly StreamWriter streamWriter;
+        private readonly StreamWriter _streamWriter;
 
         public FileOutput(string path)
         {
-            streamWriter = File.CreateText(path);
-            streamWriter.AutoFlush = true;
+            _streamWriter = File.CreateText(path);
+            _streamWriter.AutoFlush = true;
         }
 
         public override void Dispose()
         {
-            streamWriter.Dispose();
+            _streamWriter.Dispose();
         }
 
         public override void LogException(Exception ex, string message = null, params object[] args)
@@ -35,7 +35,7 @@ namespace SexyFishHorse.CitiesSkylines.Infrastructure.Logging.Outputs
         {
             message = string.Format("[{0}][{1}]: {2}", DateTime.Now, messageType, message);
 
-            streamWriter.WriteLine(message);
+            _streamWriter.WriteLine(message);
         }
     }
 }

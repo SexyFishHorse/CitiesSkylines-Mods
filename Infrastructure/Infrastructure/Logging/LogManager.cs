@@ -7,20 +7,20 @@
     [UsedImplicitly(ImplicitUseTargetFlags.WithMembers)]
     public class LogManager
     {
-        private static LogManager instance;
+        private static LogManager s_Instance;
 
-        private readonly IDictionary<string, ILogger> loggers;
+        private readonly IDictionary<string, ILogger> _loggers;
 
         public LogManager()
         {
-            loggers = new Dictionary<string, ILogger>();
+            _loggers = new Dictionary<string, ILogger>();
         }
 
         public static LogManager Instance
         {
             get
             {
-                return instance ?? (instance = new LogManager());
+                return s_Instance ?? (s_Instance = new LogManager());
             }
         }
 
@@ -33,23 +33,23 @@
                 throw new ArgumentNullException("logger");
             }
 
-            loggers[loggerName] = logger;
+            _loggers[loggerName] = logger;
         }
 
         public void RemoveLogger(string loggerName)
         {
             ValidateLoggerName(loggerName);
 
-            loggers.Remove(loggerName);
+            _loggers.Remove(loggerName);
         }
 
         public ILogger GetLogger(string loggerName)
         {
             ValidateLoggerName(loggerName);
 
-            if (loggers.ContainsKey(loggerName))
+            if (_loggers.ContainsKey(loggerName))
             {
-                return loggers[loggerName];
+                return _loggers[loggerName];
             }
 
             return null;
@@ -59,14 +59,14 @@
         {
             ValidateLoggerName(loggerName);
 
-            if (loggers.ContainsKey(loggerName))
+            if (_loggers.ContainsKey(loggerName))
             {
-                return loggers[loggerName];
+                return _loggers[loggerName];
             }
 
             var logger = new Logger(loggerName);
 
-            loggers.Add(loggerName, logger);
+            _loggers.Add(loggerName, logger);
 
             return logger;
         }

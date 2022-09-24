@@ -8,11 +8,11 @@
 
     public class FloatExtensionsClass
     {
-        private readonly IFixture fixture;
+        private readonly IFixture _fixture;
 
         protected FloatExtensionsClass()
         {
-            fixture = new Fixture();
+            _fixture = new Fixture();
         }
 
         public class ShouldBeGreaterThanOrEqualToMethod : FloatExtensionsClass
@@ -32,7 +32,7 @@
             [InlineData(float.MaxValue, float.MaxValue)]
             public void ShouldNotThrowExceptionIfValueIsEqualToSpecified(float value, float otherValue)
             {
-                value.Invoking(x => x.ShouldBeGreaterThanOrEqualTo(otherValue, fixture.Create<string>())).Should().NotThrow();
+                value.Invoking(x => x.ShouldBeGreaterThanOrEqualTo(otherValue, _fixture.Create<string>())).Should().NotThrow();
             }
 
             [Theory]
@@ -59,7 +59,7 @@
             [InlineData(2f, 1f)]
             public void ShouldNotThrowExceptionIfValueIsGreaterThanSpecified(float value, float otherValue)
             {
-                value.Invoking(x => x.ShouldBeGreaterThanOrEqualTo(otherValue, fixture.Create<string>())).Should().NotThrow();
+                value.Invoking(x => x.ShouldBeGreaterThanOrEqualTo(otherValue, _fixture.Create<string>())).Should().NotThrow();
             }
 
             [Theory]
@@ -84,7 +84,7 @@
             [InlineData(-2f, -1f)]
             public void ShouldThrowArgumentOutOfRangeExceptionWhenValueIsGreaterThanSpecified(float value, float otherValue)
             {
-                var parameterName = fixture.Create<string>();
+                var parameterName = _fixture.Create<string>();
 
                 value.Invoking(x => x.ShouldBeGreaterThanOrEqualTo(otherValue, parameterName))
                      .Should()
@@ -123,7 +123,7 @@
             [InlineData(-2f, -1f)]
             public void ShouldNotThrowExceptionWhenValueIsLessThanSpecified(float value, float otherValue)
             {
-                value.Invoking(x => x.ShouldBeLessThan(otherValue, fixture.Create<string>())).Should().NotThrow();
+                value.Invoking(x => x.ShouldBeLessThan(otherValue, _fixture.Create<string>())).Should().NotThrow();
             }
 
             [Theory]
@@ -146,7 +146,7 @@
             [InlineData(float.MinValue, float.MinValue)]
             public void ShouldThrowArgumentOutOfRangeExceptionWhenValueIsEqualToSpecified(float value, float otherValue)
             {
-                var parameterName = fixture.Freeze<string>();
+                var parameterName = _fixture.Freeze<string>();
 
                 value.Invoking(x => x.ShouldBeLessThan(otherValue, parameterName))
                      .Should()
@@ -182,7 +182,7 @@
             [InlineData(-1f, -2f)]
             public void ShouldThrowArgumentOutOfRangeExceptionWhenValueIsLessThanSpecified(float value, float otherValue)
             {
-                var parameterName = fixture.Freeze<string>();
+                var parameterName = _fixture.Freeze<string>();
 
                 value.Invoking(x => x.ShouldBeLessThan(otherValue, parameterName))
                      .Should()
@@ -209,7 +209,7 @@
             [InlineData(float.MaxValue, float.MaxValue)]
             public void ShouldNotThrowExceptionIfValueIsEqualToSpecified(float value, float otherValue)
             {
-                value.Invoking(x => x.ShouldBeLessThanOrEqualTo(otherValue, fixture.Create<string>())).Should().NotThrow();
+                value.Invoking(x => x.ShouldBeLessThanOrEqualTo(otherValue, _fixture.Create<string>())).Should().NotThrow();
             }
 
             [Theory]
@@ -236,7 +236,7 @@
             [InlineData(1f, 2f)]
             public void ShouldNotThrowExceptionIfValueIsLessThanSpecified(float value, float otherValue)
             {
-                value.Invoking(x => x.ShouldBeLessThanOrEqualTo(otherValue, fixture.Create<string>())).Should().NotThrow();
+                value.Invoking(x => x.ShouldBeLessThanOrEqualTo(otherValue, _fixture.Create<string>())).Should().NotThrow();
             }
 
             [Theory]
@@ -261,7 +261,7 @@
             [InlineData(float.MaxValue, float.MinValue)]
             public void ShouldThrowArgumentOutOfRangeExceptionWhenValueIsGreaterThanSpecified(float value, float otherValue)
             {
-                var parameterName = fixture.Create<string>();
+                var parameterName = _fixture.Create<string>();
 
                 value.Invoking(x => x.ShouldBeLessThanOrEqualTo(otherValue, parameterName))
                      .Should()

@@ -6,24 +6,24 @@
 
     public class SteamyLogger : ILogger
     {
-        private readonly ILogger logger;
+        private readonly ILogger _logger;
 
-        private bool disposed;
+        private bool _disposed;
 
         public SteamyLogger()
         {
             LoggingEnabled = ModConfig.Instance.GetSetting<bool>(SettingKeys.EnableLogging);
 
-            logger = LogManager.Instance.GetOrCreate(UserMod.ModName);
+            _logger = LogManager.Instance.GetOrCreate(UserMod.ModName);
         }
 
         public bool LoggingEnabled { get; set; }
 
         public void Dispose()
         {
-            logger.Dispose();
+            _logger.Dispose();
 
-            disposed = true;
+            _disposed = true;
         }
 
         public void Error(string message, params object[] args)
@@ -32,7 +32,7 @@
 
             if (LoggingEnabled)
             {
-                logger.Error(message, args);
+                _logger.Error(message, args);
             }
         }
 
@@ -42,7 +42,7 @@
 
             if (LoggingEnabled)
             {
-                logger.Info(message, args);
+                _logger.Info(message, args);
             }
         }
 
@@ -52,7 +52,7 @@
 
             if (LoggingEnabled)
             {
-                logger.Log(messageType, message, args);
+                _logger.Log(messageType, message, args);
             }
         }
 
@@ -62,7 +62,7 @@
 
             if (LoggingEnabled)
             {
-                logger.LogException(exception, message, args);
+                _logger.LogException(exception, message, args);
             }
         }
 
@@ -72,13 +72,13 @@
 
             if (LoggingEnabled)
             {
-                logger.Warn(message, args);
+                _logger.Warn(message, args);
             }
         }
 
         private void EnsureNotDisposed()
         {
-            if (disposed)
+            if (_disposed)
             {
                 throw new ObjectDisposedException(GetType().FullName);
             }

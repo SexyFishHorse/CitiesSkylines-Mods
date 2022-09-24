@@ -10,7 +10,7 @@
 
     public class OptionsPanelManager : IOptionsPanelManager
     {
-        private static readonly IDictionary<string, NotificationPosition> Positions =
+        private static readonly IDictionary<string, NotificationPosition> s_positions =
             new Dictionary<string, NotificationPosition>
             {
                 { "Bottom right", NotificationPosition.BottomRight },
@@ -19,14 +19,14 @@
                 { "Top left", NotificationPosition.TopLeft },
             };
 
-        private readonly ILogger logger;
+        private readonly ILogger _logger;
 
-        private readonly ISteamController steamController;
+        private readonly ISteamController _steamController;
 
         public OptionsPanelManager(ILogger logger, ISteamController steamController)
         {
-            this.logger = logger;
-            this.steamController = steamController;
+            _logger = logger;
+            _steamController = steamController;
         }
 
         public void ConfigureOptionsPanel(IStronglyTypedUIHelper uiHelper)
@@ -37,7 +37,7 @@
 
                 appearance.AddDropDown(
                     "Popup position",
-                    Positions.Keys,
+                    s_positions.Keys,
                     ModConfig.Instance.GetSetting<int>(SettingKeys.PopupPosition),
                     PositionChanged);
 
@@ -51,7 +51,7 @@
             }
             catch (Exception ex)
             {
-                logger.LogException(ex);
+                _logger.LogException(ex);
 
                 throw;
             }
@@ -63,13 +63,13 @@
             {
                 ModConfig.Instance.SaveSetting(SettingKeys.EnableAchievements, isEnabled);
 
-                steamController.UpdateAchievementsStatus();
+                _steamController.UpdateAchievementsStatus();
 
-                logger.Info("Achievement status enabled {0}", isEnabled);
+                _logger.Info("Achievement status enabled {0}", isEnabled);
             }
             catch (Exception ex)
             {
-                logger.LogException(ex);
+                _logger.LogException(ex);
 
                 throw;
             }
@@ -79,15 +79,15 @@
         {
             try
             {
-                ((SteamyLogger)logger).LoggingEnabled = isLoggingEnabled;
+                ((SteamyLogger)_logger).LoggingEnabled = isLoggingEnabled;
 
                 ModConfig.Instance.SaveSetting(SettingKeys.EnableLogging, isLoggingEnabled);
 
-                logger.Info("Logging enabled {0}", isLoggingEnabled);
+                _logger.Info("Logging enabled {0}", isLoggingEnabled);
             }
             catch (Exception ex)
             {
-                logger.LogException(ex);
+                _logger.LogException(ex);
 
                 throw;
             }
@@ -97,17 +97,17 @@
         {
             try
             {
-                var position = Positions[Positions.Keys.ToList()[selectedIndex]];
+                var position = s_positions[s_positions.Keys.ToList()[selectedIndex]];
 
                 ModConfig.Instance.SaveSetting(SettingKeys.PopupPosition, (int)position);
 
-                steamController.UpdatePopupPosition();
+                _steamController.UpdatePopupPosition();
 
-                logger.Info("Position changed to {0}", position);
+                _logger.Info("Position changed to {0}", position);
             }
             catch (Exception ex)
             {
-                logger.LogException(ex);
+                _logger.LogException(ex);
 
                 throw;
             }
