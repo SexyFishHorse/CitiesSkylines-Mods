@@ -1,8 +1,12 @@
 ﻿namespace SexyFishHorse.CitiesSkylines.Birdcage.UnitTests.Services
 {
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Reflection;
     using AutoFixture;
     using AutoFixture.AutoMoq;
     using FluentAssertions;
+    using Helpers;
     using ICities;
     using Moq;
     using SexyFishHorse.CitiesSkylines.Birdcage.Services;
@@ -23,6 +27,40 @@
 
         public class TheHandleNewMessageMethod : TheFilterServiceClass
         {
+            [Fact]
+            public void ShouldMapAllMessageTypes()
+            {
+                var chirpsInGame = typeof(LocaleID).GetFields().Where(x => x.Name.Contains("CHIRP")).Select(x => x.Name).Where(FieldIsValidChirp);
+                var mappedChirps = typeof(Chirps).GetFields(BindingFlags.Static | BindingFlags.Public).Where(x => x.FieldType == typeof(HashSet<string>)).Select(x => x.GetValue(null)).Cast<HashSet<string>>().SelectMany(x => x);
+
+                var notMappedChirps = chirpsInGame.Except(mappedChirps);
+
+                notMappedChirps.Should().BeEmpty("because all fields should be mapped");
+            }
+
+            private bool FieldIsValidChirp(string name)
+            {
+                string[] excludedFields = {
+                    "BUILDING_STATUS_CHIRPYBIRTHDAY",
+                    "WNP_CUPCAKE_MAPSCHIRPERHATS",
+                    "CHIRPER_SELECTIMAGE",
+                    "DISASTERNAME_CHIRPYNADO",
+                    "TRIGGERPANEL_DEFAULTCHIRP",
+                    "OPTIONS_CHIRPERVOLUME",
+                    "OPTIONS_AUTOEXPAND_CHIRPER",
+                    "CHIRPER_NAME",
+                    "CHIRP_DEFAULT",
+                };
+
+                string[] excludedPrefixes = {
+                    "CHIRPXPANEL_",
+                    "EDITORCHIRPER_",
+                    "CHIRPHEADER_",
+                };
+
+                return excludedFields.Contains(name) == false && excludedPrefixes.All(prefix => name.StartsWith(prefix) == false);
+            }
+
             [Theory(Skip = "Rewrite test due to change in filter service")]
             [InlineData(LocaleID.CHIRP_CHEAP_FLOWERS)]
             [InlineData(LocaleID.CHIRP_BAND_LILY)]
@@ -37,8 +75,8 @@
                 instance.HandleNewMessage(message);
 
                 instance.MessagesToRemove.Should()
-                        .HaveCount(1, "because one message has to be removed")
-                        .And.Contain(message, "because this is the message to remove");
+                    .HaveCount(1, "because one message has to be removed")
+                    .And.Contain(message, "because this is the message to remove");
             }
 
             [Theory(Skip = "Rewrite test due to change in filter service")]

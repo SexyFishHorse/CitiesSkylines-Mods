@@ -421,6 +421,40 @@ namespace SexyFishHorse.CitiesSkylines.Birdcage.Helpers
             LocaleID.CHIRP_FIRST_ZOO_SOUVENIR_SHOP_01,
             LocaleID.FOOTBALLCHIRP_FIRST_FSTADIUM,
             LocaleID.CHIRP_AIRPORTBUILDING,
+            LocaleID.CHIRP_FIRST_HIGHDENSITYHIGHSCHOOL,
+            LocaleID.CHIRP_FIRST_HIGHDENSITYELEMENTARYSCHOOL,
+            LocaleID.CHIRP_FIRST_HIGHDENSITYUNIVERSITY,
+            LocaleID.CHIRP_FIRST_HIGHDENSITYHOSPITAL,
+            LocaleID.CHIRP_FIRST_HIGHDENSITYPOLICESTATION,
+            LocaleID.CHIRP_FIRST_HIGHDENSITYFIRESTATION,
+            LocaleID.CHIRP_FIRST_ELEVATEDTRAINSTATION,
+            LocaleID.CHIRP_FIRST_ELEVATEDMETROSTATION,
+            LocaleID.CHIRP_FIRST_HIGHDENSITYMETRO,
+            LocaleID.CHIRP_FIRST_HIGHDENSITYMETROSTATION,
+            LocaleID.CHIRP_FIRST_HIGHDENSITYBUSSTATION,
+            LocaleID.CHIRP_FIRST_PEDESTRIANSERVICEPOINT,
+            LocaleID.CHIRP_FIRST_PEDESTRIANSERVICEPOINT2,
+            LocaleID.CHIRP_FIRST_GARBAGESERVICEPOINT,
+            LocaleID.CHIRP_FIRST_GARBAGESERVICEPOINT2,
+            LocaleID.CHIRP_FIRST_CARGOSERVICEPOINT,
+            LocaleID.CHIRP_FIRST_CARGOSERVICEPOINT2,
+            LocaleID.CHIRP_FIRST_PEDESTRIANAREAPLAZASUMMER,
+            LocaleID.CHIRP_FIRST_PEDESTRIANAREAPLAZAWINTER,
+            LocaleID.CHIRP_FIRST_SMALLPEDESTRIANAREAPLAZA,
+            LocaleID.CHIRP_FIRST_ICECREAMSTAND,
+            LocaleID.CHIRP_FIRST_ICECREAMSTAND2,
+            LocaleID.CHIRP_FIRST_FOODTRUCK,
+            LocaleID.CHIRP_FIRST_FOODTRUCK2,
+            LocaleID.CHIRP_FIRST_STATUEPLAZA,
+            LocaleID.CHIRP_FIRST_FLOWERPLAZA,
+            LocaleID.CHIRP_FIRST_SMALLFOUNTAIN,
+            LocaleID.CHIRP_FIRST_LARGEFOUNTAIN,
+            LocaleID.CHIRP_FIRST_LANDMARKOFFICEHIGH,
+            LocaleID.CHIRP_FIRST_LANDMARKRESIDENTIALHIGH,
+            LocaleID.CHIRP_FIRST_LANDMARKCOMMERCIALHIGH,
+            LocaleID.CHIRP_FIRST_LANDMARKMARKETHALL,
+            LocaleID.CHIRP_FIRST_LANDMARKMUSEUM,
+            LocaleID.CHIRP_FIRST_LANDMARKSHOPPINGMALL,
         };
 
         public static readonly HashSet<string> ServiceBuilt = new HashSet<string>
@@ -454,12 +488,14 @@ namespace SexyFishHorse.CitiesSkylines.Birdcage.Helpers
             LocaleID.CHIRP_RANDOM,
             LocaleID.CHIRP_RANDOM_DISASTERS,
             LocaleID.CHIRP_RANDOM_EXP10,
+            LocaleID.CHIRP_RANDOM_EXP11,
             LocaleID.CHIRP_RANDOM_EXP5,
             LocaleID.CHIRP_RANDOM_EXP6,
             LocaleID.CHIRP_RANDOM_EXP7,
             LocaleID.CHIRP_RANDOM_EXP8,
             LocaleID.CHIRP_RANDOM_EXP9,
             LocaleID.CHIRP_RANDOM_INMOTION,
+            LocaleID.CHIRP_RANDOM_BIRTHDAY,
             LocaleID.CHIRP_CHEAP_FLOWERS,
         };
 
@@ -543,7 +579,7 @@ namespace SexyFishHorse.CitiesSkylines.Birdcage.Helpers
         /// <summary>
         /// Chirps I haven't figured out how to spawn
         /// </summary>
-        public static readonly IEnumerable<string> Uncategorized = new List<string>
+        public static readonly HashSet<string> Uncategorized = new HashSet<string>
         {
             LocaleID.CHIRP_ASSISTIVE_TECHNOLOGIES,
             LocaleID.CHIRP_DAYCARE_SERVICE,
